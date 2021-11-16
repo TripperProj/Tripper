@@ -111,7 +111,7 @@ a:hover {
 }
 /* log, warn */
 .log {
-    color: #ff4057;
+    color: blue;
     font-size: 1rem;
     text-align: center;
   }

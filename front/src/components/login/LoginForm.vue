@@ -1,12 +1,18 @@
 <template>
   <div>
-    <form class="form">
+    <form class="form" @submit.prevent="submitUserdata">
       <div>
-        <input type="text" id="id" placeholder="아이디를 입력해주세요." /><br />
+        <input
+          type="text"
+          id="id"
+          placeholder="아이디"
+          v-model="userid"
+        /><br />
         <input
           type="password"
           id="password"
-          placeholder="비밀번호를 입력해주세요."
+          placeholder="비밀번호"
+          v-model="password"
         /><br />
         <button class="btn" type="submit">로그인하기</button>
       </div>
@@ -20,9 +26,7 @@
 </template>
 
 <script>
-import SocialLogin from "@/components/login/SocialLogin.vue";
 import { loginUser } from "@/api/index.js";
-import {} from "@/utils/validation";
 
 export default {
   data() {
@@ -32,9 +36,20 @@ export default {
     };
   },
   methods: {
-    loginUser,
-    SocialLogin,
+    async submitUserdata() {
+      const userData = {
+        userid: this.userid,
+        password: this.password,
+      };
+      try {
+        const { data } = await loginUser.post(userData);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
+  computed: {},
 };
 </script>
 
