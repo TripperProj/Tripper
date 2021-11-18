@@ -2,7 +2,7 @@
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
       <form class="form" @submit.prevent="submitUserData">
-        <div>
+        <div class="signup-id">
           <label class="userid"> 회원정보 입력 </label>
           <input
             type="text"
@@ -13,10 +13,10 @@
           <button v-bind:disabled="idCheckBox" class="btn" id="duplicateCheck">
             중복확인
           </button>
-          <span v-if="idValid" class="log"> 확인되었습니다. </span>
-          <span v-if="!idValid" class="warning"> {{ idCheckMessage }}</span>
+          <span class="log"> 확인되었습니다. </span>
+          <span class="warning"> {{ idCheckMessage }}</span>
         </div>
-        <div>
+        <div class="signup-pass">
           <input
             type="password"
             id="password"
@@ -29,10 +29,15 @@
             v-model="passwordCheck"
             placeholder="비밀번호 확인"
           />
-          <span class="warning" v-if="passValid">비밀번호를 확인해주세요.</span>
+          <span class="warning" v-if="!userPasswordValid && password">
+            비밀번호 형식을 지켜주세요 (숫자, 문자, 특수문자 조합 8~25글자)<br />
+          </span>
+          <span class="warning" v-if="!userPasswordCheck && passwordCheck">
+            비밀번호가 다릅니다.<br />
+          </span>
           <hr class="hr-signup" />
         </div>
-        <div>
+        <div class="signup-name-email">
           <input
             type="text"
             id="name"
@@ -46,7 +51,7 @@
             v-model="email"
           />
           <div>
-            <span class="warning" v-if="true">
+            <span class="warning" v-if="!userEmailValid && email">
               이메일주소를 정확히 입력해주세요.
             </span>
           </div>
@@ -67,7 +72,11 @@
 
 <script>
 import { signupUser, certUserEmail, userIdCheck } from "@/api/index.js";
-import { validateEmail, validatePassword } from "@/utils/validation";
+import {
+  validateEmail,
+  validatePassword,
+  checkPassword,
+} from "@/utils/validation";
 
 export default {
   data() {
@@ -78,11 +87,7 @@ export default {
       name: "",
       email: "",
       certNum: "",
-      emailValid: false,
       certEmailMessage: "",
-      passValid: false,
-      idValid: false,
-      idCheckBox: false,
       idCheckMessage: "",
     };
   },
@@ -90,8 +95,11 @@ export default {
     userEmailValid() {
       return validateEmail(this.email);
     },
-    passwordValid() {
-      return validatePassword(this.password, this.passwordCheck);
+    userPasswordValid() {
+      return validatePassword(this.password);
+    },
+    userPasswordCheck() {
+      return checkPassword(this.password, this.passwordCheck);
     },
   },
   methods: {

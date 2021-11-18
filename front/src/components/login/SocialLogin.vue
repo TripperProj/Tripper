@@ -3,10 +3,8 @@
     <div>
       <hr class="hr" />
     </div>
-    <div>
-      <img class="social-btn" src="@/assets/kakao_login_medium_wide.png" />
-    </div>
-    <div>
+    <div class="">
+      <img class="social-btn" src="@/assets/kakao_login_medium_narrow.png" />
       <img class="social-btn" src="@/assets/naver_btn.png" />
     </div>
     <div></div>
