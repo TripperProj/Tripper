@@ -1,7 +1,7 @@
 import { instance } from "./index";
 
-function hotelList(location) {
-  return instance.post("/hotel", location);
+function hotelList(searchCondition) {
+  return instance.post("/hotel", searchCondition);
 }
 
 export { hotelList };

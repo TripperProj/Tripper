@@ -55,6 +55,24 @@ a:hover {
     position: absolute;
     background-color: lightgrey;
 }
+/* LIST*/
+
+.list-contents {
+    display: flex;
+    align-items: center;
+}
+.list-wrapper{
+    background: white;
+    -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    padding: 15px 15px;
+}
+
+.list-item{
+    list-style:  none;
+}
+
 /* FORMS */
 
 .form-container {
@@ -143,6 +161,15 @@ a:hover {
     opacity: 1;
     right: 10px;
 }
+.hotel-search-btn {
+    height: 100%;
+    border: none;
+    background-color: #7DBEFF;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+}
 /* log, warn */
 .log {
     color: blue;
@@ -155,9 +182,4 @@ a:hover {
 
 .hr-signup {
     width: 480px;
-}
-
-.search-room {
-    background: white;
-    border: none;
 }
