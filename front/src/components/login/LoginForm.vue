@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { loginUser } from "@/api/index.js";
+import { loginUser } from "@/api/auth.js";
 
 export default {
   data() {

@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { signupUser, certUserEmail, userIdCheck } from "@/api/index.js";
+import { signupUser, certUserEmail, userIdCheck } from "@/api/auth.js";
 import {
   validateEmail,
   validatePassword,
