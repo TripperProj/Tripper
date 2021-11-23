@@ -1,5 +1,11 @@
 import axios from "axios";
 
-export const instance = axios.create({
-  baseURL: process.env.VUE_APP_API_URL,
-});
+function createInstance(url) {
+  const instance = axios.create({
+    baseUrl: `http:localhost:8080${url}`,
+  });
+  return instance;
+}
+const instance = createInstance();
+
+export { instance };

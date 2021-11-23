@@ -2,11 +2,11 @@ import { instance } from "./index";
 
 function loginUser(userData) {
   console.log(userData);
-  return instance.post("login", userData);
+  return instance.post(`/login`, userData);
 }
-function signupUser(userData) {
-  console.log(userData);
-  return instance.post(instance.url, userData);
+function signupUser(infoDto) {
+  console.log(infoDto);
+  return instance.post(`http://localhost:8080/user`, infoDto);
 }
 function socialSignupUser(userData) {
   console.log(userData);

@@ -10,9 +10,7 @@
             placeholder="아이디"
             v-model="userid"
           />
-          <button v-bind:disabled="idCheckBox" class="btn" id="duplicateCheck">
-            중복확인
-          </button>
+          <button class="btn" id="duplicateCheck">중복확인</button>
           <span class="log"> 확인되었습니다. </span>
           <span class="warning"> {{ idCheckMessage }}</span>
         </div>
@@ -43,6 +41,18 @@
             id="name"
             placeholder="이름"
             v-model="name"
+          /><br />
+          <input
+            type="text"
+            id="phone"
+            placeholder="전화번호"
+            v-model="phone"
+          /><br />
+          <input
+            type="text"
+            id="nickname"
+            placeholder="닉네임"
+            v-model="nickName"
           /><br />
           <input
             type="text"
@@ -85,7 +95,9 @@ export default {
       password: "",
       passwordCheck: "",
       name: "",
+      phone: "",
       email: "",
+      nickName: "",
       certNum: "",
       certEmailMessage: "",
       idCheckMessage: "",
@@ -105,13 +117,16 @@ export default {
   methods: {
     async submitUserData() {
       const userData = {
-        userid: this.userid,
+        memId: this.userid,
         password: this.password,
         name: this.name,
+        phone: this.phone,
         email: this.email,
+        nickname: this.nickName,
+        auth: "ROLE_USER",
       };
       try {
-        const { data } = await signupUser.post(userData);
+        const { data } = await signupUser(userData);
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -123,19 +138,18 @@ export default {
         certNum: "12345",
       };
       try {
-        const { data } = await certUserEmail.post(userData);
+        const { data } = await certUserEmail(userData);
         console.log(data);
       } catch (error) {
         console.log(error);
       }
     },
     async idCheck() {
-      this.idCheckBox = !this.idCheckBox;
       const userData = {
         userid: this.userid,
       };
       try {
-        const { data } = await userIdCheck.post(userData);
+        const { data } = await userIdCheck(userData);
         console.log(data);
       } catch (error) {
         console.log(error);
