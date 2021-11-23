@@ -1,6 +1,7 @@
 package com.tripper.dto;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Setter;
  * 회원 가입 폼에 입력한 정보 들어있는 클래스
  */
 @Getter @Setter
+@RequiredArgsConstructor
 public class UserInfoDto {
 
     private String memId;
