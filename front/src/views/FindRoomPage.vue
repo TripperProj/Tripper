@@ -1,18 +1,18 @@
 <template>
   <div class="content">
-    <FindRoomForm></FindRoomForm>
-    <FindRoomList></FindRoomList>
+    <FindHotelForm></FindHotelForm>
+    <FindHotelList></FindHotelList>
   </div>
 </template>
 
 <script>
-import FindRoomForm from "@/components/findRoom/FindRoomForm";
-import FindRoomList from "@/components/findRoom/FindRoomList";
+import FindHotelForm from "@/components/findHotel/FindHotelForm";
+import FindHotelList from "@/components/findHotel/FindHotelList";
 
 export default {
   components: {
-    FindRoomForm,
-    FindRoomList,
+    FindHotelForm,
+    FindHotelList,
   },
 };
 </script>

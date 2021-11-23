@@ -7,6 +7,7 @@
           <div class="">
             <span> {{ hotel.Name }}</span> <br />
             <span>{{ hotel.minPrice }}</span>
+            <button>호텔 찜하기</button>
           </div>
         </div>
       </div>
@@ -15,6 +16,8 @@
 </template>
 
 <script>
+import { dibsHotel } from "@/api/hotel.js";
+
 export default {
   data() {
     return {
@@ -24,7 +27,24 @@ export default {
         Name: "뭐시기 호텔",
         minPrice: 210000,
       },
+      user: {
+        userId: "1111",
+      },
     };
+  },
+  methods: {
+    async hotelDibs() {
+      const hotelUserData = {
+        hotelName: this.hotel.Name,
+        userId: this.user.userId,
+      };
+      try {
+        const { data } = await dibsHotel(hotelUserData);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>
