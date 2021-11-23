@@ -1,14 +1,14 @@
 package com.tripper.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tripper.domain.board.BoardInfo;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -47,6 +47,10 @@ public class UserInfo implements UserDetails {
     @Column(nullable = false)
     private String auth;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "userInfo")
+    private List<BoardInfo> boards = new ArrayList<>();
+
     @Builder
     public UserInfo(String memId, String password, String name, String phone, String email, String nickname, String auth) {
         this.memId = memId;
@@ -74,7 +78,7 @@ public class UserInfo implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     @Override

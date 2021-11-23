@@ -34,10 +34,10 @@ public class InitDb {
         private final EntityManager em;
 
         public void dbInit() {
-            log.info("init1" + this.getClass());
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            UserInfo userInfo = createUser("user1", encoder.encode("0000"), "김철수", "010-1111-2222", "kim@naver.com", "여행러", "ROLE_USER");
-            em.persist(userInfo);
+//            log.info("init1" + this.getClass());
+//            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//            UserInfo userInfo = createUser("user1", encoder.encode("0000"), "김철수", "010-1111-2222", "kim@naver.com", "여행러", "ROLE_USER");
+//            em.persist(userInfo);
         }
 
         private UserInfo createUser(String memId, String password, String name, String phone, String email, String nickname, String auth) {
