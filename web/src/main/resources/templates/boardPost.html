@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+제목: <span th:text="${board.title}"/><br>
+닉네임: <span th:text="${board.userInfo.getNickname()}"/><br>
+목적지: <span th:text="${board.destination}"/><br>
+작성일: <span th:text="${board.dateTime}"/><br>
+모집중/마감: <span th:text="${board.status}"/><br>
+조회수: <span th:text="${board.hits}"/><br>
+
+내용: <span th:text="${board.content}"/><br><br>
+
+현재 좋아요수: <span th:text="${board.likes}"/><br>
+<a th:href="@{'/board/post/' + ${board.id} + '/addLikes'}">
+    좋아요 누르기->
+</a><br>
+<a th:href="@{'/board/post/' + ${board.id} + '/subtractLikes'}">
+    좋아요 취소하기->
+</a><br><br>
+
+<a th:href="@{'/board/post/' + ${board.id} + '/update'}">
+    글 수정하기->
+</a><br>
+<a th:href="@{'/board/post/' + ${board.id} + '/delete'}">
+    글 삭제하기->
+</a><br>
+</body>
+</html>
