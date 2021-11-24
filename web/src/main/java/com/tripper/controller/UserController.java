@@ -24,7 +24,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/user")
-    @CrossOrigin(origins = "http://192.168.0.64:8081/", maxAge = 3600)
+    //@CrossOrigin(origins = "http://localhost:8081/", maxAge = 3600)
     public String signup(@RequestBody UserInfoDto dto) throws Exception {
         UserInfoDto infoDto = new UserInfoDto();
         infoDto.setMemId(dto.getMemId());
@@ -36,7 +36,7 @@ public class UserController {
         infoDto.setAuth(dto.getAuth());
 
         userService.save(infoDto);
-        return "redirect:/login";
+        return "http://localhost:8081/main";
     }
 
     @GetMapping("/logout")

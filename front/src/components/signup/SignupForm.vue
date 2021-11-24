@@ -4,12 +4,7 @@
       <form class="form" @submit.prevent="submitUserData">
         <div class="signup-id">
           <label class="userid"> 회원정보 입력 </label>
-          <input
-            type="text"
-            id="userid"
-            placeholder="아이디"
-            v-model="userid"
-          />
+          <input type="text" id="memId" placeholder="아이디" v-model="memId" />
           <button class="btn" id="duplicateCheck">중복확인</button>
           <span class="log"> 확인되었습니다. </span>
           <span class="warning"> {{ idCheckMessage }}</span>
@@ -91,7 +86,7 @@ import {
 export default {
   data() {
     return {
-      userid: "",
+      memId: "",
       password: "",
       passwordCheck: "",
       name: "",
@@ -117,7 +112,7 @@ export default {
   methods: {
     async submitUserData() {
       const userData = {
-        memId: this.userid,
+        memId: this.memId,
         password: this.password,
         name: this.name,
         phone: this.phone,
