@@ -1,12 +1,12 @@
-import { instance } from "./index";
+import { instance } from "./index.js";
 
 function loginUser(userData) {
   console.log(userData);
   return instance.post(`/login`, userData);
 }
-function signupUser(infoDto) {
-  console.log(infoDto);
-  return instance.post(`http://localhost:8080/user`, infoDto);
+function signupUser(userData) {
+  console.log(userData);
+  return instance.post("/user", userData);
 }
 function socialSignupUser(userData) {
   console.log(userData);
