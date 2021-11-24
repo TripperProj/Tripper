@@ -67,7 +67,7 @@ public class UserService implements UserDetailsService {
     /**
      * 회원 1명 조회하는 함수
      */
-    public List<UserInfo> findByMemId(String username) {
-        return memberRepository.findByMemId(username);
+    public UserInfo findUserByMemId(String memId) {
+        return memberRepository.findUserByMemId(memId);
     }
 }
