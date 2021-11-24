@@ -48,7 +48,6 @@ public class UserController {
         infoDto.setEmail(dto.getEmail());
         infoDto.setNickname(dto.getNickname());
         infoDto.setAuth(dto.getAuth());
-
         userService.save(infoDto);
 
         return "redirect:/";

@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author HanJiyoung
- * 회원 관련 컨트롤러 클래스
+ * 회원 관련 레포지토리 클래스
  */
 @Repository
 @RequiredArgsConstructor
