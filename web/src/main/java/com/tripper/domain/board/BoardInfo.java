@@ -22,7 +22,7 @@ public class BoardInfo {
 
     private String title;
     private String destination;
-    private String recruitment;
+    private int recruitment;
     private String content;
 
     @Enumerated(EnumType.STRING)
