@@ -45,10 +45,10 @@ public class UserInfo implements UserDetails {
 
     @Column(nullable = false)
     private String auth;
-//
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "userInfo")
-//    private List<BoardInfo> boards = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userInfo")
+    private List<BoardInfo> boards = new ArrayList<>();
 
     @Builder
     public UserInfo(String memId, String password, String name, String phone, String email, String nickname, String auth) {
