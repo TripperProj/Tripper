@@ -1,5 +1,6 @@
 package com.tripper.repository;
 
+import com.tripper.domain.board.BoardInfo;
 import com.tripper.domain.user.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +9,10 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+/**
+ * @author HanJiyoung
+ * 회원 관련 레포지토리 클래스
+ */
 @Repository
 @RequiredArgsConstructor
 public class MemberRepository {
@@ -19,10 +24,10 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public List<UserInfo> findByMemId(String memId) {
+    public UserInfo findUserByMemId(String memId) {
         return em.createQuery("select u from UserInfo u where u.memId = :memId", UserInfo.class)
                 .setParameter("memId", memId)
-                .getResultList();
+                .getSingleResult();
     }
 
 }
