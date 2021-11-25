@@ -1,6 +1,7 @@
 package com.tripper.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tripper.domain.board.BoardInfo;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
