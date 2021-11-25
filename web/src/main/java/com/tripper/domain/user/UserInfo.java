@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
  * @author HanJiyoung
  * 회원 정보 엔티티 클래스
  */
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 @Entity
 @Getter
 public class UserInfo implements UserDetails {

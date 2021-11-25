@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 /**
@@ -19,15 +20,19 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    public List<UserInfo> findAll() {
-        return em.createQuery("select u from UserInfo u", UserInfo.class)
-                .getResultList();
-    }
-
     public UserInfo findUserByMemId(String memId) {
-        return em.createQuery("select u from UserInfo u where u.memId = :memId", UserInfo.class)
-                .setParameter("memId", memId)
-                .getSingleResult();
+
+        UserInfo userInfo = new UserInfo();
+
+        try {
+            userInfo = em.createQuery("select u from UserInfo u where u.memId = :memId", UserInfo.class)
+                    .setParameter("memId", memId)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+        return userInfo;
+
     }
 
 }
