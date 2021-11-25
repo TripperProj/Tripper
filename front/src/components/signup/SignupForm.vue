@@ -111,6 +111,7 @@ export default {
   },
   methods: {
     async submitUserData() {
+      // 사용자 회원가입
       const userData = {
         memId: this.memId,
         password: this.password,
@@ -121,25 +122,28 @@ export default {
         auth: "ROLE_USER",
       };
       try {
-        const { data } = await signupUser(userData);
-        console.log(data);
+        const data = await signupUser(userData);
+        data === 500 ? ((this.memId = ""), this.claerAll()) : console.log(data);
       } catch (error) {
         console.log(error);
+      } finally {
+        this.clearAll();
       }
     },
     async certEmail() {
-      const userData = {
-        email: this.email,
-        certNum: "12345",
-      };
+      // 사용자 이메일 인증
+      const email = this.email;
       try {
-        const { data } = await certUserEmail(userData);
-        console.log(data);
+        const { data } = await certUserEmail(email);
+        data.code === 500
+          ? (this.certEmailMessage = " 인증되었습니다. ")
+          : (this.certEmailMessage = "인증번호를 확인해주세요.");
       } catch (error) {
         console.log(error);
       }
     },
     async idCheck() {
+      // 사용자 아이디 중복확인
       const userData = {
         userid: this.userid,
       };
@@ -149,6 +153,16 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    clearAll() {
+      // input 초기화
+      this.memId = "";
+      this.password = "";
+      this.passwordCheck = "";
+      this.name = "";
+      this.email = "";
+      this.phone = "";
+      this.nickName = "";
     },
   },
   components: {},
