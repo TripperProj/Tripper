@@ -1,7 +1,7 @@
 package com.tripper.controller;
 
-import com.tripper.domain.HotelForm;
-import com.tripper.domain.HotelInfo;
+import com.tripper.domain.hotel.HotelForm;
+import com.tripper.domain.hotel.HotelInfo;
 import com.tripper.service.HotelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class HotelController {
      */
     @RequestMapping("/hotel")
     public String goHotelForm() {
-        return "hotel_form";
+        return "hotel/hotel_form";
     }
 
     /**
@@ -46,6 +46,6 @@ public class HotelController {
         List<HotelInfo> hotels = hotelService.crawlingHotels(hotelForm);
 //        logger.info(hotels.toString());
         model.addAttribute("hotelList", hotels);
-        return "hotel_search_list";
+        return "hotel/hotel_search_list";
     }
 }
