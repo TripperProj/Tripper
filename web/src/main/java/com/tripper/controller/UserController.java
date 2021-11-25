@@ -53,6 +53,23 @@ public class UserController {
     }
 
     @ApiOperation(
+            value = "아이디 중복 체크"
+            , notes = "회원가입 폼에서 아이디 중복 체크를 실행한다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "ok: 사용 가능한 아이디입니다. \t\n fail: 이미 사용중인 아이디입니다.")})
+    @GetMapping(value = "user/checkExists")
+    public String checkMemIdExists(@ApiParam(value = "중복체크를 실행할 아이디") @Param("memId") String memId) {
+
+        UserInfo userInfo = new UserInfo();
+        userInfo = userService.checkMemIdExists(memId);
+
+        if(userInfo != null) { // 아이디 중복이면
+            return "fail";
+        }
+        return "ok";
+    }
+
+    @ApiOperation(
             value = "로그아웃"
             , notes = "로그아웃을 실행한다.")
     @ResponseStatus(HttpStatus.OK)
