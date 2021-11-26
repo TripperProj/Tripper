@@ -1,19 +1,27 @@
 package com.tripper.domain.hotel;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * @author HanJiyoung
- * 사용자가 호텔 검색시 입력한 값들을 가지고 있는 클래스
- */
-@Getter
-@Setter
+@ApiModel(value = "호텔 검색 폼에 입력한 정보를 갖고있는 dto 클래스")
+@Getter @Setter
 public class HotelForm {
+
+    @ApiModelProperty(value = "여행지")
     private String location;
+
+    @ApiModelProperty(value = "체크인 날짜")
     private String checkin;
+
+    @ApiModelProperty(value = "체크아웃 날짜")
     private String checkout;
+
+    @ApiModelProperty(value = "성인 인원수")
     private String adult;
+
+    @ApiModelProperty(value = "아동 인원수")
     private String child;
 
     public HotelForm(String location, String checkin, String checkout, String adult, String child) {

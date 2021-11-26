@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="form" @submit.prevent="submitUserdata">
+    <form class="form" @submit.prevent="submitForm">
       <div>
         <input
           type="text"
@@ -36,13 +36,13 @@ export default {
     };
   },
   methods: {
-    async submitUserdata() {
-      const userData = {
+    async submitForm() {
+      const form = {
         userid: this.userid,
         password: this.password,
       };
       try {
-        const { data } = await loginUser.post(userData);
+        const { data } = await loginUser(form);
         console.log(data);
       } catch (error) {
         console.log(error);
