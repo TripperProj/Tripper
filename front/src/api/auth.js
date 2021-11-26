@@ -1,24 +1,23 @@
 import { instance } from "./index.js";
 
-let authNum = Math.floor(Math.random() * 100000);
-
 function loginUser(form) {
   console.log(form);
   return instance.post(`/login`, form);
 }
 function signupUser(userData) {
   console.log(userData);
-  return instance.post("/signup", userData);
+  const response = instance.post("/user", userData);
+  return response.code;
 }
 function socialSignupUser(userData) {
   console.log(userData);
   return instance.post("/user/socicalSignup", userData);
 }
 function certUserEmail(Email) {
-  return instance.post("/user/certEmail", { email: Email, certNum: authNum });
+  return instance.post("/user/certEmail", Email);
 }
 function userIdCheck(userId) {
-  return instance.post("/user/idCheck", userId);
+  return instance.get("/user/checkExists", userId);
 }
 
 export { loginUser, signupUser, certUserEmail, userIdCheck, socialSignupUser };

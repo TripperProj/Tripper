@@ -1,11 +1,13 @@
 <template>
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
-      <form class="form" @submit.prevent="submitUserData">
+      <form class="form" @submit.prevent="submitForm">
         <div class="signup-id">
           <label class="userid"> 회원정보 입력 </label>
           <input type="text" id="memId" placeholder="아이디" v-model="memId" />
-          <button class="btn" id="duplicateCheck">중복확인</button>
+          <div class="btn" v-on:click="idCheck" id="duplicateCheck">
+            중복확인
+          </div>
           <span class="log"> 확인되었습니다. </span>
           <span class="warning"> {{ idCheckMessage }}</span>
         </div>
@@ -110,7 +112,7 @@ export default {
     },
   },
   methods: {
-    async submitUserData() {
+    async submitForm() {
       // 사용자 회원가입
       const userData = {
         memId: this.memId,
@@ -123,7 +125,7 @@ export default {
       };
       try {
         const data = await signupUser(userData);
-        data === 500 ? ((this.memId = ""), this.claerAll()) : console.log(data);
+        data === 200 ? ((this.memId = ""), this.claerAll()) : console.log(data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -144,18 +146,16 @@ export default {
     },
     async idCheck() {
       // 사용자 아이디 중복확인
-      const userData = {
-        userid: this.userid,
-      };
+      const memid = this.memid;
       try {
-        const { data } = await userIdCheck(userData);
+        const data = await userIdCheck(memid);
         console.log(data);
       } catch (error) {
         console.log(error);
       }
     },
     clearAll() {
-      // input 초기화
+      // input 초기화1
       this.memId = "";
       this.password = "";
       this.passwordCheck = "";
