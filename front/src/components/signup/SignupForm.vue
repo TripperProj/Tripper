@@ -1,22 +1,17 @@
 <template>
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
-      <form class="form" @submit.prevent="submitUserData">
-        <div>
+      <form class="form" @submit.prevent="submitForm">
+        <div class="signup-id">
           <label class="userid"> 회원정보 입력 </label>
-          <input
-            type="text"
-            id="userid"
-            placeholder="아이디"
-            v-model="userid"
-          />
-          <button v-bind:disabled="idCheckBox" class="btn" id="duplicateCheck">
+          <input type="text" id="memId" placeholder="아이디" v-model="memId" />
+          <div class="btn" v-on:click="idCheck" id="duplicateCheck">
             중복확인
-          </button>
-          <span v-if="idValid" class="log"> 확인되었습니다. </span>
-          <span v-if="!idValid" class="warning"> {{ idCheckMessage }}</span>
+          </div>
+          <span class="log"> 확인되었습니다. </span>
+          <span class="warning"> {{ idCheckMessage }}</span>
         </div>
-        <div>
+        <div class="signup-pass">
           <input
             type="password"
             id="password"
@@ -29,10 +24,15 @@
             v-model="passwordCheck"
             placeholder="비밀번호 확인"
           />
-          <span class="warning" v-if="passValid">비밀번호를 확인해주세요.</span>
+          <span class="warning" v-if="!userPasswordValid && password">
+            비밀번호 형식을 지켜주세요 (숫자, 문자, 특수문자 조합 8~25글자)<br />
+          </span>
+          <span class="warning" v-if="!userPasswordCheck && passwordCheck">
+            비밀번호가 다릅니다.<br />
+          </span>
           <hr class="hr-signup" />
         </div>
-        <div>
+        <div class="signup-name-email">
           <input
             type="text"
             id="name"
@@ -41,12 +41,24 @@
           /><br />
           <input
             type="text"
+            id="phone"
+            placeholder="전화번호"
+            v-model="phone"
+          /><br />
+          <input
+            type="text"
+            id="nickname"
+            placeholder="닉네임"
+            v-model="nickName"
+          /><br />
+          <input
+            type="text"
             id="userEmail"
             placeholder="이메일"
             v-model="email"
           />
           <div>
-            <span class="warning" v-if="true">
+            <span class="warning" v-if="!userEmailValid && email">
               이메일주소를 정확히 입력해주세요.
             </span>
           </div>
@@ -66,23 +78,25 @@
 </template>
 
 <script>
-import { signupUser, certUserEmail, userIdCheck } from "@/api/index.js";
-import { validateEmail, validatePassword } from "@/utils/validation";
+import { signupUser, certUserEmail, userIdCheck } from "@/api/auth.js";
+import {
+  validateEmail,
+  validatePassword,
+  checkPassword,
+} from "@/utils/validation";
 
 export default {
   data() {
     return {
-      userid: "",
+      memId: "",
       password: "",
       passwordCheck: "",
       name: "",
+      phone: "",
       email: "",
+      nickName: "",
       certNum: "",
-      emailValid: false,
       certEmailMessage: "",
-      passValid: false,
-      idValid: false,
-      idCheckBox: false,
       idCheckMessage: "",
     };
   },
@@ -90,48 +104,65 @@ export default {
     userEmailValid() {
       return validateEmail(this.email);
     },
-    passwordValid() {
-      return validatePassword(this.password, this.passwordCheck);
+    userPasswordValid() {
+      return validatePassword(this.password);
+    },
+    userPasswordCheck() {
+      return checkPassword(this.password, this.passwordCheck);
     },
   },
   methods: {
-    async submitUserData() {
+    async submitForm() {
+      // 사용자 회원가입
       const userData = {
-        userid: this.userid,
+        memId: this.memId,
         password: this.password,
         name: this.name,
+        phone: this.phone,
         email: this.email,
+        nickname: this.nickName,
+        auth: "ROLE_USER",
       };
       try {
-        const { data } = await signupUser.post(userData);
-        console.log(data);
+        const data = await signupUser(userData);
+        data === 200 ? ((this.memId = ""), this.claerAll()) : console.log(data);
       } catch (error) {
         console.log(error);
+      } finally {
+        this.clearAll();
       }
     },
     async certEmail() {
-      const userData = {
-        email: this.email,
-        certNum: "12345",
-      };
+      // 사용자 이메일 인증
+      const email = this.email;
       try {
-        const { data } = await certUserEmail.post(userData);
-        console.log(data);
+        const { data } = await certUserEmail(email);
+        data.code === 500
+          ? (this.certEmailMessage = " 인증되었습니다. ")
+          : (this.certEmailMessage = "인증번호를 확인해주세요.");
       } catch (error) {
         console.log(error);
       }
     },
     async idCheck() {
-      this.idCheckBox = !this.idCheckBox;
-      const userData = {
-        userid: this.userid,
-      };
+      // 사용자 아이디 중복확인
+      const memid = this.memid;
       try {
-        const { data } = await userIdCheck.post(userData);
+        const data = await userIdCheck(memid);
         console.log(data);
       } catch (error) {
         console.log(error);
       }
+    },
+    clearAll() {
+      // input 초기화1
+      this.memId = "";
+      this.password = "";
+      this.passwordCheck = "";
+      this.name = "";
+      this.email = "";
+      this.phone = "";
+      this.nickName = "";
     },
   },
   components: {},
