@@ -102,4 +102,38 @@ public class UserController {
 
     }
 
+    @ApiOperation(
+            value = "이메일 인증"
+            , notes = "사용자 db에 저장돼있는 이메일로 인증 코드를 전송한다.")
+    @PostMapping("/sendEmail")
+    public @ResponseBody void sendEmail(Authentication authentication) {
+
+        /* 현재 로그인한 사용자 정보 가져오기 */
+        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+        UserInfo userInfo = userService.loadUserByUsername(userDetails.getUsername());
+
+        /* 해당 사용자의 db에 저장돼있는 이메일로 메일 전송 */
+        EmailDto emailDto = emailService.createMailAndChangeAuth(userInfo.getEmail(), userInfo.getMemId());
+        emailService.mailSend(emailDto);
+
+    }
+
+    @ApiOperation(
+            value = "이메일 인증 코드 일치 확인"
+            , notes = "입력한 이메일 인증 코드의 일치 여부를 확인한다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "ok: 이메일 인증 완료.")})
+    @GetMapping(value = "/checkEmailAuthCode")
+    public String checkEmailAuthCode(Authentication authentication, String authCode) {
+
+        /* 현재 로그인한 사용자 정보 가져오기 */
+        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+        UserInfo userInfo = userService.loadUserByUsername(userDetails.getUsername());
+
+        /* 일치 여부 확인 */
+        String rslt = emailService.checkEmailAuthCode(authCode, userInfo.getMemId());
+
+        return rslt;
+    }
+
 }

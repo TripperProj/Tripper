@@ -48,6 +48,9 @@ public class UserInfo implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role auth;
 
+    @Column
+    private String emailAuthCode;
+
     @JsonIgnore
     @OneToMany(mappedBy = "userInfo")
     private List<BoardInfo> boards = new ArrayList<>();
