@@ -19,7 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
  */
 @NoArgsConstructor
 @Entity
-@Getter
+@Getter @Setter
 public class UserInfo implements UserDetails {
 
     @Id @GeneratedValue(strategy = IDENTITY)
@@ -45,14 +45,15 @@ public class UserInfo implements UserDetails {
     private String nickname;
 
     @Column(nullable = false)
-    private String auth;
+    @Enumerated(EnumType.STRING)
+    private Role auth;
 
     @JsonIgnore
     @OneToMany(mappedBy = "userInfo")
     private List<BoardInfo> boards = new ArrayList<>();
 
     @Builder
-    public UserInfo(String memId, String password, String name, String phone, String email, String nickname, String auth) {
+    public UserInfo(String memId, String password, String name, String phone, String email, String nickname, Role auth) {
         this.memId = memId;
         this.password = password;
         this.name = name;
@@ -62,13 +63,15 @@ public class UserInfo implements UserDetails {
         this.auth = auth;
     }
 
-   @Override
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         Set<GrantedAuthority> roles = new HashSet<>();
-        for(String role : auth.split(",")) {
+        for(String role : auth.toString().split("_")) {
             roles.add(new SimpleGrantedAuthority(role));
         }
         return roles;
+
     }
 
     @Override
