@@ -1,5 +1,6 @@
 package com.tripper.dto;
 
+import com.tripper.domain.user.Role;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -30,6 +31,6 @@ public class UserInfoDto {
     private String nickname;
 
     @ApiModelProperty(value = "사용자 권한")
-    private String auth;
+    private Role auth;
 
 }

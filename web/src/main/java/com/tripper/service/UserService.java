@@ -35,6 +35,7 @@ public class UserService implements UserDetailsService {
      * 회원 db에 insert하는 함수
      */
     public Long save(UserInfoDto infoDto) {
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         infoDto.setPassword(encoder.encode(infoDto.getPassword()));
 
@@ -44,8 +45,8 @@ public class UserService implements UserDetailsService {
                 .phone(infoDto.getPhone())
                 .email(infoDto.getEmail())
                 .nickname(infoDto.getNickname())
-                .auth(infoDto.getAuth())
-                .password(infoDto.getPassword()).build()).getId();
+                .password(infoDto.getPassword())
+                .auth(infoDto.getAuth()).build()).getId();
     }
 
     /**
@@ -78,4 +79,5 @@ public class UserService implements UserDetailsService {
     public UserInfo findUserByMemId(String memId) {
         return memberRepository.findUserByMemId(memId);
     }
+
 }

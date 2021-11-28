@@ -27,14 +27,6 @@ public class HotelController {
     }
 
     @ApiOperation(
-            value = "호텔검색 폼으로 이동"
-            , notes = "호텔검색 폼으로 이동한다.")
-    @RequestMapping("/hotel")
-    public String goHotelForm() {
-        return "hotel/hotel_form";
-    }
-
-    @ApiOperation(
             value = "호텔 크롤링"
             , notes = "호텔 크롤링 후 가져온 데이터를 뷰페이지로 넘겨준다.")
     @PostMapping("/hotel/crawling")
