@@ -1,5 +1,6 @@
 package com.tripper.domain.trip;
 
+import com.tripper.domain.budget.Budget;
 import com.tripper.domain.schedule.Schedule;
 import com.tripper.domain.user.UserInfo;
 import lombok.Getter;
@@ -28,6 +29,9 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private List<Schedule> schedules = new ArrayList<>();
 
+    @OneToOne(mappedBy = "trip")
+    private Budget budget;
+
     protected Trip() {}
 
     public Trip(String destination, LocalDate startDate, LocalDate endDate, UserInfo userInfo) {
@@ -41,5 +45,9 @@ public class Trip {
         this.destination = destination;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public void setBudget(Budget budget){
+        this.budget = budget;
     }
 }
