@@ -1,6 +1,8 @@
 package com.tripper.controller;
 
 import com.tripper.dto.request.*;
+import com.tripper.dto.response.GetBudgetDto;
+import com.tripper.dto.response.GetBudgetItemsDto;
 import com.tripper.service.BudgetService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +19,25 @@ import javax.validation.Valid;
 public class BudgetController {
 
     private final BudgetService budgetService;
+
+    @ApiOperation(value = "예산 조회", notes = "예산을 조회합니다.", tags = "예산 API")
+    @GetMapping
+    public ResponseEntity<GetBudgetDto> getBudgetInfo (@PathVariable("tripId") Long tripId){
+
+        GetBudgetDto budgetInfo = budgetService.getBudgetInfo(tripId);
+
+        return ResponseEntity.ok().body(budgetInfo);
+    }
+    
+    @ApiOperation(value = "예산 항목 조회", notes = "예산 항목을 카테고리 별로 조회합니다.", tags = "예산 API")
+    @GetMapping("/{budgetId}/categories/{categoryId}")
+    public ResponseEntity<GetBudgetItemsDto> getBudgetItemsInCategory (@PathVariable("budgetId") Long budgetId,
+                                                                       @PathVariable("categoryId") Long categoryId) {
+
+        GetBudgetItemsDto budgetItemsDtos = budgetService.getBudgetItemsInCategory(budgetId, categoryId);
+
+        return ResponseEntity.ok().body(budgetItemsDtos);
+    }
 
     @ApiOperation(value = "예산 생성", notes = "예산을 생성합니다.", tags = "예산 API")
     @PostMapping

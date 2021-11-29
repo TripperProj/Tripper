@@ -5,11 +5,18 @@ import com.tripper.domain.budget.Category;
 import com.tripper.domain.budget.Item;
 import com.tripper.domain.trip.Trip;
 import com.tripper.dto.request.*;
+import com.tripper.dto.response.GetBudgetDto;
+import com.tripper.dto.response.GetBudgetItemDto;
+import com.tripper.dto.response.GetBudgetItemsDto;
+import com.tripper.dto.response.GetCategoryDto;
 import com.tripper.repository.BudgetRepository;
 import com.tripper.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +26,41 @@ public class BudgetService {
     private final TripRepository tripRepository;
     private final BudgetRepository budgetRepository;
 
-    public void createBudget (CreateOrUpdateBudgetDto dto, Long tripId){
+    @Transactional(readOnly = false)
+    public GetBudgetDto getBudgetInfo(Long tripId) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 여행입니다."));
+
+        Budget budget = trip.getBudget();
+
+        List<Category> categories = budget.getCategories();
+
+        List<GetCategoryDto> categoryDtoList = new ArrayList<>();
+        for (Category category : categories) {
+            GetCategoryDto getCategoryDto = new GetCategoryDto(category.getId(),
+                    category.getName(), category.getAmount(), category.getRemainAmount());
+            categoryDtoList.add(getCategoryDto);
+        }
+
+        return new GetBudgetDto(budget.getId(), budget.getTotalAmount(),
+                budget.getTotalExpenditure(), budget.getRemainTotalAmount(), categoryDtoList);
+    }
+
+    @Transactional(readOnly = false)
+    public GetBudgetItemsDto getBudgetItemsInCategory(Long budgetId, Long categoryId) {
+        Budget budget = findBudgetById(budgetId);
+        Category category = budget.findCategoryWithId(categoryId);
+
+        List<GetBudgetItemDto> budgetItemDtos = new ArrayList<>();
+        for (Item item : category.getItems()) {
+            GetBudgetItemDto getBudgetItemDto = new GetBudgetItemDto(item.getId(), item.getContent(), item.getExpenditure());
+            budgetItemDtos.add(getBudgetItemDto);
+        }
+
+        return new GetBudgetItemsDto(budgetItemDtos);
+    }
+
+    public void createBudget (CreateOrUpdateBudgetDto dto, Long tripId) {
         Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 여행입니다."));
         Budget budget = new Budget(dto.getTotalAmount(), trip);

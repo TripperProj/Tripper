@@ -141,7 +141,7 @@ public class Budget {
     }
 
     // categoryId 로 category 탐색 + 예외 처리
-    private Category findCategoryWithId(Long categoryId) {
+    public Category findCategoryWithId(Long categoryId) {
         Category targetCategory = null;
         for (Category category : this.categories) {
             if (category.getId().equals(categoryId)) {
