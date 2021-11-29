@@ -37,12 +37,10 @@ export default {
   },
   methods: {
     async submitForm() {
-      const form = {
-        userid: this.userid,
-        password: this.password,
-      };
+      const username = this.userid;
+      const password = this.password;
       try {
-        const { data } = await loginUser(form);
+        const { data } = await loginUser(username, password);
         console.log(data);
       } catch (error) {
         console.log(error);
