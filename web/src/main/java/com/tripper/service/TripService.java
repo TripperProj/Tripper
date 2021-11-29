@@ -40,7 +40,7 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public GetTripListDto getTrips(String memId) {
-        List<Trip> byUserInfo_memId = tripRepository.findByUserInfo_MemId(memId);
+        List<Trip> byUserInfo_memId = tripRepository.findByUser_MemId(memId);
 
         List<GetTripDto> tripInfoDtoList = new ArrayList<>();
         for (Trip tripInfo : byUserInfo_memId) {
