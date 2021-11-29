@@ -1,10 +1,8 @@
 package com.tripper.service;
 
-import com.tripper.domain.board.BoardInfo;
-import com.tripper.domain.user.UserInfo;
-import com.tripper.domain.user.UserRepository;
-import com.tripper.dto.EmailDto;
-import com.tripper.repository.MemberRepository;
+import com.tripper.domain.user.User;
+import com.tripper.dto.request.CreateEmailDto;
+import com.tripper.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class EmailService {
 
-    private final MemberRepository memberRepository;
     private final UserRepository userRepository;
     private JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "본인 이메일 주소 입력";
@@ -28,16 +25,16 @@ public class EmailService {
      * @param memId
      * @return
      */
-    public EmailDto createMailAndChangeAuth(String email, String memId) {
+    public CreateEmailDto createMailAndChangeAuth(String email, String memId) {
 
         String authCode = getTempCode();
-        EmailDto emailDto = new EmailDto();
-        emailDto.setAddress(email);
-        emailDto.setTitle(memId+"님의 회원 인증 메일입니다.");
-        emailDto.setMessage("인증 코드는" + authCode + " 입니다.");
+        CreateEmailDto createEmailDto = new CreateEmailDto();
+        createEmailDto.setAddress(email);
+        createEmailDto.setTitle(memId+"님의 회원 인증 메일입니다.");
+        createEmailDto.setMessage("인증 코드는" + authCode + " 입니다.");
         updateEmailAuthCode(authCode, memId);
 
-        return emailDto;
+        return createEmailDto;
     }
 
     /**
@@ -49,11 +46,11 @@ public class EmailService {
     public void updateEmailAuthCode(String authCode, String memId){
 
         /* 엔티티 조회 */
-        UserInfo userInfo = memberRepository.findUserByMemId(memId);
+        User user = userRepository.findByMemId(memId);
 
         /* 인증코드 저장 */
-        userInfo.setEmailAuthCode(authCode);
-        userRepository.save(userInfo);
+        user.setEmailAuthCode(authCode);
+        userRepository.save(user);
 
     }
 
@@ -80,15 +77,15 @@ public class EmailService {
 
     /**
      * 이메일 보내는 함수
-     * @param emailDto
+     * @param createEmailDto
      */
-    public void mailSend(EmailDto emailDto) {
+    public void mailSend(CreateEmailDto createEmailDto) {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(emailDto.getAddress());
+        message.setTo(createEmailDto.getAddress());
         message.setFrom(EmailService.FROM_ADDRESS);
-        message.setSubject(emailDto.getTitle());
-        message.setText(emailDto.getMessage());
+        message.setSubject(createEmailDto.getTitle());
+        message.setText(createEmailDto.getMessage());
         log.info("이메일 전송 완료");
 
         mailSender.send(message);
@@ -103,9 +100,13 @@ public class EmailService {
      */
     public String checkEmailAuthCode(String authCode, String memId) {
 
-        String rslt = memberRepository.checkEmailAuthCode(authCode, memId);
+        String dbAuthCode = userRepository.getEmailAuthCode(memId);
 
-        return rslt;
+        /* 일치 여부에 따라 return */
+        if (authCode.equals(dbAuthCode)) {
+            return "ok";
+        }
+        return "fail";
 
     }
 }
