@@ -29,6 +29,10 @@ const routes = [
     component: () => import("@/views/CommunityPage.vue"),
   },
   {
+    path: "/scheduler",
+    component: () => import("@/views/SchedulerPage.vue"),
+  },
+  {
     path: "*",
     component: () => import("@/views/NotFoundPage.vue"),
   },
