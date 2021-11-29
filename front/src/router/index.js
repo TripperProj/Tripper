@@ -25,6 +25,10 @@ const routes = [
     component: () => import("@/views/FindRoomPage.vue"),
   },
   {
+    path: "/community",
+    component: () => import("@/views/CommunityPage.vue"),
+  },
+  {
     path: "*",
     component: () => import("@/views/NotFoundPage.vue"),
   },

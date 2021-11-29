@@ -10,7 +10,10 @@
 <body>
 <h1>회원가입 페이지</h1>
 <form th:action="@{/user}" method="POST">
-    memId : <input type="text" name="memId"> <br>
+    <form th:action="@{/user/checkexists}" method="GET">
+        memId : <input type="text" name="memId"> <br>
+        <button type="submit">중복체크</button>
+    </form>
     password : <input type="password" name="password"> <br>
     name : <input type="text" name="name"> <br>
     phone : <input type="text" name="phone"> <br>
@@ -18,7 +21,7 @@
     nickname : <input type="text" name="nickname"> <br>
     <input type="radio" name="auth" value="ROLE_ADMIN,ROLE_USER"> admin
     <input type="radio" name="auth" value="ROLE_USER" checked="checked"> user <br>
-    <button type="submit">회원가입 하기</button>
+
 </form> <br>
 
 <a href="/login">로그인 하기 -></a>

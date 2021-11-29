@@ -2,81 +2,66 @@ package com.tripper.controller;
 
 import com.tripper.domain.board.BoardForm;
 import com.tripper.domain.board.BoardInfo;
-import com.tripper.domain.user.UserInfo;
 import com.tripper.service.BoardService;
-import com.tripper.service.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * @author HanJiyoung
+ * '여행 메이트 찾기 게시판' 기능 컨트롤러 클래스
+ */
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class BoardController {
 
     private final BoardService boardService;
-    private final UserService userService;
 
-    /**
-     * 게시판 글 작성 폼으로 이동하는 함수
-     * @param authentication
-     * @param model
-     * @return
-     */
+    @ApiOperation(
+            value = "게시글 작성 폼으로 이동"
+            , notes = "게시글 작성 폼으로 이동한다.")
     @GetMapping("/board/create")
-    public String goBoardForm(Authentication authentication, Model model) {
-
-        /* 현재 로그인한 사용자 정보 가져오기 */
-        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        String username = userDetails.getUsername();
-
-        UserInfo user = userService.findUserByMemId(username);
-        model.addAttribute("user", user);
-
+    public String goBoardForm() {
         return "boardForm";
     }
 
-    /**
-     * 작성한 게시글을 db에 저장하는 함수
-     * @param form 게시글 폼에서 입력한 데이터가 저장돼있는 객체
-     * @param result
-     * @return
-     */
+    @ApiOperation(
+            value = "게시글 등록"
+            , notes = "게시글 폼에서 입력한 정보로 글 등록을 실행한다.")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/board/create")
-    public String create(@RequestBody BoardForm form, BindingResult result) {
+    public String create(Authentication authentication,
+                         @RequestBody @ApiParam(value = "게시글 폼에 입력한 정보를 담고있는 객체") BoardForm form,
+                         BindingResult result) {
 
         if (result.hasErrors()) {
             return "boardForm";
         }
 
         /* 현재 로그인한 사용자 정보 가져오기 */
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principal;
-        String memId = ((UserDetails) principal).getUsername();
-        log.info("현재 사용자 아이디: " + memId);
+        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 
-        boardService.registerPost(form, memId);
+        /* 글 등록하기 */
+        boardService.registerPost(form, userDetails.getUsername());
 
         return "redirect:/";
 
     }
 
-    /**
-     * 게시판 글 목록을 가져온 후 model에 담아서 뷰페이지로 넘겨주는 함수
-     * @param model 뷰로 넘겨줄 모델 객체
-     * @return 게시판 글 목록 페이지
-     */
+    @ApiOperation(
+            value = "게시글 목록"
+            , notes = "db에서 게시글 목록을 가져온 후 뷰페이지로 넘겨준다.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/board/list")
     public String getBoardList(Model model) {
@@ -88,14 +73,13 @@ public class BoardController {
 
     }
 
-    /**
-     * 게시판 목록에서 글 하나 클릭하면 해당 글 상세 페이지로 이동하는 함수
-     * @param model 뷰로 넘겨줄 모델 객체
-     * @return 해당 글 상세 페이지
-     */
+    @ApiOperation(
+            value = "게시글 상세 페이지로 이동"
+            , notes = "db에서 게시글 목록을 가져온 후 뷰페이지로 넘겨준다.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/board/post/{board_id}")
-    public String goBoardPost(@PathVariable("board_id") Long board_id, Model model) {
+    public String goBoardPost(@PathVariable("board_id") @ApiParam(value = "조회할 게시글의 고유 id") Long board_id,
+                              Model model) {
 
         BoardInfo board = boardService.findByBoardId(board_id);
         model.addAttribute("board", board);
@@ -104,14 +88,12 @@ public class BoardController {
 
     }
 
-    /**
-     * 좋아요수 증가 함수
-     * @param board_id 게시글 고유 아이디
-     * @return 해당 게시글 상세 페이지
-     */
+    @ApiOperation(
+            value = "좋아요수 증가"
+            , notes = "해당 게시글의 좋아요수를 증가시킨다.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/board/post/{board_id}/addLikes")
-    public String addLikes(@PathVariable("board_id") Long board_id) {
+    public String addLikes(@PathVariable("board_id") @ApiParam(value = "좋아요수를 증가시킬 게시글의 고유 id") Long board_id) {
 
         boardService.addLikes(board_id);
 
@@ -119,14 +101,12 @@ public class BoardController {
 
     }
 
-    /**
-     * 좋아요수 감소 함수
-     * @param board_id 게시글 고유 아이디
-     * @return 해당 게시글 상세 페이지
-     */
+    @ApiOperation(
+            value = "좋아요수 감소"
+            , notes = "해당 게시글의 좋아요수를 감소시킨다.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/board/post/{board_id}/subtractLikes")
-    public String subtractLikes(@PathVariable("board_id") Long board_id) {
+    public String subtractLikes(@PathVariable("board_id") @ApiParam(value = "좋아요수를 감소시킬 게시글의 고유 id") Long board_id) {
 
         boardService.subtractLikes(board_id);
 
@@ -134,14 +114,13 @@ public class BoardController {
 
     }
 
-    /**
-     * 게시글 수정 폼으로 이동하는 함수
-     * @param board_id 게시글 고유 아이디
-     * @return 게시글 폼
-     */
+    @ApiOperation(
+            value = "게시글 수정 폼으로 이동"
+            , notes = "게시글 수정 폼으로 이동한다.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/board/post/{board_id}/update")
-    public String updatePost(@PathVariable("board_id") Long board_id, Model model) {
+    public String updatePost(@PathVariable("board_id") @ApiParam(value = "수정할 게시글의 고유 id") Long board_id,
+                             Model model) {
 
         BoardInfo boardInfo = boardService.findByBoardId(board_id);
 
@@ -157,14 +136,13 @@ public class BoardController {
         return "boardUpdateForm";
     }
 
-    /**
-     * 게시글을 수정하는 함수
-     * @param board_id 게시글 고유 아이디
-     * @return 해당 게시글 상세 페이지
-     */
+    @ApiOperation(
+            value = "게시글 수정"
+            , notes = "게시글 수정을 실행한다.")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/board/post/{board_id}/update")
-    public String updateItem(@PathVariable Long board_id, @RequestBody @ModelAttribute("form") BoardForm form) {
+    public String updateItem(@PathVariable @ApiParam(value = "수정할 게시글의 고유 id") Long board_id,
+                             @RequestBody @ApiParam(value = "게시글 수정 폼에 입력한 정보를 갖고있는 객체") @ModelAttribute("form") BoardForm form) {
 
         boardService.updatePost(board_id, form.getTitle(), form.getDestination(), form.getRecruitment(), form.getContent());
 
@@ -172,14 +150,12 @@ public class BoardController {
 
     }
 
-    /**
-     * 게시글 삭제하는 함수
-     * @param board_id 게시글 고유 아이디
-     * @return 게시판 글 목록 페이지
-     */
+    @ApiOperation(
+            value = "게시글 삭제"
+            , notes = "게시글 삭제를 실행한다.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/board/post/{board_id}/delete")
-    public String deletePost(@PathVariable("board_id") Long board_id) {
+    public String deletePost(@PathVariable("board_id") @ApiParam(value = "삭제할 게시글의 고유 id") Long board_id) {
 
         boardService.deletePostById(board_id);
 

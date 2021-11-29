@@ -1,6 +1,7 @@
 package com.tripper.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tripper.domain.board.BoardInfo;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
  * @author HanJiyoung
  * 회원 정보 엔티티 클래스
  */
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 @Entity
 @Getter
 public class UserInfo implements UserDetails {
@@ -45,10 +46,10 @@ public class UserInfo implements UserDetails {
 
     @Column(nullable = false)
     private String auth;
-//
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "userInfo")
-//    private List<BoardInfo> boards = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userInfo")
+    private List<BoardInfo> boards = new ArrayList<>();
 
     @Builder
     public UserInfo(String memId, String password, String name, String phone, String email, String nickname, String auth) {

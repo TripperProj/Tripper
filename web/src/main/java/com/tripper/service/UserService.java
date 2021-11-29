@@ -49,12 +49,20 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * 아이디 존재 여부 판단하는 함수
+     * 아이디 중복체크 하는 함수
      */
-    private void validateDuplicateMemId(UserInfo userInfo) {
-        if(userRepository.findByMemId(userInfo.getMemId()) != null) {
-            throw new IllegalStateException("이미 존재하는 아이디입니다.");
+    public UserInfo checkMemIdExists(String memId) {
+
+        UserInfo userInfo = new UserInfo();
+        userInfo = memberRepository.findUserByMemId(memId);
+
+        if(userInfo != null) {
+            return userInfo;
         }
+        else {
+            return null;
+        }
+
     }
 
     /**
