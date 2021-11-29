@@ -1,12 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store/index";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    redirect: "/main",
+    redirect: store.state.loginSuccess ? "/main" : "/login",
   },
   {
     path: "/main",

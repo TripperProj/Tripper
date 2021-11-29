@@ -2,25 +2,30 @@
   <div class="content">
     <h2>동행자 찾기</h2>
     <div class="search-condition">
-      <input type="text" class="find-mate" />
-      <div>
-        <router-link to="/writeBoard"> 동행자 찾기 글 쓰기</router-link>
+      <div class="find-mate-search">
+        <form @submit.prevent="" class="find-mate-form">
+          <div class="destination">
+            <div>목적지</div>
+            <input type="text" />
+          </div>
+          <div class="check-in">
+            <div>체크인</div>
+            <input type="text" placeholder="체크인 날짜" />
+          </div>
+          <div class="check-out">
+            <div>체크아웃</div>
+            <input type="text" placeholder="체크아웃 날짜" />
+          </div>
+          <div class="num-of-people">
+            <div>인원</div>
+            <input type="text" />
+          </div>
+          <button>검색</button>
+        </form>
       </div>
     </div>
-    <div class="find-mate-list">
-      <div class="board">
-        <div>
-          <h3>글제목</h3>
-          <h4>목적지 : {{ board.destination }}</h4>
-        </div>
-        <div class="board-content">
-          <span>{{ board.title }}</span>
-        </div>
-        <div>
-          <h5>추천 수 : {{ board.likes }}</h5>
-          <h5>조회 수 : {{ board.hits }}</h5>
-        </div>
-      </div>
+    <div>
+      <router-link to="/writeBoard"> 동행자 찾기 글 쓰기</router-link>
     </div>
   </div>
 </template>
