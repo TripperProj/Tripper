@@ -1,4 +1,4 @@
-package com.tripper.domain.hotel;
+package com.tripper.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
@@ -12,11 +12,11 @@ import lombok.ToString;
 @ApiModel(value = "크롤링한 호텔 정보를 갖고있는 클래스")
 @Getter @Setter
 @ToString
-public class HotelInfo {
+public class GetHotelDto {
     private String name;
     private String imgsrc;
     private String lowestprice;
 
-    public HotelInfo() {
+    public GetHotelDto() {
     }
 }

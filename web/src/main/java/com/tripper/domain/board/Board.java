@@ -1,6 +1,7 @@
 package com.tripper.domain.board;
 
-import com.tripper.domain.user.UserInfo;
+import com.tripper.domain.user.User;
+import com.tripper.dto.request.CreateBoardDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter @Setter
-public class BoardInfo {
+public class Board {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "board_id")
@@ -33,34 +34,34 @@ public class BoardInfo {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
-    private UserInfo userInfo;
+    private User user;
 
     /* 연관관계 메서드 */
     /**
      * 사용자 정보 세팅
-     * @param userInfo
+     * @param user
      */
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
-        userInfo.getBoards().add(this);
+    public void setUser(User user) {
+        this.user = user;
+        user.getBoards().add(this);
     }
 
     /* 생성 메서드 */
     /**
      * 글 등록하는 함수
     */
-    public static BoardInfo createBoard(BoardForm form, UserInfo userInfo) {
-        BoardInfo boardInfo = new BoardInfo();
-        boardInfo.setUserInfo(userInfo);
-        boardInfo.setTitle(form.getTitle());
-        boardInfo.setDestination(form.getDestination());
-        boardInfo.setRecruitment(form.getRecruitment());
-        boardInfo.setContent(form.getContent());
-        boardInfo.setStatus(BoardStatus.OPEN);
-        boardInfo.setHits(0);
-        boardInfo.setLikes(0);
-        boardInfo.setDateTime(LocalDateTime.now());
-        return boardInfo;
+    public static Board createBoard(CreateBoardDto form, User user) {
+        Board board = new Board();
+        board.setUser(user);
+        board.setTitle(form.getTitle());
+        board.setDestination(form.getDestination());
+        board.setRecruitment(form.getRecruitment());
+        board.setContent(form.getContent());
+        board.setStatus(BoardStatus.OPEN);
+        board.setHits(0);
+        board.setLikes(0);
+        board.setDateTime(LocalDateTime.now());
+        return board;
     }
 
 }
