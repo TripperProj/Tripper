@@ -4,14 +4,14 @@ module.exports = {
       "/login": {
         target: "http://localhost:8089",
         changeOrigin: true,
+        secure: false,
+        logLevel: "debug",
       },
       "/user": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
+        target: process.env.VUE_APP_API_URL,
       },
       "/board": {
         target: process.env.VUE_APP_API_URL,
-        changeOrigin: true,
       },
     },
   },

@@ -18,16 +18,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * @author HanJiyoung
- * Security 관련 설정 클래스
+ *         Security 관련 설정 클래스
  */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    @Autowired private UserDetailsService jwtUserDetailsService;
-    @Autowired private JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    @Autowired
+    private UserDetailsService jwtUserDetailsService;
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -47,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 인증을 무시할 경로 설정하는 함수
+     * 
      * @param web
      */
     @Override
@@ -56,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * http 관련 인증 설정하는 함수
+     * 
      * @param httpSecurity
      * @throws Exception
      */
