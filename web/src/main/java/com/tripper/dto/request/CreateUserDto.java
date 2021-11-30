@@ -1,4 +1,4 @@
-package com.tripper.dto;
+package com.tripper.dto.request;
 
 import com.tripper.domain.user.Role;
 import io.swagger.annotations.ApiModel;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @ApiModel(value = "회원가입 폼에 입력한 정보를 갖고있는 클래스")
 @Getter @Setter
 @RequiredArgsConstructor
-public class UserInfoDto {
+public class CreateUserDto {
 
     @ApiModelProperty(value = "로그인 시 사용할 id")
     private String memId;

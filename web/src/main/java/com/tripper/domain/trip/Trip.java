@@ -1,7 +1,7 @@
 package com.tripper.domain.trip;
 
 import com.tripper.domain.schedule.Schedule;
-import com.tripper.domain.user.UserInfo;
+import com.tripper.domain.user.User;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -23,18 +23,18 @@ public class Trip {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UserInfo userInfo;
+    private User user;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private List<Schedule> schedules = new ArrayList<>();
 
     protected Trip() {}
 
-    public Trip(String destination, LocalDate startDate, LocalDate endDate, UserInfo userInfo) {
+    public Trip(String destination, LocalDate startDate, LocalDate endDate, User user) {
         this.destination = destination;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.userInfo = userInfo;
+        this.user = user;
     }
 
     public void updateTrip(String destination, LocalDate startDate, LocalDate endDate) {
