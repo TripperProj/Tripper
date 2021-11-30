@@ -1,7 +1,7 @@
 package com.tripper.controller;
 
-import com.tripper.domain.hotel.HotelForm;
-import com.tripper.domain.hotel.HotelInfo;
+import com.tripper.dto.request.SearchHotelDto;
+import com.tripper.dto.response.GetHotelDto;
 import com.tripper.service.HotelService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +30,8 @@ public class HotelController {
             value = "호텔 크롤링"
             , notes = "호텔 크롤링 후 가져온 데이터를 뷰페이지로 넘겨준다.")
     @PostMapping("/hotel/crawling")
-    public String crawlHotel(@ModelAttribute HotelForm hotelForm, Model model){
-        List<HotelInfo> hotels = hotelService.crawlingHotels(hotelForm);
+    public String crawlHotel(@ModelAttribute SearchHotelDto searchHotelDto, Model model){
+        List<GetHotelDto> hotels = hotelService.crawlingHotels(searchHotelDto);
         model.addAttribute("hotelList", hotels);
         return "hotel/hotel_search_list";
     }
