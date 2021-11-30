@@ -38,7 +38,7 @@ export default {
   methods: {
     async submitForm() {
       const form = {
-        userid: this.userid,
+        memId: this.userid,
         password: this.password,
       };
       try {

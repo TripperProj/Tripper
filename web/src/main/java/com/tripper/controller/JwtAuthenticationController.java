@@ -39,8 +39,6 @@ public class JwtAuthenticationController {
 
         authenticate(dto.getMemId(), dto.getPassword());
 
-//        final UserDetails userDetails = userDetailsService.loadUserByUsername(CreateJwtDto.getMemId());
-//        final String token = jwtTokenUtil.generateToken(userDetails);
         final User user = userDetailsService.loadUserByUsername(dto.getMemId());
         final String token = jwtTokenUtil.generateToken(user);
 
