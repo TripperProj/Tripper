@@ -1,11 +1,15 @@
 <template>
   <div class="container">
     <h2 id="title">내 여행</h2>
-    <div class="createBtn">
+    <div class="createBtn" @click="createTrip">
       <div class="border">여행 생성</div>
     </div>
     <TripList />
-    <CreateTrip class="createTrip" />
+    <CreateTrip
+      class="createTrip"
+      v-if="createStat"
+      @changeCreateStat="changeCreateStat"
+    />
   </div>
 </template>
 
@@ -17,11 +21,23 @@ export default {
     TripList,
     CreateTrip,
   },
+  data: () => ({
+    createStat: false,
+  }),
+  methods: {
+    changeCreateStat(val) {
+      this.createStat = val;
+    },
+    createTrip() {
+      this.createStat = true;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .container {
+  position: relative;
   width: 100%;
   overflow: hidden;
   #title {
@@ -56,12 +72,5 @@ export default {
       text-align: center;
     }
   }
-}
-.createTrip {
-  // position: absolute;
-  left: 0;
-  right: 0;
-  top: 100px;
-  margin: 0 auto;
 }
 </style>
