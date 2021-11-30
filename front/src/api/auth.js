@@ -1,8 +1,8 @@
 import { instance } from "./index.js";
 
-function loginUser(form) {
-  console.log(form);
-  return instance.post(`/login`, form);
+function loginUser(formData) {
+  console.log(formData);
+  return instance.post(`/login`, formData);
 }
 function signupUser(userData) {
   console.log(userData);
