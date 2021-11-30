@@ -37,13 +37,13 @@ export default {
   },
   methods: {
     async submitForm() {
-      const form = {
-        userid: this.userid,
+      const formData = {
+        memid: this.userid,
         password: this.password,
       };
       try {
-        const { data } = await loginUser(form);
-        console.log(data);
+        const { data } = await loginUser(formData);
+        localStorage.setItem("jwttoken", data.jwttoken);
       } catch (error) {
         console.log(error);
       }

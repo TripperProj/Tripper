@@ -7,14 +7,14 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: store.state.loginSuccess ? "/main" : "/login",
+    redirect: store.state.loginSuccess ? "/main" : "/auth",
   },
   {
     path: "/main",
     component: () => import("@/views/MainPage.vue"),
   },
   {
-    path: "/login",
+    path: "/auth",
     component: () => import("@/views/LoginPage.vue"),
   },
   {
