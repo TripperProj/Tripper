@@ -44,7 +44,7 @@ public class UserController {
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String signup(@RequestBody @ApiParam(value = "회원가입 폼에 입력한 정보를 담고있는 객체") CreateUserDto dto) {
 
-//        createUserDto.setAuth(Role.ROLE_NOTCERTIFIED);
+        dto.setAuth(Role.ROLE_NOTCERTIFIED);
         userService.save(dto);
 
         return "ok";
@@ -58,13 +58,9 @@ public class UserController {
     @GetMapping(value = "/checkExists")
     public String checkMemIdExists(@ApiParam(value = "중복체크를 실행할 아이디") @Param("memId") String memId) {
 
-        User user = userService.checkMemIdExists(memId);
+        String rslt = userService.checkMemIdExists(memId);
 
-        if(user != null) { // 아이디 중복이면
-            return "fail";
-        }
-
-        return "ok";
+        return rslt;
     }
 
     @ApiOperation(
@@ -100,11 +96,12 @@ public class UserController {
 
         /* 현재 로그인한 사용자 정보 가져오기 */
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        User user = userService.loadUserByUsername(userDetails.getUsername());
+        log.info("getusername: " + userDetails.getUsername());
+        User user = userService.findUserByMemId(userDetails.getUsername());
 
         /* 해당 사용자의 db에 저장돼있는 이메일로 메일 전송 */
-        CreateEmailDto createEmailDto = emailService.createMailAndChangeAuth(user.getEmail(), user.getMemId());
-        emailService.mailSend(createEmailDto);
+        CreateEmailDto dto = emailService.createMailAndChangeAuth(user.getEmail(), user.getMemId());
+        emailService.mailSend(dto);
 
     }
 
