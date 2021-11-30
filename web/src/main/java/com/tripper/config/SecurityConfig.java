@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 /* 인증 필요 없는 요청 */
-                .antMatchers("/", "/login","/signup").permitAll()
+                .antMatchers("/", "/login", "/user/signup", "/user/checkExists").permitAll()
                 /* 다른 요청들은 인증 필요 */
                 .anyRequest().authenticated()
                 .and()
