@@ -50,17 +50,18 @@ public class UserService implements UserDetailsService {
     /**
      * 아이디 중복체크 하는 함수
      */
-    public User checkMemIdExists(String memId) {
+    public String checkMemIdExists(String memId) {
 
         User user = userRepository.findByMemId(memId);
+        String rslt = "";
 
         if(user != null) {
-            return user;
+            rslt = "fail";
         }
-        else {
-            return null;
+        else if(user == null) {
+            rslt = "ok";
         }
-
+        return rslt;
     }
 
     /**
