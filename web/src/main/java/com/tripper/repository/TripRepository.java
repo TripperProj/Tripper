@@ -11,5 +11,5 @@ import java.util.List;
  */
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
-    List<Trip> findByUserInfo_MemId(String memId);
+    List<Trip> findByUser_MemId(String memId);
 }

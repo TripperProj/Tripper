@@ -1,7 +1,7 @@
 package com.tripper.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tripper.domain.board.BoardInfo;
+import com.tripper.domain.board.Board;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.util.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.PROTECTED;
 
 /**
  * @author HanJiyoung
@@ -19,8 +18,8 @@ import static lombok.AccessLevel.PROTECTED;
  */
 @NoArgsConstructor
 @Entity
-@Getter
-public class UserInfo implements UserDetails {
+@Getter @Setter
+public class User implements UserDetails {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "user_id")
@@ -45,14 +44,18 @@ public class UserInfo implements UserDetails {
     private String nickname;
 
     @Column(nullable = false)
-    private String auth;
+    @Enumerated(EnumType.STRING)
+    private Role auth;
+
+    @Column
+    private String emailAuthCode;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userInfo")
-    private List<BoardInfo> boards = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Board> boards = new ArrayList<>();
 
     @Builder
-    public UserInfo(String memId, String password, String name, String phone, String email, String nickname, String auth) {
+    public User(String memId, String password, String name, String phone, String email, String nickname, Role auth) {
         this.memId = memId;
         this.password = password;
         this.name = name;
@@ -62,13 +65,15 @@ public class UserInfo implements UserDetails {
         this.auth = auth;
     }
 
-   @Override
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         Set<GrantedAuthority> roles = new HashSet<>();
-        for(String role : auth.split(",")) {
+        for(String role : auth.toString().split("_")) {
             roles.add(new SimpleGrantedAuthority(role));
         }
         return roles;
+
     }
 
     @Override
