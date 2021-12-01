@@ -5,6 +5,8 @@
         <div class="board-head">
           <input type="text" placeholder="제목" v-model="board.title" />
           <input type="text" placeholder="목적지" v-model="board.destination" />
+          <input type="text" placeholder="여행시작일" v-model="board.start" />
+          <input type="text" placeholder="여행종료일" v-model="board.end" />
           <input
             type="text"
             placeholder="인원 수"
@@ -30,6 +32,8 @@ export default {
         destination: "",
         content: "",
         recrutiment: "",
+        start: "",
+        end: "",
       },
     };
   },

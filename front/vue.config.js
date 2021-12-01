@@ -1,9 +1,10 @@
 module.exports = {
   devServer: {
+    overlay: false,
     port: 8900,
     proxy: {
       "/login": {
-        target: "http://localhost:8089",
+        target: process.env.VUE_APP_API_URL,
         changeOrigin: true,
         secure: false,
         logLevel: "debug",
@@ -14,6 +15,7 @@ module.exports = {
       },
       "/board": {
         target: process.env.VUE_APP_API_URL,
+        changeOrigin: true,
       },
     },
   },

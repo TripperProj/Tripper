@@ -1,1 +1,83 @@
-/* No CSS *//*# sourceMappingURL=community.css.map */
+.community-content {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.community-content h2 {
+  text-align: center;
+}
+
+.community-content .content-wrapper {
+  max-width: 800px;
+  background: white;
+  -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 5px 15px;
+  width: 80%;
+  margin: 40px auto;
+}
+
+.community-content .content-wrapper .search-condition .find-mate-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.community-content .content-wrapper .search-condition .find-mate-form input {
+  font-family: inherit;
+  font-size: 100%;
+  width: 75%;
+  border: 1px solid #dae1e7;
+  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.community-content .content-wrapper .search-condition .find-mate-form .board-search-btn {
+  width: 50px;
+  height: 35px;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  background: lightblue;
+  border-radius: .25rem;
+  border: 0 solid #dae1e7;
+  font-weight: 700;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.board-list-wrapper .find-mate-list .board-list .board-column {
+  background: white;
+  -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 15x 10px;
+  margin: 15px 5px;
+  list-style: none;
+}
+
+.board-list-wrapper .find-mate-list .board-list .board-column .title-box {
+  padding: 10px 10px;
+}
+
+.board-list-wrapper .find-mate-list .board-list .board-column .title-box .title {
+  font-size: 25px;
+}
+
+.board-list-wrapper .find-mate-list .board-list .board-column .title-box .destination {
+  font-size: 15px;
+  opacity: 50%;
+}
+
+.board-list-wrapper .find-mate-list .board-list .board-column .title-box .date {
+  -ms-flex-item-align: right;
+      -ms-grid-row-align: right;
+      align-self: right;
+}
+/*# sourceMappingURL=community.css.map */

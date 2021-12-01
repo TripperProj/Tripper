@@ -6,7 +6,7 @@ function loginUser(formData) {
 }
 function signupUser(userData) {
   console.log(userData);
-  const response = instance.post("/user", userData);
+  const response = instance.post("/user/signup", userData);
   return response.code;
 }
 function socialSignupUser(userData) {
