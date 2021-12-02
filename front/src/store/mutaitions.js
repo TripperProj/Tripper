@@ -1,5 +1,5 @@
 export default {
-  SET_BOARD(state, boardList) {
-    state.board = boardList;
+  SET_TOKEN(state, token) {
+    state.token = token;
   },
 };

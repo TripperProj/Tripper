@@ -1,29 +1,25 @@
-import { instance } from "./index";
+import { board } from "./index";
 
 function createPost(postData) {
-  return instance.post("/board/create", postData);
+  return board.post("/create", postData);
 }
 function deletePost(postId) {
-  return instance.delete(`/board/post/${postId}/delete`);
+  return board.delete(`/post/${postId}/delete`);
 }
 function infoPost(postId) {
-  return instance.get(`/board/post/${postId}`);
+  return board.get(`/post/${postId}`);
 }
 function editPost(postData) {
-  return instance.post(`/board/post/${postData.postId}/update`, postData);
+  return board.post(`/post/${postData.postId}/update`, postData);
 }
 function fetchBoardList() {
-  const token = localStorage.getItem("jwtToken");
-  console.log(token);
-  instance.defaults.headers.common["Authorization"] = token;
-
-  return instance.get("/board/list");
+  return board.get(`/list`);
 }
 function addLikes(boardId) {
-  return instance.get(`/board/post/${boardId}/addLikes`);
+  return board.get(`/post/${boardId}/addLikes`);
 }
 function subLikes(boardId) {
-  return instance.get(`/board/post/${boardId}/subtrackLikes`);
+  return board.get(`/post/${boardId}/subtrackLikes`);
 }
 export {
   createPost,

@@ -4,4 +4,5 @@ export default {
   loginError: false,
   username: null,
   board: [],
+  token: "",
 };

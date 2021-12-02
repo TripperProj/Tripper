@@ -2,18 +2,14 @@
   <div class="board-list-wrapper">
     <div class="find-mate-list">
       <ul class="board-list">
-        <li
-          class="board-column"
-          v-bind:key="board.id"
-          v-for="board in this.$store.state.boards"
-        >
+        <li class="board-column">
           <div class="board-item">
             <div class="title-box">
-              <span class="title">{{ board.title }}</span>
-              <span class="destination"> 목적지 : {{ board.destination }}</span>
-              <span class="date"> {{ board.start }} - {{ board.end }} </span>
+              <span class="title"></span>
+              <span class="destination"> 목적지 : </span>
+              <span class="date"> </span>
             </div>
-            <router-link to=""> {{ board.content }}</router-link>
+            <router-link to=""> </router-link>
           </div>
         </li>
       </ul>
@@ -22,14 +18,23 @@
 </template>
 
 <script>
+import { fetchBoardList } from "@/api/board";
+
 export default {
   data() {
-    return {};
+    return {
+      boards: [],
+    };
+  },
+  methods: {
+    async fetchBoard() {
+      const { data } = await fetchBoardList();
+      console.log(data);
+    },
   },
   created() {
-    this.$store.dispatch("FETCH_BOARD");
+    this.fetchBoard();
   },
-  methods: {},
 };
 </script>
 

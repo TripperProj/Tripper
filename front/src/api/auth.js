@@ -1,20 +1,10 @@
 import { instance } from "./index.js";
+import store from "@/store/index";
 
-function loginUser(formData) {
-  let data;
-  instance
-    .post(`/login`, formData)
-    .then((response) => {
-      console.log(response);
-      data = response;
-      localStorage.setItem("jwtToken", response.data.jwttoken);
-      instance.defaults.headers.common["Authorization"] =
-        response.data.jwttoken;
-    })
-    .catch((error) => {
-      console.log("auth_api_error" + error);
-    });
-  return data;
+async function loginUser(formData) {
+  const response = await instance.post("/login", formData);
+  store.state.token = response.data.token;
+  return;
 }
 function signupUser(userData) {
   console.log(userData);
