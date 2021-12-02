@@ -1,6 +1,5 @@
-package com.tripper.domain.schedule;
+package com.tripper.domain.trip;
 
-import com.tripper.domain.trip.Trip;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -32,7 +31,6 @@ public class Schedule {
         this.startTime = startTime;
         this.endTime = endTime;
         this.trip = trip;
-        trip.getSchedules().add(this);  // 연관관계 설정
     }
 
     public void updateSchedule(String name, String content, LocalDateTime startTime, LocalDateTime endTime) {
