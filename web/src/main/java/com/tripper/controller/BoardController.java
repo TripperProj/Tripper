@@ -2,26 +2,25 @@ package com.tripper.controller;
 
 import com.tripper.dto.request.CreateBoardDto;
 import com.tripper.domain.board.Board;
+import com.tripper.dto.response.GetBoardListDto;
 import com.tripper.service.BoardService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 /**
  * @author HanJiyoung
  * '여행 메이트 찾기 게시판' 기능 컨트롤러 클래스
  */
+@Api(tags = "여행메이트 찾기 게시판 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board")
@@ -56,14 +55,10 @@ public class BoardController {
     @ApiOperation(
             value = "게시글 목록"
             , notes = "db에서 게시글 목록을 가져온 후 뷰페이지로 넘겨준다.")
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/list")
-    public String getBoardList(Model model) {
-
-        List<Board> boards = boardService.findAllBoards();
-        model.addAttribute("boards", boards);
-
-        return "boardList";
+    public ResponseEntity<GetBoardListDto> getBoardList() {
+        GetBoardListDto boards = boardService.findAllBoards();
+        return ResponseEntity.ok().body(boards);
 
     }
 

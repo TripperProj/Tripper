@@ -3,6 +3,8 @@ package com.tripper.service;
 import com.tripper.dto.request.CreateBoardDto;
 import com.tripper.domain.board.Board;
 import com.tripper.domain.user.User;
+import com.tripper.dto.response.GetBoardDto;
+import com.tripper.dto.response.GetBoardListDto;
 import com.tripper.repository.BoardRepository;
 import com.tripper.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,8 +46,14 @@ public class BoardService {
      * 게시판 글 전체 조회하는 함수
      * @return 조회한 게시판 글 목록
      */
-    public List<Board> findAllBoards() {
-        return boardRepository.findAll();
+    public GetBoardListDto findAllBoards() {
+        List<Board> boards = boardRepository.findAll();
+        List<GetBoardDto> getBoardDtoList = new ArrayList<>();
+        for (Board board : boards) {
+            GetBoardDto getBoardDto = new GetBoardDto(board.getId(), board.getTitle(), board.getDestination(), board.getRecruitment(), board.getStartDate(), board.getEndDate(), board.getContent());
+            getBoardDtoList.add(getBoardDto);
+        }
+        return new GetBoardListDto(getBoardDtoList);
     }
 
     /**
