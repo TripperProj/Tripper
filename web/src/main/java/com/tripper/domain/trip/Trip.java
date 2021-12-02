@@ -1,12 +1,12 @@
 package com.tripper.domain.trip;
 
 import com.tripper.domain.budget.Budget;
-import com.tripper.domain.schedule.Schedule;
 import com.tripper.domain.user.UserInfo;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,5 +49,55 @@ public class Trip {
 
     public void setBudget(Budget budget){
         this.budget = budget;
+    }
+
+    public void addSchedule(Schedule schedule) {
+        int i = 0;
+        for (; i < this.schedules.size(); i++){
+            if(schedules.get(i).getEndTime().isAfter(schedule.getStartTime())) {
+                break;
+            }
+        }
+
+        if (i == this.schedules.size()) {
+            schedules.add(i, schedule);
+        } else if (schedules.get(i).getStartTime().isAfter(schedule.getEndTime())) {
+            schedules.add(i, schedule);
+        } else {
+            throw new IllegalArgumentException("일정이 겹칩니다.");
+        }
+    }
+
+    public void updateSchedule(Long scheduleId, String name, String content,
+                               LocalDateTime startTime, LocalDateTime endTime) {
+        int i = 0;
+        for (; i < this.schedules.size(); i++){
+            if(schedules.get(i).getId().equals(scheduleId)) {
+                break;
+            }
+        }
+
+        if (i == 0) {
+            if (endTime.isAfter(schedules.get(i+1).getStartTime())) {
+                throw new IllegalArgumentException("일정이 겹칩니다.");
+            }
+        } else if (i == schedules.size()-1) {
+            if (startTime.isBefore(schedules.get(i-1).getEndTime())) {
+                throw new IllegalArgumentException("일정이 겹칩니다.");
+            }
+        } else {
+            if (endTime.isAfter(schedules.get(i+1).getStartTime()) ||
+                    startTime.isBefore(schedules.get(i-1).getEndTime())) {
+                throw new IllegalArgumentException("일정이 겹칩니다.");
+            }
+        }
+
+        schedules.get(i).updateSchedule(name, content, startTime, endTime);
+    }
+
+    public void deleteSchedule(Long scheduleId) {
+        if (!this.schedules.removeIf(schedule -> schedule.getId().equals(scheduleId))) {
+            throw new IllegalArgumentException("존재하지 않는 일정입니다.");
+        }
     }
 }
