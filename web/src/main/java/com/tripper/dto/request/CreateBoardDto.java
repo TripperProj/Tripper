@@ -20,6 +20,12 @@ public class CreateBoardDto {
     @ApiModelProperty(value = "모집 인원수")
     private int recruitment;
 
+    @ApiModelProperty(value = "여행 시작일")
+    private String startDate;
+
+    @ApiModelProperty(value = "여행 종료일")
+    private String endDate;
+
     @ApiModelProperty(value = "글 내용")
     private String content;
     
