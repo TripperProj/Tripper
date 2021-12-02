@@ -1,7 +1,7 @@
 package com.tripper.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tripper.domain.board.BoardInfo;
+import com.tripper.domain.board.Board;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.util.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.PROTECTED;
 
 /**
  * @author HanJiyoung
@@ -20,7 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor
 @Entity
 @Getter @Setter
-public class UserInfo implements UserDetails {
+public class User implements UserDetails {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "user_id")
@@ -52,11 +51,11 @@ public class UserInfo implements UserDetails {
     private String emailAuthCode;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userInfo")
-    private List<BoardInfo> boards = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Board> boards = new ArrayList<>();
 
     @Builder
-    public UserInfo(String memId, String password, String name, String phone, String email, String nickname, Role auth) {
+    public User(String memId, String password, String name, String phone, String email, String nickname, Role auth) {
         this.memId = memId;
         this.password = password;
         this.name = name;

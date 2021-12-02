@@ -2,8 +2,8 @@ package com.tripper.service;
 
 import com.tripper.domain.trip.Schedule;
 import com.tripper.domain.trip.Trip;
-import com.tripper.domain.user.UserInfo;
 import com.tripper.dto.request.CreateScheduleDto;
+import com.tripper.domain.user.User;
 import com.tripper.dto.request.CreateTripDto;
 import com.tripper.dto.request.UpdateScheduleDto;
 import com.tripper.dto.request.UpdateTripDto;
@@ -11,8 +11,8 @@ import com.tripper.dto.response.GetScheduleDto;
 import com.tripper.dto.response.GetScheduleListDto;
 import com.tripper.dto.response.GetTripDto;
 import com.tripper.dto.response.GetTripListDto;
-import com.tripper.repository.MemberRepository;
 import com.tripper.repository.TripRepository;
+import com.tripper.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,12 +26,12 @@ import java.util.List;
 public class TripService {
 
     private final TripRepository tripRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
     public void createTrip(CreateTripDto dto, String memId){
-        UserInfo userInfo = memberRepository.findUserByMemId(memId);
+        User user = userRepository.findByMemId(memId);
         Trip tripInfo = new Trip(dto.getDestination(),
-                dto.getStartDate(), dto.getEndDate(), userInfo);
+                dto.getStartDate(), dto.getEndDate(), user);
 
         tripRepository.save(tripInfo);
     }
@@ -45,7 +45,7 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public GetTripListDto getTrips(String memId) {
-        List<Trip> byUserInfo_memId = tripRepository.findByUserInfo_MemId(memId);
+        List<Trip> byUserInfo_memId = tripRepository.findByUser_MemId(memId);
 
         List<GetTripDto> tripInfoDtoList = new ArrayList<>();
         for (Trip tripInfo : byUserInfo_memId) {

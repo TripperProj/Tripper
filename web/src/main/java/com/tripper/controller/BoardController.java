@@ -1,16 +1,17 @@
 package com.tripper.controller;
 
-import com.tripper.domain.board.BoardForm;
-import com.tripper.domain.board.BoardInfo;
+import com.tripper.dto.request.CreateBoardDto;
+import com.tripper.domain.board.Board;
 import com.tripper.service.BoardService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +33,10 @@ public class BoardController {
     @ApiOperation(
             value = "게시글 등록"
             , notes = "게시글 폼에서 입력한 정보로 글 등록을 실행한다.")
-    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "ok: 글 등록 성공.") })
     @PostMapping("/create")
     public String create(Authentication authentication,
-                         @RequestBody @ApiParam(value = "게시글 폼에 입력한 정보를 담고있는 객체") BoardForm form,
+                         @RequestBody @ApiParam(value = "게시글 폼에 입력한 정보를 담고있는 객체") CreateBoardDto dto,
                          BindingResult result) {
 
         if (result.hasErrors()) {
@@ -46,9 +47,9 @@ public class BoardController {
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 
         /* 글 등록하기 */
-        boardService.registerPost(form, userDetails.getUsername());
+        boardService.registerPost(dto, userDetails.getUsername());
 
-        return "redirect:/";
+        return "ok";
 
     }
 
@@ -59,7 +60,7 @@ public class BoardController {
     @GetMapping("/list")
     public String getBoardList(Model model) {
 
-        List<BoardInfo> boards = boardService.findAllBoards();
+        List<Board> boards = boardService.findAllBoards();
         model.addAttribute("boards", boards);
 
         return "boardList";
@@ -74,7 +75,7 @@ public class BoardController {
     public String goBoardPost(@PathVariable("board_id") @ApiParam(value = "조회할 게시글의 고유 id") Long board_id,
                               Model model) {
 
-        BoardInfo board = boardService.findByBoardId(board_id);
+        Board board = boardService.findByBoardId(board_id);
         model.addAttribute("board", board);
 
         return "boardPost";
@@ -115,13 +116,13 @@ public class BoardController {
     public String updatePost(@PathVariable("board_id") @ApiParam(value = "수정할 게시글의 고유 id") Long board_id,
                              Model model) {
 
-        BoardInfo boardInfo = boardService.findByBoardId(board_id);
+        Board board = boardService.findByBoardId(board_id);
 
-        BoardForm form = new BoardForm();
-        form.setTitle(boardInfo.getTitle());
-        form.setDestination(boardInfo.getDestination());
-        form.setRecruitment(boardInfo.getRecruitment());
-        form.setContent(boardInfo.getContent());
+        CreateBoardDto form = new CreateBoardDto();
+        form.setTitle(board.getTitle());
+        form.setDestination(board.getDestination());
+        form.setRecruitment(board.getRecruitment());
+        form.setContent(board.getContent());
 
         model.addAttribute("form", form);
         model.addAttribute("board_id", board_id);
@@ -135,9 +136,9 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/post/{board_id}/update")
     public String updateItem(@PathVariable @ApiParam(value = "수정할 게시글의 고유 id") Long board_id,
-                             @RequestBody @ApiParam(value = "게시글 수정 폼에 입력한 정보를 갖고있는 객체") @ModelAttribute("form") BoardForm form) {
+                             @RequestBody @ApiParam(value = "게시글 수정 폼에 입력한 정보를 갖고있는 객체") @ModelAttribute("form") CreateBoardDto dto) {
 
-        boardService.updatePost(board_id, form.getTitle(), form.getDestination(), form.getRecruitment(), form.getContent());
+        boardService.updatePost(board_id, dto.getTitle(), dto.getDestination(), dto.getRecruitment(), dto.getContent());
 
         return "redirect:/board/post/{board_id}";
 

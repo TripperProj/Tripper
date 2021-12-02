@@ -1,4 +1,4 @@
-package com.tripper.domain.hotel;
+package com.tripper.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @ApiModel(value = "호텔 검색 폼에 입력한 정보를 갖고있는 dto 클래스")
 @Getter @Setter
-public class HotelForm {
+public class SearchHotelDto {
 
     @ApiModelProperty(value = "여행지")
     private String location;
@@ -24,7 +24,7 @@ public class HotelForm {
     @ApiModelProperty(value = "아동 인원수")
     private String child;
 
-    public HotelForm(String location, String checkin, String checkout, String adult, String child) {
+    public SearchHotelDto(String location, String checkin, String checkout, String adult, String child) {
         this.location = location;
         this.checkin = checkin;
         this.checkout = checkout;
