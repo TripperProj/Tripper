@@ -35,30 +35,11 @@
 </template>
 
 <script>
-import { postList } from "@/api/board.js";
 export default {
   data() {
-    return {
-      board: {
-        id: "",
-        title: "제주도 같이가실분",
-        destination: "제주",
-        content: "",
-        likes: 0,
-        hits: 0,
-      },
-    };
+    return {};
   },
-  methods: {
-    async boardList() {
-      try {
-        const boardList = postList();
-        return boardList;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  },
+  methods: {},
   created() {},
 };
 </script>

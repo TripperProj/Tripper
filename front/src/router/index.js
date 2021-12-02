@@ -11,18 +11,22 @@ const routes = [
   },
   {
     path: "/main",
+    name: "main",
     component: () => import("@/views/MainPage.vue"),
   },
   {
     path: "/auth",
+    name: "auth",
     component: () => import("@/views/LoginPage.vue"),
   },
   {
     path: "/signup",
+    name: "signup",
     component: () => import("@/views/SignupPage.vue"),
   },
   {
     path: "/findroom",
+    name: "findroom",
     component: () => import("@/views/FindRoomPage.vue"),
     meta: {
       auth: true,
@@ -30,6 +34,7 @@ const routes = [
   },
   {
     path: "/community",
+    name: "community",
     component: () => import("@/views/CommunityPage.vue"),
     meta: {
       auth: true,
@@ -50,13 +55,15 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
   routes,
 });
 
 router.beforeEach((to, from, next) => {
-  to.meta.auth && !store.state.loginSuccess ? next("/auth") : "";
-  console.log(from, next);
+  if (to.meta.auth) {
+    store.state.loginSuccess ? next() : next("auth");
+  } else {
+    next();
+  }
 });
 
 export default router;

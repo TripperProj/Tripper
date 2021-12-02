@@ -12,7 +12,11 @@ function infoPost(postId) {
 function editPost(postData) {
   return instance.post(`/board/post/${postData.postId}/update`, postData);
 }
-function postList() {
+function fetchBoardList() {
+  const token = localStorage.getItem("jwtToken");
+  console.log(token);
+  instance.defaults.headers.common["Authorization"] = token;
+
   return instance.get("/board/list");
 }
 function addLikes(boardId) {
@@ -25,7 +29,7 @@ export {
   createPost,
   deletePost,
   editPost,
-  postList,
+  fetchBoardList,
   infoPost,
   addLikes,
   subLikes,

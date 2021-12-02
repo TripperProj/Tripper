@@ -1,8 +1,20 @@
 import { instance } from "./index.js";
 
 function loginUser(formData) {
-  console.log(formData);
-  return instance.post(`/login`, formData);
+  let data;
+  instance
+    .post(`/login`, formData)
+    .then((response) => {
+      console.log(response);
+      data = response;
+      localStorage.setItem("jwtToken", response.data.jwttoken);
+      instance.defaults.headers.common["Authorization"] =
+        response.data.jwttoken;
+    })
+    .catch((error) => {
+      console.log("auth_api_error" + error);
+    });
+  return data;
 }
 function signupUser(userData) {
   console.log(userData);

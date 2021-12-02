@@ -1,3 +1,5 @@
 export default {
-  SET_BOARD() {},
+  SET_BOARD(state, boardList) {
+    state.board = boardList;
+  },
 };

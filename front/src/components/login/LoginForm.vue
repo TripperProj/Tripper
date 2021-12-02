@@ -38,12 +38,13 @@ export default {
   methods: {
     async submitForm() {
       const formData = {
-        memid: this.userid,
+        memId: this.userid,
         password: this.password,
       };
       try {
-        const { data } = await loginUser(formData);
-        localStorage.setItem("jwttoken", data.jwttoken);
+        await loginUser(formData);
+        this.$store.state.loginSuccess = true;
+        this.$router.push("/community");
       } catch (error) {
         console.log(error);
       }
