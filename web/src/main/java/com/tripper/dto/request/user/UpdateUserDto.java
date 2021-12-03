@@ -1,4 +1,4 @@
-package com.tripper.dto.request;
+package com.tripper.dto.request.user;
 
 import com.tripper.domain.user.Role;
 import io.swagger.annotations.ApiModel;
@@ -7,19 +7,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@ApiModel(value = "회원가입 폼에 입력한 정보를 갖고있는 클래스")
+@ApiModel(value = "회원 수정 폼 Request DTO")
 @Getter @Setter
 @RequiredArgsConstructor
-public class CreateUserDto {
-
-    @ApiModelProperty(value = "로그인 시 사용할 id")
-    private String memId;
+public class UpdateUserDto {
 
     @ApiModelProperty(value = "비밀번호")
     private String password;
-
-    @ApiModelProperty(value = "사용자 이름")
-    private String name;
 
     @ApiModelProperty(value = "사용자 전화번호")
     private String phone;
