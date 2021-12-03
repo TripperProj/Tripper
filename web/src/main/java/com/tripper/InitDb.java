@@ -1,6 +1,6 @@
 package com.tripper;
 
-import com.tripper.dto.request.CreateBoardDto;
+import com.tripper.dto.request.board.CreateBoardDto;
 import com.tripper.domain.board.Board;
 import com.tripper.domain.user.Role;
 import com.tripper.domain.user.User;

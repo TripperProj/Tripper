@@ -3,8 +3,9 @@ package com.tripper.controller;
 import com.tripper.config.JwtTokenUtil;
 import com.tripper.domain.user.User;
 import com.tripper.service.JwtUserDetailsService;
-import com.tripper.dto.request.CreateJwtDto;
-import com.tripper.dto.response.GetJwtDto;
+import com.tripper.dto.request.user.CreateJwtDto;
+import com.tripper.dto.response.user.GetJwtDto;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Jwt 인증 관련 컨트롤러 클래스
  */
+@Api(tags = "웹토큰 API")
 @RestController
 @CrossOrigin
 public class JwtAuthenticationController {
