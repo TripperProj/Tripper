@@ -1,27 +1,34 @@
 <template>
   <drag-it-dude class="form" @submit.prevent="submitForm">
     <div class="els">
-      <h2>여행생성</h2>
+      <h2>스케줄 추가</h2>
       <input
         class="elInput"
         type="text"
-        id="title"
-        placeholder="여행제목"
-        v-model="trip.title"
+        id="name"
+        placeholder="일정명"
+        v-model="list.title"
       />
       <date-picker
         class="elPicker"
         valueType="format"
-        v-model="trip.startDate"
-        range
-        placeholder="여행기간"
+        v-model="list.start_time"
+        type="datetime"
+        placeholder="시작시간"
+      ></date-picker>
+      <date-picker
+        class="elPicker"
+        valueType="format"
+        v-model="list.end_time"
+        type="datetime"
+        placeholder="종료시간"
       ></date-picker>
       <textarea
         class="elArea elInput"
         type=""
         id="memo"
-        placeholder="자유롭게 메모를 작성해보세요 :)"
-        v-model="trip.memo"
+        placeholder="자유롭게 내용을 작성해보세요 :)"
+        v-model="list.content"
       />
       <button class="btn" type="submit" @click="create">생성하기</button>
     </div>
@@ -34,11 +41,11 @@ import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 export default {
   data: () => ({
-    trip: {
-      title: "",
-      startDate: "",
-      endDate: "",
-      memo: "",
+    list: {
+      name: "",
+      start_time: "",
+      end_time: "",
+      content: "",
     },
   }),
   components: {
@@ -57,7 +64,7 @@ export default {
 
 <style lang="scss" scoped>
 .form {
-  height: 430px;
+  height: 500px;
   z-index: 4;
   background: #d8f3ff;
   border-radius: 10px;
@@ -99,6 +106,7 @@ h2 {
   }
   .elPicker {
     height: 50px;
+    width: 100%;
   }
 }
 

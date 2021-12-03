@@ -16,6 +16,7 @@
 <script>
 import TripList from "@/components/scheduler/TripList.vue";
 import CreateTrip from "@/components/scheduler/CreateTrip.vue";
+
 export default {
   components: {
     TripList,
@@ -39,6 +40,7 @@ export default {
 .container {
   position: relative;
   width: 100%;
+  height: 100vh;
   overflow: hidden;
   #title {
     text-align: center;
@@ -59,6 +61,7 @@ export default {
     z-index: 1;
     &:hover {
       cursor: pointer;
+      background: #f99ec0;
       box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.3);
       position: relative;
       bottom: 9px;

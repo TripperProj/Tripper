@@ -18,12 +18,6 @@ export default {
       { title: "우정여행 제주도", memo: "3년만에 떠나는 우정여행" },
       { title: "부산", memo: "한번도 못가본거 실화냐?" },
       { title: "울산", memo: "회 파나,,?" },
-      { title: "우정여행 제주도", memo: "3년만에 떠나는 우정여행" },
-      { title: "부산", memo: "한번도 못가본거 실화냐?" },
-      { title: "울산", memo: "회 파나,,?" },
-      { title: "우정여행 제주도", memo: "3년만에 떠나는 우정여행" },
-      { title: "부산", memo: "한번도 못가본거 실화냐?" },
-      { title: "울산", memo: "회 파나,,?" },
     ],
   }),
 };
@@ -32,6 +26,7 @@ export default {
 <style lang="scss" scoped>
 .container {
   width: 100%;
+  height: fit-content;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -63,6 +58,7 @@ export default {
     box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.3);
     position: relative;
     top: 1px;
+    background: #f99ec0;
   }
 }
 </style>
