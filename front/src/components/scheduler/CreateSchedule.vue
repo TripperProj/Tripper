@@ -7,18 +7,16 @@
         type="text"
         id="name"
         placeholder="일정명"
-        v-model="list.title"
+        v-model="list.name"
       />
       <date-picker
         class="elPicker"
-        valueType="format"
         v-model="list.start_time"
         type="datetime"
         placeholder="시작시간"
       ></date-picker>
       <date-picker
         class="elPicker"
-        valueType="format"
         v-model="list.end_time"
         type="datetime"
         placeholder="종료시간"
@@ -55,7 +53,6 @@ export default {
   methods: {
     create() {
       //데이터 전송
-      console.log(this.trip.startDate);
       this.$emit("changeCreateStat", false);
     },
   },
@@ -64,7 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 .form {
-  height: 500px;
+  height: 480px;
   z-index: 4;
   background: #d8f3ff;
   border-radius: 10px;
@@ -80,9 +77,7 @@ h2 {
 .els {
   width: 400px;
   margin: 0 auto;
-  * {
-    margin-bottom: 20px;
-  }
+
   .elInput {
     display: block;
     width: 376px;

@@ -48,7 +48,6 @@ export default {
   methods: {
     create() {
       //데이터 전송
-      console.log(this.trip.startDate);
       this.$emit("changeCreateStat", false);
     },
   },

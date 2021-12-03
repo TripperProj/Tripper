@@ -14,12 +14,12 @@
         <div class="content">{{ list.content }}</div>
       </div>
     </div>
-    <div class="addBtn">
+    <div class="addBtn" @click="createTrip">
       <div class="circle">
         <div class="plus"><span>+</span></div>
       </div>
     </div>
-    <CreateSchedule />
+    <CreateSchedule v-if="createStat" @changeCreateStat="changeCreateStat" />
   </div>
 </template>
 
@@ -27,6 +27,7 @@
 import CreateSchedule from "@/components/scheduler/CreateSchedule.vue";
 export default {
   data: () => ({
+    createStat: false,
     trip: {
       destination: "3년만에 떠나는 우정여행 제주도",
       start_date: "2021-11-13",
@@ -51,6 +52,14 @@ export default {
   }),
   components: {
     CreateSchedule,
+  },
+  methods: {
+    changeCreateStat(val) {
+      this.createStat = val;
+    },
+    createTrip() {
+      this.createStat = true;
+    },
   },
 };
 </script>
