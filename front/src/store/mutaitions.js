@@ -1,3 +1,5 @@
 export default {
-  SET_BOARD() {},
+  SET_TOKEN(state, token) {
+    state.token = token;
+  },
 };

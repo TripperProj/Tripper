@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <div class="searchRequire"></div>
-    <div class="list"></div>
+  <div class="content">
+    <div class="writeBoard"></div>
   </div>
 </template>
 
