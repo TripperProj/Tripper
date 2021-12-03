@@ -1,4 +1,4 @@
-package com.tripper.dto.response;
+package com.tripper.dto.response.user;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
-@ApiModel(value = "반환할 토큰 정보를 갖고 있는 클래스")
+@ApiModel(value = "토큰 Response DTO")
 @Getter
 @AllArgsConstructor
 public class GetJwtDto implements Serializable {

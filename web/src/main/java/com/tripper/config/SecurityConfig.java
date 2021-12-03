@@ -25,12 +25,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    @Autowired
-    private UserDetailsService jwtUserDetailsService;
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    @Autowired private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    @Autowired private UserDetailsService jwtUserDetailsService;
+    @Autowired private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -54,8 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @param web
      */
     @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "h2-console/**", "**/swagger-ui/");
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "h2-console/**");
+
+        /* swagger */
+        web.ignoring().antMatchers("/v2/api-docs",  "/configuration/ui", "/swagger-resources/**",
+                "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**", "/swagger-ui/**",
+                "/v2/**", "/swagger**");
     }
 
     /**
@@ -71,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 /* 인증 필요 없는 요청 */
                 .antMatchers("/", "/login", "/user/signup", "/user/checkExists").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
                 /* 다른 요청들은 인증 필요 */
                 .anyRequest().authenticated()
                 .and()
