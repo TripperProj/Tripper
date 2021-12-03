@@ -11,6 +11,12 @@ public class ChatController {
 
     private final SimpMessagingTemplate template;
 
+    @MessageMapping("/chat/enter")
+    public void enter(ChatMessage message){
+        message.setMessage(message.getSender() + "님이 채팅방에 입장했습니다.");
+        template.convertAndSend("/sub/chat/room" + message.getRoomId(), message);
+    }
+
     @MessageMapping("/chat/message")
     public void message(ChatMessage message){
         template.convertAndSend("/sub/chat/room" + message.getRoomId(), message);
