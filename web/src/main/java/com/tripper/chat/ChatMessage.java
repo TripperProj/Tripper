@@ -2,8 +2,9 @@ package com.tripper.chat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 @AllArgsConstructor
 public class ChatMessage {
     private String roomId;
