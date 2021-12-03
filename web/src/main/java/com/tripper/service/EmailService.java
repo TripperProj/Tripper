@@ -17,7 +17,7 @@ public class EmailService {
 
     private final UserRepository userRepository;
     private JavaMailSender mailSender;
-    private static final String FROM_ADDRESS = "본인 이메일 주소 입력";
+    private static final String FROM_ADDRESS = "testacc0unt.jy@gmail.com";
 
     /**
      * 전송할 메일 생성 + 이메일 인증코드 저장 하는 함수

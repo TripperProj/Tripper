@@ -22,6 +22,8 @@ public class Board {
 
     private String title;
     private String destination;
+    private String startDate;
+    private String endDate;
     private int recruitment;
     private String content;
 
@@ -50,13 +52,15 @@ public class Board {
     /**
      * 글 등록하는 함수
     */
-    public static Board createBoard(CreateBoardDto form, User user) {
+    public static Board createBoard(CreateBoardDto dto, User user) {
         Board board = new Board();
         board.setUser(user);
-        board.setTitle(form.getTitle());
-        board.setDestination(form.getDestination());
-        board.setRecruitment(form.getRecruitment());
-        board.setContent(form.getContent());
+        board.setTitle(dto.getTitle());
+        board.setDestination(dto.getDestination());
+        board.setRecruitment(dto.getRecruitment());
+        board.setStartDate(dto.getStartDate());
+        board.setEndDate(dto.getEndDate());
+        board.setContent(dto.getContent());
         board.setStatus(BoardStatus.OPEN);
         board.setHits(0);
         board.setLikes(0);
