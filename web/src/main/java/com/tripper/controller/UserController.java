@@ -2,18 +2,18 @@ package com.tripper.controller;
 
 import com.tripper.domain.user.Role;
 import com.tripper.domain.user.User;
-import com.tripper.dto.request.CreateEmailDto;
-import com.tripper.dto.request.CreateUserDto;
+import com.tripper.dto.request.user.CreateEmailDto;
+import com.tripper.dto.request.user.CreateUserDto;
+import com.tripper.dto.request.user.UpdateUserDto;
+import com.tripper.dto.response.user.GetUserListDto;
 import com.tripper.service.EmailService;
 import com.tripper.service.UserService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,12 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
-/**
- * @author HanJiyoung
- * 회원 기능 관련 컨트롤러 클래스
- */
+@Api(tags = "회원 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
@@ -80,11 +76,10 @@ public class UserController {
             value = "회원 목록 조회"
             , notes = "db에서 회원 목록을 가져온 후 뷰페이지로 넘겨준다.")
     @GetMapping("/list")
-    public List<User> getUserList() {
+    public ResponseEntity<GetUserListDto> getUserList() {
 
-        List<User> users = userService.findAllUsers();
-
-        return users;
+        GetUserListDto users = userService.findAllUsers();
+        return ResponseEntity.ok().body(users);
 
     }
 
@@ -110,17 +105,42 @@ public class UserController {
             , notes = "입력한 이메일 인증 코드의 일치 여부를 확인한다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "ok: 이메일 인증 완료.")})
-    @GetMapping(value = "/checkEmailAuthCode")
-    public String checkEmailAuthCode(Authentication authentication, String authCode) {
+    @GetMapping(value = "/checkEmailAuthCode/{authCode}")
+    public String checkEmailAuthCode(Authentication authentication,
+                                     @ApiParam(value = "입력한 인증 코드") @PathVariable("authCode") String authCode) {
+        log.info("인증코드: " + authCode);
 
         /* 현재 로그인한 사용자 정보 가져오기 */
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        User user = userService.loadUserByUsername(userDetails.getUsername());
+        User user = userService.findUserByMemId(userDetails.getUsername());
 
         /* 일치 여부 확인 */
         String rslt = emailService.checkEmailAuthCode(authCode, user.getMemId());
 
         return rslt;
+    }
+
+    @ApiOperation(
+            value = "회원 정보 수정"
+            , notes = "회원 정보 수정을 실행한다.")
+    @PostMapping("/{user_id}/update")
+    public ResponseEntity updateUser(@ApiParam(value = "수정할 회원의 고유 id") @PathVariable("user_id") Long user_id,
+                                     @ApiParam(value = "회원 정보 수정 폼에 입력한 정보를 갖고있는 객체") @RequestBody UpdateUserDto updateUserDto) {
+
+        userService.updateUser(user_id, updateUserDto);
+        return ResponseEntity.ok().build();
+
+    }
+
+    @ApiOperation(
+            value = "회원 탈퇴"
+            , notes = "회원 정보 삭제를 실행한다.")
+    @GetMapping("/{user_id}/delete")
+    public ResponseEntity deleteUser(@ApiParam(value = "삭제할 회원의 고유 id") @PathVariable("user_id") Long user_id) {
+
+        userService.deleteUserById(user_id);
+        return ResponseEntity.ok().build();
+
     }
 
 }

@@ -1,7 +1,8 @@
 package com.tripper.domain.board;
 
 import com.tripper.domain.user.User;
-import com.tripper.dto.request.CreateBoardDto;
+import com.tripper.dto.request.board.CreateBoardDto;
+import com.tripper.dto.request.board.UpdateBoardDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -67,5 +68,46 @@ public class Board {
         board.setDateTime(LocalDateTime.now());
         return board;
     }
+
+    /**
+     * 글 수정하는 함수
+     */
+    public void updateBoard(UpdateBoardDto dto) {
+        this.title = dto.getTitle();
+        this.destination = dto.getDestination();
+        this.recruitment = dto.getRecruitment();
+        this.startDate = dto.getStartDate();
+        this.endDate = dto.getEndDate();
+        this.content = dto.getContent();
+    }
+
+    /* 비즈니스 메서드 */
+    /**
+     * 조회수 증가 함수
+     * @param hit
+     */
+    public void addHits(int hit) {
+        this.hits += hit;
+    }
+
+    /**
+     * 좋아요수 증가 함수
+     * @param likes
+     */
+    public void addLikes(int likes) {
+        this.likes += likes;
+    }
+
+    /**
+     * 좋아요수 감소 함수
+     * @param likes
+     */
+    public void subtractLikes(int likes) {
+        this.likes -= likes;
+    }
+
+
+
+
 
 }

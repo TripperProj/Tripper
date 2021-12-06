@@ -1,7 +1,7 @@
 package com.tripper.service;
 
 import com.tripper.domain.user.User;
-import com.tripper.dto.request.CreateEmailDto;
+import com.tripper.dto.request.user.CreateEmailDto;
 import com.tripper.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
