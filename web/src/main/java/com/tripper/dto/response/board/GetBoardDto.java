@@ -25,6 +25,7 @@ public class GetBoardDto {
     private int hits;
     private int likes;
     private LocalDateTime dateTime;
+    private String memId;
 
     public GetBoardDto(Board board) {
         this.id = board.getId();
@@ -38,6 +39,7 @@ public class GetBoardDto {
         this.hits = board.getHits();
         this.likes = board.getLikes();
         this.dateTime = board.getDateTime();
+        this.memId = board.getUser().getMemId();
     }
 
 }
