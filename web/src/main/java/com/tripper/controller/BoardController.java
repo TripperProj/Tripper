@@ -14,11 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
-/**
- * @author HanJiyoung
- * '여행 메이트 찾기 게시판' 기능 컨트롤러 클래스
- */
 @Api(tags = "여행메이트 찾기 게시판 API")
 @RestController
 @RequiredArgsConstructor
