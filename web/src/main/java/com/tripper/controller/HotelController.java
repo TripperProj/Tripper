@@ -3,11 +3,13 @@ package com.tripper.controller;
 import com.tripper.dto.request.hotel.CrawlingHotelDto;
 import com.tripper.dto.request.hotel.CreateHotelDto;
 import com.tripper.dto.response.hotel.GetCrawlingHotelDto;
+import com.tripper.dto.response.hotel.GetHotelListDto;
 import com.tripper.service.HotelService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,14 +45,14 @@ public class HotelController {
         return hotelService.createHotel(createHotelDto, createHotelDto.getPhotos(), principal.getName());
     }
 
-//    @ApiOperation(
-//            value = "호텔 목록 조회"
-//            , notes = "db에 저장된 호텔 목록을 전체 조회한다.")
-//    @GetMapping("/list")
-//    public ResponseEntity<GetHotelListDto> getHotelList() {
-//
-//        GetHotelListDto hotels = hotelService.findAllHotels();
-//        return ResponseEntity.ok().body(hotels);
-//
-//    }
+    @ApiOperation(
+            value = "호텔 목록 조회"
+            , notes = "db에 저장된 호텔 목록을 전체 조회한다.")
+    @GetMapping("/list")
+    public ResponseEntity<GetHotelListDto> getHotelList() {
+
+        GetHotelListDto hotels = hotelService.findAllHotels();
+        return ResponseEntity.ok().body(hotels);
+
+    }
 }

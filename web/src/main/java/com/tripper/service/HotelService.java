@@ -6,6 +6,8 @@ import com.tripper.domain.user.User;
 import com.tripper.dto.request.hotel.CrawlingHotelDto;
 import com.tripper.dto.request.hotel.CreateHotelDto;
 import com.tripper.dto.response.hotel.GetCrawlingHotelDto;
+import com.tripper.dto.response.hotel.GetHotelDto;
+import com.tripper.dto.response.hotel.GetHotelListDto;
 import com.tripper.handler.FileHandler;
 import com.tripper.repository.HotelRepository;
 import com.tripper.repository.PhotoRepository;
@@ -42,11 +44,7 @@ public class HotelService {
     public static final String WEB_DRIVER_PATH = "C:\\Temp\\driver\\chromedriver.exe";
     private String baseUrl = "https://hotel.naver.com/hotels/main";
 
-    /**
-     * '네이버 호텔'에서 지역, 체크인, 체크아웃, 성인 인원수, 어린이 인원수를 가지고 검색한 결과를 크롤링하는 함수
-     * @param crawlingHotelDto 검색 폼에 입력된 데이터들을 담고있는 객체
-     * @return 크롤링한 데이터를 담은 객체들을 담고있는 리스트
-     */
+    /* 네이버 호텔 크롤링 */
     public List<GetCrawlingHotelDto> crawlingHotels(CrawlingHotelDto crawlingHotelDto) {
         List<GetCrawlingHotelDto> hotelList = new ArrayList<>();
 
@@ -128,6 +126,7 @@ public class HotelService {
         return hotelList;
     }
 
+    /* 호텔 등록 */
     @Transactional
     public Long createHotel(CreateHotelDto createHotelDto, List<MultipartFile> photos, String memId) throws Exception {
 
@@ -150,21 +149,18 @@ public class HotelService {
         return hotelRepository.save(hotel).getId();
     }
 
-//    /**
-//     * 호텔 목록 전체 조회하는 함수
-//     * @return 조회한 호텔 목록
-//     */
-//    public GetHotelListDto findAllHotels() {
-//
-//        List<Hotel> hotels = hotelRepository.findAll();
-//        List<GetHotelDto> getHotelDtos = new ArrayList<>();
-//
-//        for (Hotel hotel : hotels) {
-//            GetHotelDto getHotelDto = new GetHotelDto(hotel);
-//            getHotelDtos.add(getHotelDto);
-//        }
-//
-//        return new GetHotelListDto(getHotelDtos);
-//    }
+    /* 호텔 목록 조회 */
+    public GetHotelListDto findAllHotels() {
+
+        List<Hotel> hotels = hotelRepository.findAll();
+        List<GetHotelDto> getHotelDtos = new ArrayList<>();
+
+        for (Hotel hotel : hotels) {
+            GetHotelDto getHotelDto = new GetHotelDto(hotel);
+            getHotelDtos.add(getHotelDto);
+        }
+
+        return new GetHotelListDto(getHotelDtos);
+    }
 
 }
