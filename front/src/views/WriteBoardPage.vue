@@ -1,11 +1,19 @@
 <template>
   <div class="content">
-    <div class="writeBoard"></div>
+    <WriteBoard></WriteBoard>
   </div>
 </template>
 
 <script>
-export default {};
+import WriteBoard from "@/components/community/WriteBoard.vue";
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    WriteBoard,
+  },
+};
 </script>
 
 <style></style>

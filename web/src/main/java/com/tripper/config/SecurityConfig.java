@@ -55,9 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "h2-console/**", "**/swagger-ui/");
-    }
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "h2-console/**");
 
+
+        web.ignoring().antMatchers("/v2/api-docs",  "/configuration/ui", "/swagger-resources/**",
+                                       "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**", "/swagger-ui/**",
+                                       "/v2/**", "/swagger**");
+    }
     /**
      * http 관련 인증 설정하는 함수
      * 
@@ -71,7 +75,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 /* 인증 필요 없는 요청 */
                 .antMatchers("/", "/login", "/user/signup", "/user/checkExists").permitAll()
-
                 /* 다른 요청들은 인증 필요 */
                 .anyRequest().authenticated()
                 .and()
