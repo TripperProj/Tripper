@@ -28,9 +28,9 @@ const routes = [
     path: "/findroom",
     name: "findroom",
     component: () => import("@/views/FindRoomPage.vue"),
-    meta: {
-      auth: true,
-    },
+    // meta: {
+    //   auth: true,
+    // },
   },
   {
     path: "/community",
@@ -43,9 +43,9 @@ const routes = [
   {
     path: "/writeboard",
     component: () => import("@/views/WriteBoardPage.vue"),
-    meta: {
-      auth: true,
-    },
+    // meta: {
+    //   auth: true,
+    // },
   },
   {
     path: "/boardInfo",

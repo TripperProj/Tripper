@@ -8,6 +8,7 @@ async function loginUser(formData) {
   instance.defaults.headers.common[
     "Authorization"
   ] = `Bearer ${store.state.token}`;
+  store.state.memId = response.data.memId;
   return;
 }
 function signupUser(userData) {

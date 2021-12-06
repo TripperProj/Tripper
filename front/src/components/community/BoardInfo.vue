@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="board">
     <h2>{{ $route.query.boardItem.title }}</h2>
     <h4>목적지 : {{ $route.query.boardItem.destination }}</h4>
     <div>

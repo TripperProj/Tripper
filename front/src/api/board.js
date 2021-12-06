@@ -21,7 +21,7 @@ function addLikes(instanceId) {
   return instance.get(`/board/post/${instanceId}/addLikes`);
 }
 function subLikes(instanceId) {
-  return instance.get(`/board/post/${instanceId}/subtrackLikes`);
+  return instance.get(`/board/post/${instanceId}/subtractLikes`);
 }
 export {
   createPost,
