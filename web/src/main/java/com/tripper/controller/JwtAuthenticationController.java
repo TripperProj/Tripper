@@ -31,15 +31,15 @@ public class JwtAuthenticationController {
             value = "로그인"
             , notes = "로그인 폼에 입력한 정보로 로그인을 실행한 후 토큰을 생성한다.")
     @PostMapping(value = "/login")
-    public ResponseEntity<?> createAuthenticationToken(
-            @RequestBody CreateJwtDto dto) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken( @RequestBody CreateJwtDto dto) throws Exception {
 
         authenticate(dto.getMemId(), dto.getPassword());
 
         final User user = userDetailsService.loadUserByUsername(dto.getMemId());
         final String token = jwtTokenUtil.generateToken(user);
+        String memID = user.getMemId();
 
-        return ResponseEntity.ok(new GetJwtDto(token));
+        return ResponseEntity.ok(new GetJwtDto(token, memID));
 
     }
 
