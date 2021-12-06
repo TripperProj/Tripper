@@ -2,7 +2,7 @@ package com.tripper.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tripper.domain.board.Board;
-import com.tripper.domain.hotel.HotelManager;
+import com.tripper.domain.hotel.Hotel;
 import com.tripper.dto.request.user.UpdateUserDto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -58,7 +58,7 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<HotelManager> hotelManagers = new ArrayList<>();
+    private List<Hotel> hotels = new ArrayList<>();
 
     @Builder
     public User(String memId, String password, String name, String phone, String email, String nickname, Role auth) {
@@ -112,10 +112,7 @@ public class User implements UserDetails {
         return true;
     }
 
-    /**
-     * 회원 정보 수정하는 함수
-     * @param updateUserDto
-     */
+    /* 회원정보 수정 */
     public void updateUser(UpdateUserDto updateUserDto) {
         this.password = updateUserDto.getPassword();
         this.phone = updateUserDto.getPhone();

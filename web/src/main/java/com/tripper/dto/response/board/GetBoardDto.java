@@ -2,15 +2,18 @@ package com.tripper.dto.response.board;
 
 import com.tripper.domain.board.Board;
 import com.tripper.domain.board.BoardStatus;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@ApiModel(value = "여행메이트 게시판 글 Respose DTO")
 @Getter @Setter
 @AllArgsConstructor
 public class GetBoardDto {
+
     private Long id;
     private String title;
     private String destination;
@@ -36,4 +39,5 @@ public class GetBoardDto {
         this.likes = board.getLikes();
         this.dateTime = board.getDateTime();
     }
+
 }

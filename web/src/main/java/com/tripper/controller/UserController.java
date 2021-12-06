@@ -37,7 +37,7 @@ public class UserController {
             value = "회원가입"
             , notes = "회원가입 폼에 입력한 정보로 회원가입을 실행한다.")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "ok: 회원가입 성공.") })
-    @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String signup(@RequestBody @ApiParam(value = "회원가입 폼에 입력한 정보를 담고있는 객체") CreateUserDto dto) {
 
         dto.setAuth(Role.ROLE_NOTCERTIFIED);
