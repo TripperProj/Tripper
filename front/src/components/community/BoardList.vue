@@ -1,17 +1,10 @@
 <template>
   <div class="board-list-wrapper">
+    <button @click="fetchBoard">불러오기</button>
     <div class="find-mate-list">
       <ul class="board-list">
-        <li class="board-column">
-          <div class="board-item">
-            <div class="title-box">
-              <span class="title"></span>
-              <span class="destination"> 목적지 : </span>
-              <span class="date"> </span>
-            </div>
-            <router-link to=""> </router-link>
-          </div>
-        </li>
+        <Board v-for="board in boards" :key="board.id" :boardItem="board">
+        </Board>
       </ul>
     </div>
   </div>
@@ -19,17 +12,24 @@
 
 <script>
 import { fetchBoardList } from "@/api/board";
-
+import Board from "@/components/community/Board.vue";
 export default {
   data() {
     return {
       boards: [],
     };
   },
+  components: {
+    Board,
+  },
   methods: {
     async fetchBoard() {
-      const { data } = await fetchBoardList();
-      console.log(data);
+      try {
+        const { data } = await fetchBoardList();
+        this.boards = data.boards;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   created() {

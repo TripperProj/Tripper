@@ -48,6 +48,13 @@ const routes = [
     },
   },
   {
+    path: "/boardInfo",
+    component: () => import("@/components/community/BoardInfo.vue"),
+    meta: {
+      auth: true,
+    },
+  },
+  {
     path: "*",
     component: () => import("@/views/NotFoundPage.vue"),
   },
