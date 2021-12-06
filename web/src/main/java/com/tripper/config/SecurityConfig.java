@@ -74,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 /* 인증 필요 없는 요청 */
                 .antMatchers("/", "/login", "/user/signup", "/user/checkExists").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
+
                 /* 다른 요청들은 인증 필요 */
                 .anyRequest().authenticated()
                 .and()

@@ -1,12 +1,14 @@
 import { instance } from "./index.js";
+import store from "@/store/index";
 
-function loginUser(formData) {
-  console.log(formData);
-  return instance.post(`/login`, formData);
+async function loginUser(formData) {
+  const response = await instance.post("/login", formData);
+  store.state.token = response.data.token;
+  return;
 }
 function signupUser(userData) {
   console.log(userData);
-  const response = instance.post("/user", userData);
+  const response = instance.post("/user/signup", userData);
   return response.code;
 }
 function socialSignupUser(userData) {

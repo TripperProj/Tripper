@@ -42,8 +42,9 @@ export default {
         password: this.password,
       };
       try {
-        const response = await loginUser(formData);
-        console.log(response);
+        await loginUser(formData);
+        this.$store.state.loginSuccess = true;
+        this.$router.push("/community");
       } catch (error) {
         console.log(error);
       }
