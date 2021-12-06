@@ -1,6 +1,5 @@
 package com.tripper.controller;
 
-import com.tripper.dto.request.board.CreateBoardDto;
 import com.tripper.dto.request.hotel.CrawlingHotelDto;
 import com.tripper.dto.request.hotel.CreateHotelDto;
 import com.tripper.dto.response.hotel.GetCrawlingHotelDto;
@@ -8,12 +7,11 @@ import com.tripper.service.HotelService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Api(tags = "호텔 API")
@@ -35,15 +33,24 @@ public class HotelController {
         return "hotel/hotel_search_list";
     }
 
+    @ApiOperation(
+            value = "호텔 등록"
+            , notes = "호텔 등록 폼에서 입력한 정보로 글 등록을 실행한다.")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/create")
+    public Long create(Principal principal,
+                       @ApiParam(value = "호텔 등록 폼에 입력한 정보를 담고있는 객체") CreateHotelDto createHotelDto) throws Exception {
+        return hotelService.createHotel(createHotelDto, createHotelDto.getPhotos(), principal.getName());
+    }
+
 //    @ApiOperation(
-//            value = "호텔 등록"
-//            , notes = "호텔 등록 폼에서 입력한 정보로 글 등록을 실행한다.")
-//    @ApiResponses(value = { @ApiResponse(code = 200, message = "ok: 호텔 등록 성공.") })
-//    @PostMapping("/create")
-//    public String create(Authentication authentication,
-//                         @ApiParam(value = "호텔 등록 폼에 입력한 정보를 담고있는 객체") @RequestBody CreateHotelDto dto) {
+//            value = "호텔 목록 조회"
+//            , notes = "db에 저장된 호텔 목록을 전체 조회한다.")
+//    @GetMapping("/list")
+//    public ResponseEntity<GetHotelListDto> getHotelList() {
 //
-//
+//        GetHotelListDto hotels = hotelService.findAllHotels();
+//        return ResponseEntity.ok().body(hotels);
 //
 //    }
 }

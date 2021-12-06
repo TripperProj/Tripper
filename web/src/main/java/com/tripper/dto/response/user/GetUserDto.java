@@ -2,10 +2,12 @@ package com.tripper.dto.response.user;
 
 import com.tripper.domain.user.Role;
 import com.tripper.domain.user.User;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@ApiModel(value = "회원 정보 Respose DTO")
 @Getter @Setter
 @AllArgsConstructor
 public class GetUserDto {
