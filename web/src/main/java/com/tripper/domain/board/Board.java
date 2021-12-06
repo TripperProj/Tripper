@@ -39,14 +39,8 @@ public class Board {
     @JoinColumn(name = "user_id")
     private User user;
 
-    /* 연관관계 메서드 */
-    /**
-     * 사용자 정보 세팅
-     * @param user
-     */
     public void setUser(User user) {
-        this.user = user;
-        user.getBoards().add(this);
+        this.user.getBoards().add(this);
     }
 
     /* 생성 메서드 */
@@ -105,9 +99,5 @@ public class Board {
     public void subtractLikes(int likes) {
         this.likes -= likes;
     }
-
-
-
-
 
 }
