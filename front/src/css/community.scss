@@ -74,6 +74,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
     padding: 10px 10px;
     h2{
         text-align: center;
@@ -82,7 +83,7 @@
         text-align: center;
         .write-board-form{
         margin: 20px 20px;
-        max-width: 1024px;
+        width: 800px;
         background: white;
                     -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
                     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
@@ -90,6 +91,10 @@
                     padding: 15x 10px;
                     margin: 15px 5px;
                     list-style: none;
+            hr {
+                width: 650px;
+                opacity: 0.6;
+            }
             input {
                 font-family: inherit;
                 font-size: 100%;

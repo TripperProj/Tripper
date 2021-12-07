@@ -91,6 +91,7 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  width: 100%;
   padding: 10px 10px;
 }
 
@@ -104,7 +105,7 @@
 
 .write-wrapper .write-board .write-board-form {
   margin: 20px 20px;
-  max-width: 1024px;
+  width: 800px;
   background: white;
   -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
@@ -112,6 +113,11 @@
   padding: 15x 10px;
   margin: 15px 5px;
   list-style: none;
+}
+
+.write-wrapper .write-board .write-board-form hr {
+  width: 650px;
+  opacity: 0.6;
 }
 
 .write-wrapper .write-board .write-board-form input {

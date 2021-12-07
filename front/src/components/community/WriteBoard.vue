@@ -5,38 +5,42 @@
         <h2>여행 메이트 모집글 작성</h2>
         <div class="board-head">
           <div class="title">
-            <label for="title"> 제목 </label>
+            <label for="title"> </label>
             <input type="text" placeholder="제목" v-model="title" />
           </div>
           <div class="destination">
-            <label for="destination"> 목적지 : </label>
+            <label for="destination"> </label>
             <input type="text" placeholder="목적지" v-model="destination" />
-          </div>
-          <div class="date">
-            <label for="date"> 여행 기간 </label>
-            <v-date-picker
-              v-model="range"
-              mode="dateTime"
-              :masks="masks"
-              is-range
-            />
-            <input type="text" placeholder="여행시작일" v-model="startDate" />
-            <input type="text" placeholder="여행종료일" v-model="endDate" />
           </div>
           <div class="recrutiment">
             <input type="number" placeholder="인원 수" v-model="recrutiment" />
+          </div>
+          <div class="date">
+            <label for="date"> 여행 기간 </label>
+            <DatePicker v-model="range" is-range>
+              <template v-slot="{ inputValue, inputEvents }">
+                <div>
+                  <input :value="inputValue.start" v-on="inputEvents.start" />
+                  <span> ~ </span>
+                  <input :value="inputValue.end" v-on="inputEvents.end" />
+                </div>
+              </template>
+            </DatePicker>
+            <hr />
           </div>
         </div>
         <div class="board-content">
           <input type="text" placeholder="글 작성" v-model="content" />
         </div>
         <button>글 작성</button>
+        <br />
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import { createPost } from "@/api/board";
 
 export default {
@@ -46,16 +50,14 @@ export default {
       destination: "",
       content: "",
       recrutiment: 0,
-      startDate: "",
-      endDate: "",
       range: {
         start: new Date(),
         end: new Date(),
       },
-      masks: {
-        input: "YYYY-MM-DD h:mm A",
-      },
     };
+  },
+  components: {
+    DatePicker,
   },
   methods: {
     async submitForm() {
@@ -64,8 +66,8 @@ export default {
         destination: this.destination,
         recrutiment: this.recrutiment,
         content: this.content,
-        startDate: this.startDate,
-        endDate: this.endDate,
+        startDate: this.range.start,
+        endDate: this.range.end,
       };
       try {
         const response = await createPost(board);
