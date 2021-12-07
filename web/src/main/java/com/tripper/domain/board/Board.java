@@ -4,7 +4,9 @@ import com.tripper.domain.user.User;
 import com.tripper.dto.request.board.CreateBoardDto;
 import com.tripper.dto.request.board.UpdateBoardDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 
@@ -15,6 +17,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter @Setter
+@Slf4j
+@NoArgsConstructor
 public class Board {
 
     @Id @GeneratedValue(strategy = IDENTITY)
@@ -39,39 +43,24 @@ public class Board {
     @JoinColumn(name = "user_id")
     private User user;
 
-    /* 연관관계 메서드 */
-    /**
-     * 사용자 정보 세팅
-     * @param user
-     */
-    public void setUser(User user) {
+    /*글 등록 */
+    public Board(CreateBoardDto dto, User user) {
+        this.title = dto.getTitle();
+        this.destination = dto.getDestination();
+        this.startDate = dto.getStartDate();
+        this.endDate = dto.getEndDate();
+        this.recruitment = dto.getRecruitment();
+        this.content = dto.getContent();
+        this.status = BoardStatus.OPEN;
+        this.hits = 0;
+        this.likes = 0;
+        this.dateTime = LocalDateTime.now();
+
         this.user = user;
         user.getBoards().add(this);
     }
 
-    /* 생성 메서드 */
-    /**
-     * 글 등록하는 함수
-    */
-    public static Board createBoard(CreateBoardDto dto, User user) {
-        Board board = new Board();
-        board.setUser(user);
-        board.setTitle(dto.getTitle());
-        board.setDestination(dto.getDestination());
-        board.setRecruitment(dto.getRecruitment());
-        board.setStartDate(dto.getStartDate());
-        board.setEndDate(dto.getEndDate());
-        board.setContent(dto.getContent());
-        board.setStatus(BoardStatus.OPEN);
-        board.setHits(0);
-        board.setLikes(0);
-        board.setDateTime(LocalDateTime.now());
-        return board;
-    }
-
-    /**
-     * 글 수정하는 함수
-     */
+    /* 글 수정 */
     public void updateBoard(UpdateBoardDto dto) {
         this.title = dto.getTitle();
         this.destination = dto.getDestination();
@@ -81,33 +70,19 @@ public class Board {
         this.content = dto.getContent();
     }
 
-    /* 비즈니스 메서드 */
-    /**
-     * 조회수 증가 함수
-     * @param hit
-     */
+    /* 조회수 증가 */
     public void addHits(int hit) {
         this.hits += hit;
     }
 
-    /**
-     * 좋아요수 증가 함수
-     * @param likes
-     */
+    /* 좋아요수 증가 */
     public void addLikes(int likes) {
         this.likes += likes;
     }
 
-    /**
-     * 좋아요수 감소 함수
-     * @param likes
-     */
+    /* 좋아요수 감소 */
     public void subtractLikes(int likes) {
         this.likes -= likes;
     }
-
-
-
-
 
 }

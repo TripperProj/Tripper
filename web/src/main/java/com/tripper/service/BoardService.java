@@ -33,7 +33,7 @@ public class BoardService {
         User user = userRepository.findByMemId(memId);
 
         /* 글 생성*/
-        Board board = Board.createBoard(createBoardDto, user);
+        Board board = new Board(createBoardDto, user);
 
         /* 글 저장 */
         boardRepository.save(board);
@@ -44,7 +44,6 @@ public class BoardService {
 
     /**
      * 게시판 글 전체 조회하는 함수
-     * @return 조회한 게시판 글 목록
      */
     public GetBoardListDto findAllBoards() {
 
@@ -62,7 +61,6 @@ public class BoardService {
 
     /**
      * board_id로 게시글 조회하는 함수
-     * @return
      */
     @Transactional
     public GetBoardDto findByBoardId(Long board_id) {
