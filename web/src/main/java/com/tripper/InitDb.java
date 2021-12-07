@@ -26,7 +26,7 @@ public class InitDb {
 
     @PostConstruct
     public void init() {
-        initService.dbInit();
+//        initService.dbInit();
     }
 
     @Component
@@ -43,6 +43,10 @@ public class InitDb {
             em.persist(user);
             User user2 = createUser("user2", encoder.encode("0000"), "김영희", "010-7777-8888", "young@gmail.com", "여행좋아", Role.ROLE_NOTCERTIFIED);
             em.persist(user2);
+//            User user3 = createUser("admin", encoder.encode("0000"), "관리자", "010-5656-5656", "admin@gmail.com", "관리자", Role.ROLE_ADMIN);
+//            em.persist(user3);
+//            User user4 = createUser("manager", encoder.encode("0000"), "호텔매니저", "010-8989-8989", "hotel@gmail.com", "호텔매니저", Role.ROLE_MANAGER);
+//            em.persist(user4);
 
             CreateBoardDto createBoardDto = new CreateBoardDto();
             createBoardDto.setTitle("메이트 구함");

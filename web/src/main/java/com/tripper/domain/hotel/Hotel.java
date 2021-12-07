@@ -1,11 +1,16 @@
 package com.tripper.domain.hotel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tripper.domain.Photo;
 import com.tripper.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -17,28 +22,36 @@ public class Hotel {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "hotel_id")
-    private Long id; // PK
+    private Long id;
 
     private String name;
-    private String img;
-
-    @Embedded
-    private Address address;
+    private String address;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "hotelmanager_id")
-    private HotelManager hotelManager;
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "hotel")
+    private List<RoomType> roomTypes = new ArrayList<>();
 
-    /* 연관관계 메서드 */
-    /**
-     * 호텔 매니저 정보 세팅
-     * @param hotelManager
-     */
-    public void setHotelManager(HotelManager hotelManager) {
-        this.hotelManager = hotelManager;
-//        hotelManager.getHotelManagers().add(this);
+    @JsonIgnore
+    @OneToMany(mappedBy = "hotel")
+    private List<Photo> photos = new ArrayList<>();
+
+    public Hotel(String name, String address, User user) {
+        this.name = name;
+        this.address = address;
+        this.user = user;
+        user.getHotels().add(this);
     }
 
+    public void addPhoto(Photo photo) {
+        this.photos.add(photo);
+
+        if(photo.getHotel() != this) {
+            photo.setHotel(this);
+        }
+    }
 
 }
