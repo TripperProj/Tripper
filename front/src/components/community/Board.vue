@@ -28,7 +28,7 @@ export default {
   methods: {
     boardInfo() {
       this.$router.push({
-        path: "/boardInfo",
+        path: `/board/${this.boardItem.id}`,
         query: { boardItem: this.boardItem },
       });
     },

@@ -48,11 +48,15 @@ const routes = [
     // },
   },
   {
-    path: "/boardInfo",
+    path: "/board/:id",
     component: () => import("@/components/community/BoardInfo.vue"),
     meta: {
       auth: true,
     },
+  },
+  {
+    path: "/board/update/:id",
+    component: () => import("@/components/community/BoardUpdate.vue"),
   },
   {
     path: "*",
