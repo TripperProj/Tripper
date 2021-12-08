@@ -1,5 +1,6 @@
 package com.tripper.domain.board;
 
+import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.user.User;
 import com.tripper.dto.request.board.CreateBoardDto;
 import com.tripper.dto.request.board.UpdateBoardDto;
@@ -19,7 +20,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter @Setter
 @Slf4j
 @NoArgsConstructor
-public class Board {
+public class Board extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "board_id")
@@ -37,7 +38,6 @@ public class Board {
 
     private int hits;
     private int likes;
-    private LocalDateTime dateTime;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
@@ -54,8 +54,6 @@ public class Board {
         this.status = BoardStatus.OPEN;
         this.hits = 0;
         this.likes = 0;
-        this.dateTime = LocalDateTime.now();
-
         this.user = user;
         user.getBoards().add(this);
     }
