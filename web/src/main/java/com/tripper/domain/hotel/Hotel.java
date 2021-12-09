@@ -1,8 +1,11 @@
 package com.tripper.domain.hotel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.Photo;
 import com.tripper.domain.user.User;
+import com.tripper.dto.request.hotel.UpdateHotelDto;
+import com.tripper.handler.FileHandler;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +21,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Entity
 @Getter @Setter
-public class Hotel {
+public class Hotel extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "hotel_id")
@@ -53,5 +56,13 @@ public class Hotel {
             photo.setHotel(this);
         }
     }
+
+//    /* 호텔 수정 */
+//    public void updateHotel(UpdateHotelDto updateHotelDto) {
+//        this.name = updateHotelDto.getName();
+//        this.address = updateHotelDto.getAddress();
+//        List<Photo> photoList = fileHandler.parseFileInfo(updateHotelDto.getPhotos());
+//        this.photos = updateHotelDto.getPhotos());
+//    }
 
 }

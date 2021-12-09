@@ -2,6 +2,7 @@ package com.tripper.controller;
 
 import com.tripper.dto.request.hotel.CrawlingHotelDto;
 import com.tripper.dto.request.hotel.CreateHotelDto;
+import com.tripper.dto.request.hotel.UpdateHotelDto;
 import com.tripper.dto.response.hotel.GetCrawlingHotelDto;
 import com.tripper.dto.response.hotel.GetHotelListDto;
 import com.tripper.service.HotelService;
@@ -42,7 +43,7 @@ public class HotelController {
     @PostMapping("/create")
     public Long create(Principal principal,
                        @ApiParam(value = "호텔 등록 폼에 입력한 정보를 담고있는 객체") CreateHotelDto createHotelDto) throws Exception {
-        return hotelService.createHotel(createHotelDto, createHotelDto.getPhotos(), principal.getName());
+        return hotelService.createHotel(createHotelDto, principal.getName());
     }
 
     @ApiOperation(
@@ -55,4 +56,27 @@ public class HotelController {
         return ResponseEntity.ok().body(hotels);
 
     }
+
+    @ApiOperation(
+            value = "호텔 정보 수정"
+            , notes = "호텔 정보 수정을 실행한다.")
+    @PostMapping("/{hotel_id}/update")
+    public ResponseEntity updateHotel(@ApiParam(value = "수정할 호텔의 고유 id") @PathVariable("hotel_id") Long hotel_id,
+                                      @ApiParam(value = "호텔 수정 폼에 입력한 정보를 갖고있는 객체") @RequestBody UpdateHotelDto updateHotelDto) throws Exception {
+
+        hotelService.updateHotel(hotel_id, updateHotelDto);
+        return ResponseEntity.ok().build();
+
+    }
+
+//    @ApiOperation(
+//            value = "게시글 삭제"
+//            , notes = "게시글 삭제를 실행한다.")
+//    @GetMapping("/post/{board_id}/delete")
+//    public ResponseEntity deletePost(@ApiParam(value = "삭제할 게시글의 고유 id") @PathVariable("board_id") Long board_id) {
+//
+//        boardService.deletePostById(board_id);
+//        return ResponseEntity.ok().build();
+//
+//    }
 }

@@ -1,10 +1,12 @@
 package com.tripper.service;
 
 import com.tripper.domain.Photo;
+import com.tripper.domain.board.Board;
 import com.tripper.domain.hotel.Hotel;
 import com.tripper.domain.user.User;
 import com.tripper.dto.request.hotel.CrawlingHotelDto;
 import com.tripper.dto.request.hotel.CreateHotelDto;
+import com.tripper.dto.request.hotel.UpdateHotelDto;
 import com.tripper.dto.response.hotel.GetCrawlingHotelDto;
 import com.tripper.dto.response.hotel.GetHotelDto;
 import com.tripper.dto.response.hotel.GetHotelListDto;
@@ -44,7 +46,9 @@ public class HotelService {
     public static final String WEB_DRIVER_PATH = "C:\\Temp\\driver\\chromedriver.exe";
     private String baseUrl = "https://hotel.naver.com/hotels/main";
 
-    /* 네이버 호텔 크롤링 */
+    /**
+     * 네이버 호텔 크롤링
+     */
     public List<GetCrawlingHotelDto> crawlingHotels(CrawlingHotelDto crawlingHotelDto) {
         List<GetCrawlingHotelDto> hotelList = new ArrayList<>();
 
@@ -126,9 +130,11 @@ public class HotelService {
         return hotelList;
     }
 
-    /* 호텔 등록 */
+    /**
+     * 호텔 등록
+     */
     @Transactional
-    public Long createHotel(CreateHotelDto createHotelDto, List<MultipartFile> photos, String memId) throws Exception {
+    public Long createHotel(CreateHotelDto createHotelDto, String memId) throws Exception {
 
         User user = userRepository.findByMemId(memId);
         Hotel hotel = new Hotel();
@@ -136,7 +142,7 @@ public class HotelService {
         hotel.setAddress(createHotelDto.getAddress());
         hotel.setUser(user);
 
-        List<Photo> photoList = fileHandler.parseFileInfo(photos);
+        List<Photo> photoList = fileHandler.parseFileInfo(createHotelDto.getPhotos());
 
         // 파일이 존재할 때에만 처리
         if(!photoList.isEmpty()){
@@ -149,7 +155,9 @@ public class HotelService {
         return hotelRepository.save(hotel).getId();
     }
 
-    /* 호텔 목록 조회 */
+    /**
+     * 호텔 목록 조회
+     */
     public GetHotelListDto findAllHotels() {
 
         List<Hotel> hotels = hotelRepository.findAll();
@@ -163,4 +171,27 @@ public class HotelService {
         return new GetHotelListDto(getHotelDtos);
     }
 
+    /**
+     * 호텔 정보 수정
+     */
+    public void updateHotel(Long hotel_id, UpdateHotelDto updateHotelDto) throws Exception {
+
+        /* 엔티티 조회 */
+        Hotel hotel = hotelRepository.findById(hotel_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
+
+        hotel.setName(updateHotelDto.getName());
+        hotel.setAddress(updateHotelDto.getAddress());
+
+        List<Photo> photoList = fileHandler.parseFileInfo(updateHotelDto.getPhotos());
+
+        if(!photoList.isEmpty()){
+            for(Photo photo : photoList) {
+                hotel.addPhoto(photoRepository.save(photo));
+            }
+        }
+
+        /* 수정 내역으로 업데이트 */
+//        hotel.updateHotel(updateHotelDto);
+    }
 }
