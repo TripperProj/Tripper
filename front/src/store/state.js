@@ -1,7 +1,6 @@
 export default {
   userRole: "",
-  loginSuccess: null,
-  loginError: null,
+  loginSuccess: false,
   username: null,
   memId: "",
   token: "",

@@ -1,15 +1,11 @@
 import { instance } from "./index.js";
-import store from "@/store/index";
 
 async function loginUser(formData) {
   const response = await instance.post("/login", formData);
-  console.log(response.data.token);
-  store.state.token = response.data.token;
   instance.defaults.headers.common[
     "Authorization"
-  ] = `Bearer ${store.state.token}`;
-  store.state.memId = response.data.memId;
-  return;
+  ] = `Bearer ${response.data.token}`;
+  return response;
 }
 function signupUser(userData) {
   console.log(userData);

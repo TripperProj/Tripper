@@ -71,7 +71,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.auth) {
-    store.state.loginSuccess ? next() : next("auth");
+    store.getters.isLogin ? next() : next("auth");
   } else {
     next();
   }
