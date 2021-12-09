@@ -1,6 +1,8 @@
 package com.tripper.domain;
 
 import com.tripper.domain.hotel.Hotel;
+import com.tripper.domain.hotel.Room;
+import com.tripper.domain.hotel.RoomType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +33,10 @@ public class Photo extends BaseTimeEntity {
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
+    @ManyToOne
+    @JoinColumn(name = "roomtype_id")
+    private RoomType roomType;
+
     @Builder
     public Photo(String originName, String filePath, Long fileSize){
         this.originName = originName;
@@ -41,5 +47,10 @@ public class Photo extends BaseTimeEntity {
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
         hotel.getPhotos().add(this);
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
+        roomType.getPhotos().add(this);
     }
 }

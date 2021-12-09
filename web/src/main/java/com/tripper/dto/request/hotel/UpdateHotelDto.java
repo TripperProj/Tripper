@@ -10,8 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @ApiModel(value = "호텔 수정 폼 Request DTO")
-@Getter
-@Setter
+@Getter @Setter
 @RequiredArgsConstructor
 public class UpdateHotelDto {
 
