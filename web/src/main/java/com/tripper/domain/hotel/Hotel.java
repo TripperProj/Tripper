@@ -1,6 +1,7 @@
 package com.tripper.domain.hotel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.Photo;
 import com.tripper.domain.user.User;
 import lombok.Getter;
@@ -12,13 +13,13 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @NoArgsConstructor
 @Entity
 @Getter @Setter
-public class Hotel {
+public class Hotel extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "hotel_id")
@@ -27,16 +28,17 @@ public class Hotel {
     private String name;
     private String address;
 
-    @ManyToOne(fetch = LAZY)
+//    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel", cascade = REMOVE)
     private List<RoomType> roomTypes = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel", cascade = REMOVE)
     private List<Photo> photos = new ArrayList<>();
 
     public Hotel(String name, String address, User user) {
