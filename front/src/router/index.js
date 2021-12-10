@@ -56,6 +56,13 @@ const routes = [
     component: () => import("@/components/scheduler/ScheduleList.vue"),
   },
   {
+    path: "/boardInfo",
+    component: () => import("@/components/community/BoardInfo.vue"),
+    meta: {
+      auth: true,
+    },
+  },
+  {
     path: "*",
     component: () => import("@/views/NotFoundPage.vue"),
   },

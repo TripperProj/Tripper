@@ -1,25 +1,27 @@
-import { board } from "./index";
+import { instance } from "./index";
 
 function createPost(postData) {
-  return board.post("/create", postData);
+  return instance.post("/board/create", postData);
 }
 function deletePost(postId) {
-  return board.delete(`/post/${postId}/delete`);
+  return instance.delete(`/board/post/${postId}/delete`);
 }
 function infoPost(postId) {
-  return board.get(`/post/${postId}`);
+  return instance.get(`/board/post/${postId}`);
 }
 function editPost(postData) {
-  return board.post(`/post/${postData.postId}/update`, postData);
+  return instance.post(`/board/post/${postData.postId}/update`, postData);
 }
-function fetchBoardList() {
-  return board.get(`/list`);
+async function fetchBoardList() {
+  const response = await instance.get("/board/list");
+  console.log(response);
+  return response;
 }
-function addLikes(boardId) {
-  return board.get(`/post/${boardId}/addLikes`);
+function addLikes(instanceId) {
+  return instance.get(`/board/post/${instanceId}/addLikes`);
 }
-function subLikes(boardId) {
-  return board.get(`/post/${boardId}/subtrackLikes`);
+function subLikes(instanceId) {
+  return instance.get(`/board/post/${instanceId}/subtrackLikes`);
 }
 export {
   createPost,

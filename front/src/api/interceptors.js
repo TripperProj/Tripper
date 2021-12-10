@@ -2,19 +2,19 @@ import store from "@/store/index";
 
 function setInterceptors(instance) {
   instance.interceptors.request.use(
-    function (config) {
+    (config) => {
       config.headers.Authorization = store.state.token;
       return config;
     },
-    function (error) {
+    (error) => {
       return Promise.reject(error);
     }
   );
   instance.interceptors.response.use(
-    function (response) {
+    (response) => {
       return response;
     },
-    function (error) {
+    (error) => {
       return Promise.reject(error);
     }
   );

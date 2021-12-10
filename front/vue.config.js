@@ -6,8 +6,6 @@ module.exports = {
       "/login": {
         target: process.env.VUE_APP_API_URL,
         changeOrigin: true,
-        secure: false,
-        logLevel: "debug",
       },
       "/user": {
         target: process.env.VUE_APP_API_URL,
