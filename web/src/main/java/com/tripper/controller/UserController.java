@@ -12,6 +12,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -106,7 +107,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "ok: 이메일 인증 완료.")})
     @GetMapping(value = "/checkEmailAuthCode/{authCode}")
-    public String checkEmailAuthCode(Authentication authentication,
+    public ResponseEntity checkEmailAuthCode(Authentication authentication,
                                      @ApiParam(value = "입력한 인증 코드") @PathVariable("authCode") String authCode) {
         log.info("인증코드: " + authCode);
 
@@ -115,9 +116,19 @@ public class UserController {
         User user = userService.findUserByMemId(userDetails.getUsername());
 
         /* 일치 여부 확인 */
-        String rslt = emailService.checkEmailAuthCode(authCode, user.getMemId());
+        Boolean rslt = emailService.checkEmailAuthCode(authCode, user.getMemId());
 
-        return rslt;
+        /* 일치하면 ROLE_USER로 업데이트 */
+        if(rslt) {
+            UpdateUserDto updateUserDto = new UpdateUserDto();
+            updateUserDto.setPhone(user.getPhone());
+            updateUserDto.setEmail(user.getEmail());
+            updateUserDto.setNickname(user.getNickname());
+            updateUserDto.setPassword(user.getPassword());
+            updateUserDto.setAuth(Role.ROLE_USER);
+            userService.updateUser(user.getId(), updateUserDto);
+        }
+        return ResponseEntity.ok().build();
     }
 
     @ApiOperation(

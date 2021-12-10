@@ -189,6 +189,7 @@ public class HotelService {
     /**
      * 객실 수정
      */
+    @Transactional
     public void updateRoom(Long roomtype_id, UpdateRoomDto updateRoomDto) throws Exception {
 
         /* 객실 분류 엔티티 조회 */
@@ -242,6 +243,7 @@ public class HotelService {
     /**
      * 객실 분류 삭제
      */
+    @Transactional
     public void deleteRoomTypeById(Long roomtype_id) {
 
         /* 엔티티 조회 */
