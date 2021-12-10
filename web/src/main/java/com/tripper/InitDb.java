@@ -1,9 +1,9 @@
 package com.tripper;
 
-import com.tripper.domain.board.BoardForm;
-import com.tripper.domain.board.BoardInfo;
-import com.tripper.domain.board.BoardStatus;
-import com.tripper.domain.user.UserInfo;
+import com.tripper.dto.request.board.CreateBoardDto;
+import com.tripper.domain.board.Board;
+import com.tripper.domain.user.Role;
+import com.tripper.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
 
 /**
  * @author HanJiyoung
@@ -27,7 +26,7 @@ public class InitDb {
 
     @PostConstruct
     public void init() {
-        initService.dbInit();
+//        initService.dbInit();
     }
 
     @Component
@@ -40,22 +39,28 @@ public class InitDb {
         public void dbInit() {
             log.info("init1" + this.getClass());
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            UserInfo userInfo = createUser("user1", encoder.encode("0000"), "김철수", "010-1111-2222", "kim@naver.com", "여행러", "ROLE_USER");
-            em.persist(userInfo);
+            User user = createUser("user1", encoder.encode("0000"), "김철수", "010-1111-2222", "kim@gmail.com", "여행러", Role.ROLE_USER);
+            em.persist(user);
+            User user2 = createUser("user2", encoder.encode("0000"), "김영희", "010-7777-8888", "young@gmail.com", "여행좋아", Role.ROLE_NOTCERTIFIED);
+            em.persist(user2);
+//            User user3 = createUser("admin", encoder.encode("0000"), "관리자", "010-5656-5656", "admin@gmail.com", "관리자", Role.ROLE_ADMIN);
+//            em.persist(user3);
+//            User user4 = createUser("manager", encoder.encode("0000"), "호텔매니저", "010-8989-8989", "hotel@gmail.com", "호텔매니저", Role.ROLE_MANAGER);
+//            em.persist(user4);
 
-            BoardForm boardForm = new BoardForm();
-            boardForm.setTitle("메이트 구함");
-            boardForm.setDestination("제주도");
-            boardForm.setRecruitment(1);
-            boardForm.setContent("구해요");
+            CreateBoardDto createBoardDto = new CreateBoardDto();
+            createBoardDto.setTitle("메이트 구함");
+            createBoardDto.setDestination("제주도");
+            createBoardDto.setRecruitment(1);
+            createBoardDto.setContent("구해요");
 
-            BoardInfo boardInfo = BoardInfo.createBoard(boardForm, userInfo);
-            em.persist(boardInfo);
+            Board board = Board.createBoard(createBoardDto, user);
+            em.persist(board);
         }
 
-        private UserInfo createUser(String memId, String password, String name, String phone, String email, String nickname, String auth) {
-            UserInfo userInfo = new UserInfo(memId, password, name, phone, email, nickname, auth);
-            return userInfo;
+        private User createUser(String memId, String password, String name, String phone, String email, String nickname, Role auth) {
+            User user = new User(memId, password, name, phone, email, nickname, auth);
+            return user;
         }
 
     }

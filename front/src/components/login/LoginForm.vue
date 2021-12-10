@@ -37,13 +37,14 @@ export default {
   },
   methods: {
     async submitForm() {
-      const form = {
-        userid: this.userid,
+      const formData = {
+        memId: this.userid,
         password: this.password,
       };
       try {
-        const { data } = await loginUser(form);
-        console.log(data);
+        await loginUser(formData);
+        this.$store.state.loginSuccess = true;
+        this.$router.push("/community");
       } catch (error) {
         console.log(error);
       }
