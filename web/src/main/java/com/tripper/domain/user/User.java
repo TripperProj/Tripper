@@ -1,6 +1,7 @@
 package com.tripper.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.board.Board;
 import com.tripper.domain.hotel.Hotel;
 import com.tripper.dto.request.user.UpdateUserDto;
@@ -21,7 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Entity
 @Getter @Setter
-public class User implements UserDetails {
+public class User extends BaseTimeEntity implements UserDetails {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "user_id")

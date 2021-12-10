@@ -38,7 +38,7 @@ public class GetBoardDto {
         this.status = board.getStatus();
         this.hits = board.getHits();
         this.likes = board.getLikes();
-        this.dateTime = board.getDateTime();
+        this.dateTime = board.getCreatedDate();
         this.memId = board.getUser().getMemId();
     }
 

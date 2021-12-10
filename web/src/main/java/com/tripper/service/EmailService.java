@@ -98,15 +98,12 @@ public class EmailService {
      * @param memId
      * @return
      */
-    public String checkEmailAuthCode(String authCode, String memId) {
+    public Boolean checkEmailAuthCode(String authCode, String memId) {
 
         String dbAuthCode = userRepository.getEmailAuthCode(memId);
 
         /* 일치 여부에 따라 return */
-        if (authCode.equals(dbAuthCode)) {
-            return "ok";
-        }
-        return "fail";
+        return authCode.equals(dbAuthCode);
 
     }
 }

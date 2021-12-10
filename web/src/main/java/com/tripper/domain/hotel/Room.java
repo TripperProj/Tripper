@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -18,8 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter @Setter
 public class Room {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "room_id")
     private Long id; // PK
 
@@ -31,7 +31,7 @@ public class Room {
     private RoomType roomType;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", cascade = REMOVE)
     private List<Reservation> reservations = new ArrayList<>();
 
     public Room(int roomNum, int price, RoomType roomType) {
