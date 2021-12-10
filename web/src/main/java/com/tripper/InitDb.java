@@ -1,9 +1,9 @@
 package com.tripper;
 
-import com.tripper.dto.request.board.CreateBoardDto;
 import com.tripper.domain.board.Board;
 import com.tripper.domain.user.Role;
 import com.tripper.domain.user.User;
+import com.tripper.dto.request.board.CreateFindMateBoardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -48,7 +48,7 @@ public class InitDb {
 //            User user4 = createUser("manager", encoder.encode("0000"), "호텔매니저", "010-8989-8989", "hotel@gmail.com", "호텔매니저", Role.ROLE_MANAGER);
 //            em.persist(user4);
 
-            CreateBoardDto createBoardDto = new CreateBoardDto();
+            CreateFindMateBoardDto createBoardDto = new CreateFindMateBoardDto();
             createBoardDto.setTitle("메이트 구함");
             createBoardDto.setDestination("제주도");
             createBoardDto.setRecruitment(1);
