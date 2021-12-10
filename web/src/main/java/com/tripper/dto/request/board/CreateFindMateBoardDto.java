@@ -9,7 +9,7 @@ import lombok.Setter;
 @ApiModel(value = "게시글 등록 폼 Request DTO")
 @Getter @Setter
 @RequiredArgsConstructor
-public class CreateBoardDto {
+public class CreateFindMateBoardDto {
 
     @ApiModelProperty(value = "글 제목")
     private String title;

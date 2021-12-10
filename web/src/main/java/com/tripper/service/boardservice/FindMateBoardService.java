@@ -1,134 +1,124 @@
-package com.tripper.service;
+package com.tripper.service.boardservice;
 
-import com.tripper.dto.request.board.CreateBoardDto;
-import com.tripper.domain.board.Board;
+import com.tripper.domain.board.FindMateBoard;
 import com.tripper.domain.user.User;
-import com.tripper.dto.request.board.UpdateBoardDto;
-import com.tripper.dto.response.board.GetBoardDto;
-import com.tripper.dto.response.board.GetBoardListDto;
+import com.tripper.dto.request.board.CreateFindMateBoardDto;
+import com.tripper.dto.request.board.UpdateFindMateBoardDto;
+import com.tripper.dto.response.board.GetFindMateBoardDto;
+import com.tripper.dto.response.board.GetFindMateBoardListDto;
 import com.tripper.repository.BoardRepository;
 import com.tripper.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Slf4j
-public class BoardService {
+@Transactional
+public class FindMateBoardService {
 
-    private final BoardRepository boardRepository;
+    private final BoardRepository<FindMateBoard> boardRepository;
     private final UserRepository userRepository;
 
     /**
      * 글 등록
      */
-    public Long registerPost(CreateBoardDto createBoardDto, String memId) {
+    @Transactional(readOnly = true)
+    public Long registerPost(CreateFindMateBoardDto dto, String memId) {
 
         /* 엔티티 조회 */
         User user = userRepository.findByMemId(memId);
 
         /* 글 생성*/
-        Board board = new Board(createBoardDto, user);
+        FindMateBoard board = new FindMateBoard(dto.getTitle(), dto.getContent(), user,
+                dto.getDestination(), dto.getStartDate(), dto.getEndDate(), dto.getRecruitment());
 
         /* 글 저장 */
         boardRepository.save(board);
 
         return board.getId();
-
     }
 
     /**
      * 게시판 글 전체 조회하는 함수
      */
-    public GetBoardListDto findAllBoards() {
+    @Transactional(readOnly = true)
+    public GetFindMateBoardListDto findAllBoards() {
 
-        List<Board> boards = boardRepository.findAll();
-        List<GetBoardDto> getBoardDtoList = new ArrayList<>();
+        List<FindMateBoard> boards = boardRepository.findAll();
+        List<GetFindMateBoardDto> getBoardDtoList = new ArrayList<>();
 
-        for (Board board : boards) {
-            GetBoardDto getBoardDto = new GetBoardDto(board);
+        for (FindMateBoard board : boards) {
+            GetFindMateBoardDto getBoardDto = new GetFindMateBoardDto(board);
             getBoardDtoList.add(getBoardDto);
         }
 
-        return new GetBoardListDto(getBoardDtoList);
-
+        return new GetFindMateBoardListDto(getBoardDtoList);
     }
 
     /**
      * board_id로 게시글 조회하는 함수
      */
     @Transactional
-    public GetBoardDto findByBoardId(Long board_id) {
+    public GetFindMateBoardDto findByBoardId(Long board_id) {
 
         /* 엔티티 조회 */
-        Board board = boardRepository.findById(board_id)
+        FindMateBoard board = boardRepository.findById(board_id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 
         /* 조회수 증가 */
-        board.addHits(1);
+        board.addHits();
 
-        GetBoardDto getBoardDto = new GetBoardDto(board);
-
-        return getBoardDto;
-
+        return new GetFindMateBoardDto(board);
     }
 
     /**
      * 좋아요수 증가 함수
      */
-    @Transactional
     public void addLikes(Long board_id) {
 
         /* 엔티티 조회 */
-        Board board = boardRepository.findById(board_id)
+        FindMateBoard board = boardRepository.findById(board_id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 
         /* 좋아요수 감소 */
-        board.addLikes(1);
-
+        board.addLikes();
     }
 
     /**
      * 좋아요수 감소 함수
      */
-    @Transactional
     public void subtractLikes(Long board_id) {
 
         /* 엔티티 조회 */
-        Board board = boardRepository.findById(board_id)
+        FindMateBoard board = boardRepository.findById(board_id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 
         /* 좋아요수 증가 */
-        board.subtractLikes(1);
-
+        board.subtractLikes();
     }
 
     /**
      * 게시글 수정 함수
      */
-    @Transactional
-    public void updatePost(Long board_id, UpdateBoardDto updateBoardDto) {
+    public void updatePost(Long board_id, UpdateFindMateBoardDto dto) {
 
         /* 엔티티 조회 */
-        Board board = boardRepository.findById(board_id)
+        FindMateBoard board = boardRepository.findById(board_id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 
         /* 수정 내역으로 업데이트 */
-        board.updateBoard(updateBoardDto);
-
+        board.updateBoard(dto.getTitle(), dto.getContent(),
+                dto.getDestination(), dto.getRecruitment(), dto.getStartDate(), dto.getEndDate());
     }
 
     /**
      * 게시글 삭제 함수
      */
-    @Transactional
     public void deletePostById(Long board_id) {
         boardRepository.deleteById(board_id);
     }
-
 }
