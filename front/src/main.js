@@ -2,6 +2,10 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "@/router/index";
 import store from "@/store/index";
+
+import DragItDude from "vue-drag-it-dude";
+import axios from "axios";
+
 import { formatDate } from "@/utils/filters";
 
 Vue.filter("formatDate", formatDate);
@@ -12,3 +16,5 @@ new Vue({
   router: router,
   store: store,
 }).$mount("#app");
+
+Vue.component("vue-drag-it-dude", DragItDude);
