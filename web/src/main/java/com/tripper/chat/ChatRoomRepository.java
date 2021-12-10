@@ -14,8 +14,7 @@ public class ChatRoomRepository {
         return chatRoomMap.get(roomId);
     }
 
-    public void createChatRoom (Long boardId) {
-        ChatRoom chatRoom = new ChatRoom(boardId);
+    public void save (ChatRoom chatRoom) {
         chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
     }
 }
