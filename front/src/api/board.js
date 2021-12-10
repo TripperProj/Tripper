@@ -3,14 +3,32 @@ import { instance } from "./index";
 function createPost(postData) {
   return instance.post("/board/create", postData);
 }
-function deletePost(postData) {
-  return instance.delete("/board/delete", postData);
+function deletePost(postId) {
+  return instance.delete(`/board/post/${postId}/delete`);
+}
+function infoPost(postId) {
+  return instance.get(`/board/post/${postId}`);
 }
 function editPost(postData) {
-  return instance.put("/board/edit", postData);
+  return instance.post(`/board/post/${postData.postId}/update`, postData);
 }
-function postList() {
-  return instance.get("/board/list");
+async function fetchBoardList() {
+  const response = await instance.get("/board/list");
+  console.log(response);
+  return response;
 }
-
-export { createPost, deletePost, editPost, postList };
+function addLikes(instanceId) {
+  return instance.get(`/board/post/${instanceId}/addLikes`);
+}
+function subLikes(instanceId) {
+  return instance.get(`/board/post/${instanceId}/subtrackLikes`);
+}
+export {
+  createPost,
+  deletePost,
+  editPost,
+  fetchBoardList,
+  infoPost,
+  addLikes,
+  subLikes,
+};

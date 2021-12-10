@@ -21,4 +21,5 @@ export default {
 
 <style>
 @import "./css/common.css";
+@import "./css/community.css";
 </style>
