@@ -1,4 +1,4 @@
-package com.tripper.domain.board;
+package com.tripper.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @ApiModel(value = "게시글 폼에 입력한 정보를 갖고있는 클래스")
 @Getter @Setter
 @RequiredArgsConstructor
-public class BoardForm {
+public class CreateBoardDto {
 
     @ApiModelProperty(value = "글 제목")
     private String title;
@@ -19,6 +19,12 @@ public class BoardForm {
 
     @ApiModelProperty(value = "모집 인원수")
     private int recruitment;
+
+    @ApiModelProperty(value = "여행 시작일")
+    private String startDate;
+
+    @ApiModelProperty(value = "여행 종료일")
+    private String endDate;
 
     @ApiModelProperty(value = "글 내용")
     private String content;

@@ -23,8 +23,18 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:
+  jwt:
+    secret: jwtsecretkey
 
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+server:
+  port: 8089
