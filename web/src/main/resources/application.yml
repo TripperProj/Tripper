@@ -1,20 +1,27 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/tripper
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://tripper-db.clj2l5jnnuzc.ap-northeast-2.rds.amazonaws.com:3306/tripperdb
+    username: tripper
+    password: tripperpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:h2:tcp://localhost/~/tripper
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
     thymeleaf:
       prefix: classpath:/templates/
       suffix: .html
+
   jpa:
     hibernate:
+#      ddl-auto: update
       ddl-auto: create-drop
+      use-new-id-generator-mappings: false
     properties:
       hibernate:
         format_sql: true
         use-new-id-generator-mappings: false
-    database-platform: org.hibernate.dialect.H2Dialect
+#    database-platform: org.hibernate.dialect.H2Dialect
   mail:
     host: smtp.gmail.com
     port: 587
@@ -36,5 +43,5 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
-server:
-  port: 8089
+#server:
+#  port: 8089
