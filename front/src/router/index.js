@@ -48,6 +48,14 @@ const routes = [
     },
   },
   {
+    path: "/scheduler",
+    component: () => import("@/views/SchedulerPage.vue"),
+  },
+  {
+    path: "/schedule-list",
+    component: () => import("@/components/scheduler/ScheduleList.vue"),
+  },
+  {
     path: "/boardInfo",
     component: () => import("@/components/community/BoardInfo.vue"),
     meta: {
