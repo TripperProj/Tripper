@@ -1,22 +1,22 @@
 <template>
   <div class="cotent">
     <div class="community-container">
-      <findMate></findMate>
-      <boardList></boardList>
+      <FindMate></FindMate>
+      <BoardList></BoardList>
     </div>
   </div>
 </template>
 
 <script>
-import findMate from "@/components/community/FindMate.vue";
-import boardList from "@/components/community/BoardList.vue";
+import FindMate from "@/components/community/FindMate.vue";
+import BoardList from "@/components/community/BoardList.vue";
 export default {
   data() {
     return {};
   },
   components: {
-    findMate,
-    boardList,
+    FindMate,
+    BoardList,
   },
   computed: {},
 };

@@ -25,9 +25,9 @@ const routes = [
     component: () => import("@/views/SignupPage.vue"),
   },
   {
-    path: "/findroom",
-    name: "findroom",
-    component: () => import("@/views/FindRoomPage.vue"),
+    path: "/hotel",
+    name: "hotel",
+    component: () => import("@/views/HotelPage.vue"),
     // meta: {
     //   auth: true,
     // },

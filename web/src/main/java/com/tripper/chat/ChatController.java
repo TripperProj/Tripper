@@ -44,8 +44,9 @@ public class ChatController {
             value = "채팅방 생성"
             , notes = "친구찾기 게시판 아이디를 이용해 채팅방을 생성한다.")
     @PostMapping("/chat/{boardId}")
-    public void createChatRoom(@PathVariable("boardId") Long boardId) {
+    public ResponseEntity createChatRoom(@PathVariable("boardId") Long boardId) {
         ChatRoom chatRoom = new ChatRoom(boardId);
         chatRoomRepository.save(chatRoom);
+        return ResponseEntity.ok(chatRoom.getRoomId());
     }
 }
