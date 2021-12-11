@@ -8,9 +8,9 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApiModel(value = "호텔 리스트 Respose DTO")
+@ApiModel(value = "객실 리스트 Respose DTO")
 @Getter @Setter
 @AllArgsConstructor
-public class GetHotelListDto {
-    List<GetHotelDto> hotels = new ArrayList<>();
+public class GetRoomListDto {
+    List<GetRoomDto> rooms = new ArrayList<>();
 }

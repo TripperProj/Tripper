@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * @author HanJiyoung
- *         Security 관련 설정 클래스
+ * Security 관련 설정 클래스
  */
 @Configuration
 @EnableWebSecurity
@@ -47,8 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 인증을 무시할 경로 설정하는 함수
-     * 
-     * @param web
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -60,12 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/v2/**", "/swagger**");
     }
 
-
     /**
      * http 관련 인증 설정하는 함수
-     * 
-     * @param httpSecurity
-     * @throws Exception
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
