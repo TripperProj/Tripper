@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/swagger-ui/**",
                 "/v2/**", "/swagger**");
     }
+
     /**
      * http 관련 인증 설정하는 함수
      */

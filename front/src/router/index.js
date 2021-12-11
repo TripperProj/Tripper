@@ -28,9 +28,9 @@ const routes = [
     path: "/findroom",
     name: "findroom",
     component: () => import("@/views/FindRoomPage.vue"),
-    meta: {
-      auth: true,
-    },
+    // meta: {
+    //   auth: true,
+    // },
   },
   {
     path: "/community",
@@ -43,9 +43,9 @@ const routes = [
   {
     path: "/writeboard",
     component: () => import("@/views/WriteBoardPage.vue"),
-    meta: {
-      auth: true,
-    },
+    // meta: {
+    //   auth: true,
+    // },
   },
   {
     path: "/scheduler",
@@ -56,11 +56,15 @@ const routes = [
     component: () => import("@/components/scheduler/ScheduleList.vue"),
   },
   {
-    path: "/boardInfo",
+    path: "/board/:id",
     component: () => import("@/components/community/BoardInfo.vue"),
     meta: {
       auth: true,
     },
+  },
+  {
+    path: "/board/update/:id",
+    component: () => import("@/components/community/BoardUpdate.vue"),
   },
   {
     path: "*",
@@ -75,7 +79,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.auth) {
-    store.state.loginSuccess ? next() : next("auth");
+    store.getters.isLogin ? next() : next("auth");
   } else {
     next();
   }

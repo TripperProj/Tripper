@@ -48,14 +48,14 @@ public class InitDb {
 //            User user4 = createUser("manager", encoder.encode("0000"), "호텔매니저", "010-8989-8989", "hotel@gmail.com", "호텔매니저", Role.ROLE_MANAGER);
 //            em.persist(user4);
 
-//            CreateBoardDto createBoardDto = new CreateBoardDto();
-//            createBoardDto.setTitle("메이트 구함");
-//            createBoardDto.setDestination("제주도");
-//            createBoardDto.setRecruitment(1);
-//            createBoardDto.setContent("구해요");
-//
-//            Board board = Board.createBoard(createBoardDto, user);
-//            em.persist(board);
+            CreateBoardDto createBoardDto = new CreateBoardDto();
+            createBoardDto.setTitle("메이트 구함");
+            createBoardDto.setDestination("제주도");
+            createBoardDto.setRecruitment(1);
+            createBoardDto.setContent("구해요");
+
+            Board board = new Board(createBoardDto, user);
+            em.persist(board);
         }
 
         private User createUser(String memId, String password, String name, String phone, String email, String nickname, Role auth) {
