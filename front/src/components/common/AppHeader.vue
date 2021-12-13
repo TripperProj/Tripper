@@ -1,7 +1,23 @@
 <template>
   <header>
     <div class="logo-space">
-      <router-link to="/" class="logo"><span>TRIPPER</span></router-link>
+      <router-link v-if="!this.$store.state.loginSuccess" to="/" class="logo"
+        ><span>TRIPPER</span></router-link
+      >
+      <router-link v-else to="/community" class="logo"
+        ><span>TRIPPER</span></router-link
+      >
+    </div>
+    <div class="menu-bar">
+      <div class="menu-guest" v-if="!this.$store.state.loginSuccess">
+        <router-link to="/auth"> 로그인</router-link> |
+        <router-link to="/signup"> 회원가입</router-link>
+      </div>
+      <div class="menu-client" v-else>
+        <router-link to="/scheduler"> 일정 </router-link> |
+        <router-link to="/community"> 커뮤니티</router-link> |
+        <router-link to="/hotel"> 호텔</router-link>
+      </div>
     </div>
     <div class="menu-bar">menu</div>
   </header>

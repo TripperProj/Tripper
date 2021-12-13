@@ -1,0 +1,33 @@
+.hotelList {
+  overflow: hidden;
+}
+
+.hotelList .hotel-item {
+  float: left;
+  width: calc(25% - 20px);
+  background: white;
+  border-radius: 10px;
+  padding: 15x 10px;
+  margin: 15px 5px;
+  list-style: none;
+}
+
+.hotelList .hotel-item .hotel-item-header {
+  margin: 5px 10px;
+  padding: 5px 0px;
+}
+
+.hotelList .hotel-item .hotel-item-body {
+  margin: 10px;
+  padding: 0px 10px;
+}
+
+.hotelList .hotel-item .hotel-item-footer {
+  margin: 10px;
+  padding: 5px 10px;
+}
+
+.hotelList .hotel-item .hotel-item-footer .hotel-location {
+  opacity: 0.5;
+}
+/*# sourceMappingURL=hotel.css.map */
