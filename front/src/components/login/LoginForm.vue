@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="form" @submit.prevent="submitUserdata">
+    <form class="form" @submit.prevent="submitForm">
       <div>
         <input
           type="text"
@@ -18,7 +18,7 @@
       </div>
       <hr class="hr-login" />
       <div class="find-idpassword">
-        <span>아이디, 비밀번호 찾기</span>
+        <span>아이디, 비밀번호 찾기</span> |
         <span>회원가입</span>
       </div>
     </form>
@@ -36,14 +36,16 @@ export default {
     };
   },
   methods: {
-    async submitUserdata() {
-      const userData = {
-        userid: this.userid,
+    async submitForm() {
+      const formData = {
+        memId: this.userid,
         password: this.password,
       };
       try {
-        const { data } = await loginUser.post(userData);
-        console.log(data);
+        const { data } = await loginUser(formData);
+        this.$store.dispatch("setToken", data.token);
+        this.$store.dispatch("loginSuccess", data.memId);
+        this.$router.push("/community");
       } catch (error) {
         console.log(error);
       }

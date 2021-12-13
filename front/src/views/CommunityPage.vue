@@ -1,13 +1,25 @@
 <template>
-  <div class="post">
+  <div class="cotent">
     <div class="community-container">
-      <div></div>
+      <FindMate></FindMate>
+      <BoardList></BoardList>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import FindMate from "@/components/community/FindMate.vue";
+import BoardList from "@/components/community/BoardList.vue";
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    FindMate,
+    BoardList,
+  },
+  computed: {},
+};
 </script>
 
 <style></style>

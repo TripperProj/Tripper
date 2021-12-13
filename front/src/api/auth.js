@@ -1,23 +1,36 @@
-import { instance } from "./index";
+import { instance } from "./index.js";
 
-function loginUser(userData) {
-  console.log(userData);
-  return instance.post("login", userData);
+async function loginUser(formData) {
+  const response = await instance.post("/login", formData);
+  instance.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${response.data.token}`;
+  return response;
 }
 function signupUser(userData) {
   console.log(userData);
-  return instance.post(instance.url, userData);
+  const response = instance.post("/user/signup", userData);
+  return response.code;
 }
 function socialSignupUser(userData) {
   console.log(userData);
-  return instance.post(instance.url, userData);
+  return instance.post("/user/socicalSignup", userData);
 }
-
-function certUserEmail(Email, certNum) {
-  return instance.post(instance.url, Email, certNum);
+function certUserEmail(Email) {
+  return instance.post("/user/certEmail", Email);
+}
+function certNumCheck(certNum) {
+  return instance.post(`/user/certEmail/${certNum}`);
 }
 function userIdCheck(userId) {
-  return instance.post(instance.url, userId);
+  return instance.get("/user/checkExists", userId);
 }
 
-export { loginUser, signupUser, certUserEmail, userIdCheck, socialSignupUser };
+export {
+  loginUser,
+  signupUser,
+  certUserEmail,
+  userIdCheck,
+  socialSignupUser,
+  certNumCheck,
+};

@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     connect() {
-      const serverURL = "http://localhost:8080/stomp/chat";
+      const serverURL = "http://localhost:8089/stomp/chat";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결 시도 ${serverURL}`);

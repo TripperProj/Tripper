@@ -1,19 +1,13 @@
 <template>
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
-      <form class="form" @submit.prevent="submitUserData">
+      <form class="form" @submit.prevent="submitForm">
         <div class="signup-id">
           <label class="userid"> 회원정보 입력 </label>
-          <input
-            type="text"
-            id="userid"
-            placeholder="아이디"
-            v-model="userid"
-          />
-          <button v-bind:disabled="idCheckBox" class="btn" id="duplicateCheck">
+          <input type="text" id="memId" placeholder="아이디" v-model="memId" />
+          <div class="btn" v-on:click="idCheck" id="duplicateCheck">
             중복확인
-          </button>
-          <span class="log"> 확인되었습니다. </span>
+          </div>
           <span class="warning"> {{ idCheckMessage }}</span>
         </div>
         <div class="signup-pass">
@@ -46,6 +40,18 @@
           /><br />
           <input
             type="text"
+            id="phone"
+            placeholder="전화번호"
+            v-model="phone"
+          /><br />
+          <input
+            type="text"
+            id="nickname"
+            placeholder="닉네임"
+            v-model="nickName"
+          /><br />
+          <input
+            type="text"
             id="userEmail"
             placeholder="이메일"
             v-model="email"
@@ -64,14 +70,21 @@
           />
           <span class="warning">{{ certEmailMessage }}</span>
         </div>
-        <button class="btn" type="submit">회원가입</button>
+        <button class="btn" type="submit" v-bind:disabled="btnAble">
+          회원가입
+        </button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import { signupUser, certUserEmail, userIdCheck } from "@/api/auth.js";
+import {
+  signupUser,
+  certUserEmail,
+  userIdCheck,
+  certNumCheck,
+} from "@/api/auth.js";
 import {
   validateEmail,
   validatePassword,
@@ -81,14 +94,18 @@ import {
 export default {
   data() {
     return {
-      userid: "",
+      memId: "",
       password: "",
       passwordCheck: "",
       name: "",
+      phone: "",
       email: "",
+      nickName: "",
       certNum: "",
       certEmailMessage: "",
       idCheckMessage: "",
+      idChecked: false,
+      emailChecked: false,
     };
   },
   computed: {
@@ -101,45 +118,77 @@ export default {
     userPasswordCheck() {
       return checkPassword(this.password, this.passwordCheck);
     },
+    btnAble() {
+      return (
+        this.userEmailValid &&
+        this.userPasswordValid &&
+        this.userPasswordCheck &&
+        this.emailChecked &&
+        this.idChecked
+      );
+    },
   },
   methods: {
-    async submitUserData() {
+    async submitForm() {
+      // 사용자 회원가입
       const userData = {
-        userid: this.userid,
+        memId: this.memId,
         password: this.password,
         name: this.name,
+        phone: this.phone,
         email: this.email,
+        nickname: this.nickName,
+        auth: "ROLE_USER",
       };
       try {
-        const { data } = await signupUser.post(userData);
-        console.log(data);
+        const { status } = await signupUser(userData);
+        status === 200 ? this.$router.push("/auth") : console.log(status);
       } catch (error) {
         console.log(error);
+      } finally {
+        this.clearAll();
       }
     },
     async certEmail() {
-      const userData = {
-        email: this.email,
-        certNum: "12345",
-      };
+      // 사용자 이메일 인증
+      const email = this.email;
       try {
-        const { data } = await certUserEmail.post(userData);
-        console.log(data);
+        const response = await certUserEmail(email);
+        console.log(response);
       } catch (error) {
         console.log(error);
       }
     },
+    async certEmailNum() {
+      const certNum = this.certNum;
+      const { status } = await certNumCheck(certNum);
+      status === 200
+        ? (this.emailChecked = true)
+        : (this.certEmailMessage = "인증번호를 확인해주세요.");
+    },
     async idCheck() {
-      this.idCheckBox = !this.idCheckBox;
-      const userData = {
-        userid: this.userid,
-      };
+      // 사용자 아이디 중복확인
+      const memid = this.memid;
       try {
-        const { data } = await userIdCheck.post(userData);
+        const { data } = await userIdCheck(memid);
         console.log(data);
+        data === "ok"
+          ? ((this.idCheckMessage = "사용가능한 아이디입니다."),
+            (this.idChecked = true))
+          : (this.idCheckMessage = "다른 아이디를 사용해주세요.");
       } catch (error) {
         console.log(error);
       }
+    },
+    clearAll() {
+      // input 초기화1
+      this.memId = "";
+      this.password = "";
+      this.passwordCheck = "";
+      this.name = "";
+      this.email = "";
+      this.phone = "";
+      this.nickName = "";
     },
   },
   components: {},

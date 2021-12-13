@@ -19,7 +19,6 @@
         <router-link to="/hotel"> 호텔</router-link>
       </div>
     </div>
-    <div class="menu-bar">menu</div>
   </header>
 </template>
 
@@ -40,5 +39,16 @@ header {
   color: white;
   font-size: 30px;
   font-weight: 800;
+}
+.menu-bar {
+  color: white;
+  font-size: 15px;
+  font-weight: 400;
+}
+.menu-bar a {
+  color: white;
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: none;
 }
 </style>
