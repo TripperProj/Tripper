@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.board.Board;
 import com.tripper.domain.hotel.Hotel;
+import com.tripper.domain.hotel.Reservation;
 import com.tripper.dto.request.user.UpdateUserDto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -60,6 +61,10 @@ public class User extends BaseTimeEntity implements UserDetails {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Hotel> hotels = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> resrvations = new ArrayList<>();
 
     @Builder
     public User(String memId, String password, String name, String phone, String email, String nickname, Role auth) {

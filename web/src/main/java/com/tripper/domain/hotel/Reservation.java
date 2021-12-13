@@ -1,12 +1,11 @@
 package com.tripper.domain.hotel;
 
+import com.tripper.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
-import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -20,8 +19,10 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long id; // PK
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String checkin;
+    private String checkout;
+    private int adultNum;
+    private int childNum;
 
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
@@ -30,12 +31,22 @@ public class Reservation {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    public Reservation(LocalDateTime startDate, LocalDateTime endDate, ReservationStatus status, Room room) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Reservation(String checkin, String checkout, ReservationStatus status, Room room, User user) {
+        this.checkin = checkin;
+        this.checkout = checkout;
         this.status = status;
         this.room = room;
         room.getReservations().add(this);
+        this.user = user;
+        user.getResrvations().add(this);
+    }
+
+    public void cancel() {
+        this.setStatus(ReservationStatus.CANCELLED);
     }
 
 }
