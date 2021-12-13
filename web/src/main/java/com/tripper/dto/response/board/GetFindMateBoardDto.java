@@ -24,7 +24,7 @@ public class GetFindMateBoardDto {
     private RecruitmentStatus status;
     private int hits;
     private int likes;
-    private LocalDateTime dateTime;
+    private LocalDateTime createTime;
     private String memId;
 
     public GetFindMateBoardDto(FindMateBoard board) {
@@ -38,7 +38,7 @@ public class GetFindMateBoardDto {
         this.status = board.getRecruitmentStatus();
         this.hits = board.getHits();
         this.likes = board.getLikes();
-        this.dateTime = board.getCreatedTime();
+        this.createTime = board.getCreatedTime();
         this.memId = board.getUser().getMemId();
     }
 

@@ -4,7 +4,7 @@ import com.tripper.dto.request.board.CreateFindMateBoardDto;
 import com.tripper.dto.request.board.UpdateFindMateBoardDto;
 import com.tripper.dto.response.board.GetFindMateBoardDto;
 import com.tripper.dto.response.board.GetFindMateBoardListDto;
-import com.tripper.service.boardservice.BoardService;
+import com.tripper.service.boardservice.FindMateBoardService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "여행메이트 찾기 게시판 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board")
+@RequestMapping("/board/find")
 @Slf4j
-public class BoardController {
+public class FindMateBoardController {
 
-    private final BoardService boardService;
+    private final FindMateBoardService boardService;
 
     @ApiOperation(
             value = "게시글 등록"

@@ -6,7 +6,7 @@ import com.tripper.dto.request.board.CreateFindMateBoardDto;
 import com.tripper.dto.request.board.UpdateFindMateBoardDto;
 import com.tripper.dto.response.board.GetFindMateBoardDto;
 import com.tripper.dto.response.board.GetFindMateBoardListDto;
-import com.tripper.repository.BoardRepository;
+import com.tripper.repository.FindMateBoardRepository;
 import com.tripper.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.List;
 @Transactional
 public class FindMateBoardService {
 
-    private final BoardRepository<FindMateBoard> boardRepository;
+    private final FindMateBoardRepository boardRepository;
     private final UserRepository userRepository;
 
     /**
@@ -63,10 +63,10 @@ public class FindMateBoardService {
      * board_id로 게시글 조회하는 함수
      */
     @Transactional
-    public GetFindMateBoardDto findByBoardId(Long board_id) {
+    public GetFindMateBoardDto findByBoardId(Long boardId) {
 
         /* 엔티티 조회 */
-        FindMateBoard board = boardRepository.findById(board_id)
+        FindMateBoard board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 
         /* 조회수 증가 */
@@ -78,36 +78,36 @@ public class FindMateBoardService {
     /**
      * 좋아요수 증가 함수
      */
-    public void addLikes(Long board_id) {
+    public void addLikes(Long boardId) {
 
         /* 엔티티 조회 */
-        FindMateBoard board = boardRepository.findById(board_id)
+        FindMateBoard board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 
-        /* 좋아요수 감소 */
+        /* 좋아요수 증가 */
         board.addLikes();
     }
 
     /**
      * 좋아요수 감소 함수
      */
-    public void subtractLikes(Long board_id) {
+    public void subtractLikes(Long boardId) {
 
         /* 엔티티 조회 */
-        FindMateBoard board = boardRepository.findById(board_id)
+        FindMateBoard board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 
-        /* 좋아요수 증가 */
+        /* 좋아요수 감소 */
         board.subtractLikes();
     }
 
     /**
      * 게시글 수정 함수
      */
-    public void updatePost(Long board_id, UpdateFindMateBoardDto dto) {
+    public void updatePost(Long boardId, UpdateFindMateBoardDto dto) {
 
         /* 엔티티 조회 */
-        FindMateBoard board = boardRepository.findById(board_id)
+        FindMateBoard board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 
         /* 수정 내역으로 업데이트 */
@@ -118,7 +118,18 @@ public class FindMateBoardService {
     /**
      * 게시글 삭제 함수
      */
-    public void deletePostById(Long board_id) {
-        boardRepository.deleteById(board_id);
+    public void deletePostById(Long boardId) {
+        boardRepository.deleteById(boardId);
+    }
+
+    /**
+     * 게시글 모집 마감
+     */
+    public void closeRecruitment(Long boardId) {
+        /* 엔티티 조회 */
+        FindMateBoard board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
+
+        board.closeRecruitment();
     }
 }
