@@ -1,6 +1,5 @@
 package com.tripper;
 
-import com.tripper.domain.board.Board;
 import com.tripper.domain.user.Role;
 import com.tripper.domain.user.User;
 import com.tripper.dto.request.board.CreateFindMateBoardDto;
@@ -54,8 +53,8 @@ public class InitDb {
             createBoardDto.setRecruitment(1);
             createBoardDto.setContent("구해요");
 
-            Board board = Board.createBoard(createBoardDto, user);
-            em.persist(board);
+//            Board board = new Board(createBoardDto, user);
+//            em.persist(board);
         }
 
         private User createUser(String memId, String password, String name, String phone, String email, String nickname, Role auth) {

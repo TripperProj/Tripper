@@ -42,5 +42,10 @@ public class FindMateBoard extends Board{
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    /* 모집 마감 */
+    public void closeRecruitment() {
+        this.recruitmentStatus = RecruitmentStatus.CLOSED;
+    }
 }
 
