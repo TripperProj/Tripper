@@ -35,8 +35,9 @@ public class UserController {
     @ApiOperation(
             value = "회원가입"
             , notes = "회원가입 폼에 입력한 정보로 회원가입을 실행한다.")
+    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping(value = "/user", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String signup(@RequestBody @ApiParam(value = "폼에 입력한 정보를 담고있는 객체") UserInfoDto dto) throws Exception {
 
         UserInfoDto infoDto = new UserInfoDto();

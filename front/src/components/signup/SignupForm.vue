@@ -1,11 +1,13 @@
 <template>
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
-      <form class="form" @submit.prevent="submitUserData">
+      <form class="form" @submit.prevent="submitForm">
         <div class="signup-id">
           <label class="userid"> 회원정보 입력 </label>
           <input type="text" id="memId" placeholder="아이디" v-model="memId" />
-          <button class="btn" id="duplicateCheck">중복확인</button>
+          <div class="btn" v-on:click="idCheck" id="duplicateCheck">
+            중복확인
+          </div>
           <span class="log"> 확인되었습니다. </span>
           <span class="warning"> {{ idCheckMessage }}</span>
         </div>
@@ -110,7 +112,8 @@ export default {
     },
   },
   methods: {
-    async submitUserData() {
+    async submitForm() {
+      // 사용자 회원가입
       const userData = {
         memId: this.memId,
         password: this.password,
@@ -121,34 +124,45 @@ export default {
         auth: "ROLE_USER",
       };
       try {
-        const { data } = await signupUser(userData);
-        console.log(data);
+        const data = await signupUser(userData);
+        data === 200 ? ((this.memId = ""), this.claerAll()) : console.log(data);
       } catch (error) {
         console.log(error);
+      } finally {
+        this.clearAll();
       }
     },
     async certEmail() {
-      const userData = {
-        email: this.email,
-        certNum: "12345",
-      };
+      // 사용자 이메일 인증
+      const email = this.email;
       try {
-        const { data } = await certUserEmail(userData);
-        console.log(data);
+        const { data } = await certUserEmail(email);
+        data.code === 500
+          ? (this.certEmailMessage = " 인증되었습니다. ")
+          : (this.certEmailMessage = "인증번호를 확인해주세요.");
       } catch (error) {
         console.log(error);
       }
     },
     async idCheck() {
-      const userData = {
-        userid: this.userid,
-      };
+      // 사용자 아이디 중복확인
+      const memid = this.memid;
       try {
-        const { data } = await userIdCheck(userData);
+        const data = await userIdCheck(memid);
         console.log(data);
       } catch (error) {
         console.log(error);
       }
+    },
+    clearAll() {
+      // input 초기화1
+      this.memId = "";
+      this.password = "";
+      this.passwordCheck = "";
+      this.name = "";
+      this.email = "";
+      this.phone = "";
+      this.nickName = "";
     },
   },
   components: {},
