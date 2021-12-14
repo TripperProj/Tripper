@@ -12,7 +12,6 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -37,27 +36,25 @@ public class UserController {
     @ApiOperation(
             value = "회원가입"
             , notes = "회원가입 폼에 입력한 정보로 회원가입을 실행한다.")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "ok: 회원가입 성공.") })
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String signup(@RequestBody @ApiParam(value = "회원가입 폼에 입력한 정보를 담고있는 객체") CreateUserDto dto) {
-
-        dto.setAuth(Role.ROLE_NOTCERTIFIED);
-        userService.save(dto);
-
-        return "ok";
+    public Long signup(@ApiParam(value = "회원가입 폼에 입력한 정보를 담고있는 객체") @RequestBody CreateUserDto dto) {
+        return userService.createUser(dto);
     }
 
     @ApiOperation(
             value = "아이디 중복 체크"
             , notes = "회원가입 폼에서 아이디 중복 체크를 실행한다.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "ok: 사용 가능한 아이디입니다. \t\n fail: 이미 사용중인 아이디입니다.")})
     @GetMapping(value = "/checkExists")
-    public String checkMemIdExists(@ApiParam(value = "중복체크를 실행할 아이디") @Param("memId") String memId) {
+    public ResponseEntity checkMemIdExists(@ApiParam(value = "중복체크를 실행할 아이디") @Param("memId") String memId) {
 
-        String rslt = userService.checkMemIdExists(memId);
+        User user = userService.checkMemIdExists(memId);
 
-        return rslt;
+        if (user == null) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
     @ApiOperation(
@@ -65,12 +62,12 @@ public class UserController {
             , notes = "로그아웃을 실행한다.")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "ok: 로그아웃 성공.") })
     @GetMapping("/logout")
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
 
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder
                 .getContext().getAuthentication());
 
-        return "ok";
+        return ResponseEntity.ok().build();
     }
 
     @ApiOperation(

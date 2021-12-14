@@ -5,6 +5,7 @@ import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.board.Board;
 import com.tripper.domain.hotel.Hotel;
 import com.tripper.domain.hotel.Reservation;
+import com.tripper.dto.request.user.CreateUserDto;
 import com.tripper.dto.request.user.UpdateUserDto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,9 +21,9 @@ import static javax.persistence.GenerationType.IDENTITY;
  * @author HanJiyoung
  * 회원 정보 엔티티 클래스
  */
-@NoArgsConstructor
 @Entity
 @Getter @Setter
+@NoArgsConstructor
 public class User extends BaseTimeEntity implements UserDetails {
 
     @Id @GeneratedValue(strategy = IDENTITY)
@@ -32,26 +33,26 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(unique = true, nullable = false)
     private String memId;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role auth;
 
-    @Column
+//    @Column
     private String emailAuthCode;
 
     @JsonIgnore
@@ -67,13 +68,13 @@ public class User extends BaseTimeEntity implements UserDetails {
     private List<Reservation> resrvations = new ArrayList<>();
 
     @Builder
-    public User(String memId, String password, String name, String phone, String email, String nickname, Role auth) {
-        this.memId = memId;
-        this.password = password;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.nickname = nickname;
+    public User(CreateUserDto createUserDto, Role auth) {
+        this.memId = createUserDto.getMemId();
+        this.password = createUserDto.getPassword();
+        this.name = createUserDto.getName();
+        this.phone = createUserDto.getPhone();
+        this.email = createUserDto.getEmail();
+        this.nickname = createUserDto.getEmail();
         this.auth = auth;
     }
 

@@ -1,5 +1,6 @@
 package com.tripper.service;
 
+import com.tripper.domain.user.Role;
 import com.tripper.domain.user.User;
 import com.tripper.dto.request.user.CreateUserDto;
 import com.tripper.dto.request.user.UpdateUserDto;
@@ -21,8 +22,9 @@ import java.util.List;
  * @author HanJiyoung
  * 회원 관련 서비스 클래스
  */
-@RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 @Slf4j
 public class UserService implements UserDetailsService {
 
@@ -35,42 +37,42 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * 회원 db에 insert하는 함수
+     * 회원가입
      */
-    public Long save(CreateUserDto createUserDto) {
+    @Transactional
+    public Long createUser(CreateUserDto createUserDto) {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         createUserDto.setPassword(encoder.encode(createUserDto.getPassword()));
+        User user = new User(createUserDto, Role.ROLE_NOTCERTIFIED);
 
-        return userRepository.save(User.builder()
-                .memId(createUserDto.getMemId())
-                .name(createUserDto.getName())
-                .phone(createUserDto.getPhone())
-                .email(createUserDto.getEmail())
-                .nickname(createUserDto.getNickname())
-                .password(createUserDto.getPassword())
-                .auth(createUserDto.getAuth()).build()).getId();
+        return userRepository.save(user).getId();
+
     }
 
     /**
-     * 아이디 중복체크 하는 함수
+     * 아이디 중복체크
      */
-    public String checkMemIdExists(String memId) {
+    public User checkMemIdExists(String memId) {
 
         User user = userRepository.findByMemId(memId);
-        String rslt = "";
-
-        if(user != null) {
-            rslt = "fail";
-        }
-        else if(user == null) {
-            rslt = "ok";
-        }
-        return rslt;
+        return user;
+//        if(user != null) {
+//            throw new IllegalStateException("이미 존재하는 아이디입니다.");
+//        }
+//        String rslt = "";
+//
+//        if(user != null) {
+//            rslt = "fail";
+//        }
+//        else if(user == null) {
+//            rslt = "ok";
+//        }
+//        return rslt;
     }
 
     /**
-     * 회원 전체 조회하는 함수
+     * 회원 전체 조회
      */
     public GetUserListDto findAllUsers() {
 
@@ -87,14 +89,14 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * 회원 1명 조회하는 함수
+     * 회원 1명 조회
      */
     public User findUserByMemId(String memId) {
         return userRepository.findByMemId(memId);
     }
 
     /**
-     * 회원 정보 수정 함수
+     * 회원 정보 수정
      */
     @Transactional
     public void updateUser(Long user_id, UpdateUserDto updateUserDto) {
@@ -111,7 +113,7 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * 회원 탈퇴 함수
+     * 회원 탈퇴
      */
     @Transactional
     public void deleteUserById(Long user_id) {
