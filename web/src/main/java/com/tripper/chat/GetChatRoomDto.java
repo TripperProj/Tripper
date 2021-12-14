@@ -10,7 +10,6 @@ import java.util.List;
 @Getter @Setter
 @AllArgsConstructor
 public class GetChatRoomDto {
-    private String roomId;
-    private Long boardId;
+    private Long id;
     private List<ChatMessage> messages = new ArrayList<>();
 }
