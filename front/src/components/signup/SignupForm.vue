@@ -1,13 +1,11 @@
 <template>
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
-      <form class="form" @submit.prevent="submitForm">
+      <form class="form" @submit.prevent="submitUserData">
         <div class="signup-id">
           <label class="userid"> 회원정보 입력 </label>
           <input type="text" id="memId" placeholder="아이디" v-model="memId" />
-          <div class="btn" v-on:click="idCheck" id="duplicateCheck">
-            중복확인
-          </div>
+          <button class="btn" id="duplicateCheck">중복확인</button>
           <span class="log"> 확인되었습니다. </span>
           <span class="warning"> {{ idCheckMessage }}</span>
         </div>
@@ -112,8 +110,7 @@ export default {
     },
   },
   methods: {
-    async submitForm() {
-      // 사용자 회원가입
+    async submitUserData() {
       const userData = {
         memId: this.memId,
         password: this.password,
@@ -124,45 +121,34 @@ export default {
         auth: "ROLE_USER",
       };
       try {
-        const data = await signupUser(userData);
-        data === 200 ? ((this.memId = ""), this.claerAll()) : console.log(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.clearAll();
-      }
-    },
-    async certEmail() {
-      // 사용자 이메일 인증
-      const email = this.email;
-      try {
-        const { data } = await certUserEmail(email);
-        data.code === 500
-          ? (this.certEmailMessage = " 인증되었습니다. ")
-          : (this.certEmailMessage = "인증번호를 확인해주세요.");
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async idCheck() {
-      // 사용자 아이디 중복확인
-      const memid = this.memid;
-      try {
-        const data = await userIdCheck(memid);
+        const { data } = await signupUser(userData);
         console.log(data);
       } catch (error) {
         console.log(error);
       }
     },
-    clearAll() {
-      // input 초기화1
-      this.memId = "";
-      this.password = "";
-      this.passwordCheck = "";
-      this.name = "";
-      this.email = "";
-      this.phone = "";
-      this.nickName = "";
+    async certEmail() {
+      const userData = {
+        email: this.email,
+        certNum: "12345",
+      };
+      try {
+        const { data } = await certUserEmail(userData);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async idCheck() {
+      const userData = {
+        userid: this.userid,
+      };
+      try {
+        const { data } = await userIdCheck(userData);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   components: {},

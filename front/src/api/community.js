@@ -1,16 +1,16 @@
 import { instance } from "./index";
 
 function createPost(postData) {
-  return instance.post("/board/create", postData);
+  return instance.post("/post/create", postData);
 }
 function deletePost(postData) {
-  return instance.delete("/board/delete", postData);
+  return instance.request("/post/delete", postData);
 }
 function editPost(postData) {
-  return instance.put("/board/edit", postData);
+  return instance.post("/post/edit", postData);
 }
 function postList() {
-  return instance.get("/board/list");
+  return instance.get("/list");
 }
 
 export { createPost, deletePost, editPost, postList };

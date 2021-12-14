@@ -1,19 +1,13 @@
 <template>
-  <div class="cotent">
+  <div class="post">
     <div class="community-container">
-      <findMate></findMate>
+      <div></div>
     </div>
   </div>
 </template>
 
 <script>
-import findMate from "@/components/community/FindMate.vue";
-
-export default {
-  components: {
-    findMate,
-  },
-};
+export default {};
 </script>
 
 <style></style>
