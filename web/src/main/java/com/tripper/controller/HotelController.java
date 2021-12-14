@@ -1,7 +1,6 @@
 package com.tripper.controller;
 
 import com.tripper.dto.request.hotel.*;
-import com.tripper.dto.response.board.GetBoardDto;
 import com.tripper.dto.response.hotel.GetCrawlingHotelDto;
 import com.tripper.dto.response.hotel.GetHotelDto;
 import com.tripper.dto.response.hotel.GetHotelListDto;
@@ -22,7 +21,7 @@ import java.util.List;
 @Api(tags = "호텔 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/hotelManage")
+@RequestMapping("/hotel")
 @Slf4j
 public class HotelController {
 
@@ -34,7 +33,7 @@ public class HotelController {
             value = "호텔 등록"
             , notes = "호텔 등록 폼에서 입력한 정보로 호텔 등록을 실행한다.")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/createHotel")
+    @PostMapping("/manage/createHotel")
     public Long createHotel(Principal principal,
                             @ApiParam(value = "호텔 등록 폼에 입력한 정보를 담고있는 객체") CreateHotelDto createHotelDto) throws Exception {
         return hotelService.createHotel(createHotelDto, principal.getName());
@@ -44,7 +43,7 @@ public class HotelController {
             value = "객실 등록"
             , notes = "객실 등록 폼에서 입력한 정보로 글 등록을 실행한다.")
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/{hotel_id}/createRoom")
+    @PostMapping("/manage/{hotel_id}/createRoom")
     public ResponseEntity createRoom(@ApiParam(value = "객실을 등록할 호텔의 고유 id") @PathVariable("hotel_id") Long hotel_id,
                                      @ApiParam(value = "객실 등록 폼에 입력한 정보를 담고있는 객체") CreateRoomDto createRoomDto) throws Exception {
 
@@ -91,7 +90,7 @@ public class HotelController {
     @ApiOperation(
             value = "호텔 정보 수정"
             , notes = "호텔 정보 수정을 실행한다.")
-    @PostMapping("/{hotel_id}/updateHotel")
+    @PostMapping("/manage/{hotel_id}/updateHotel")
     public ResponseEntity updateHotel(@ApiParam(value = "수정할 호텔의 고유 id") @PathVariable("hotel_id") Long hotel_id,
                                       @ApiParam(value = "호텔 수정 폼에 입력한 정보를 갖고있는 객체") UpdateHotelDto updateHotelDto) throws Exception {
 
@@ -103,7 +102,7 @@ public class HotelController {
     @ApiOperation(
             value = "객실 정보 수정"
             , notes = "객실 정보 수정을 실행한다.")
-    @PostMapping("/{roomtype_id}/updateRoom")
+    @PostMapping("/manage/{roomtype_id}/updateRoom")
     public ResponseEntity updateHotel(@ApiParam(value = "수정할 객실의 고유 id") @PathVariable("roomtype_id") Long roomtype_id,
                                       @ApiParam(value = "객실 수정 폼에 입력한 정보를 갖고있는 객체") UpdateRoomDto updateRoomDto) throws Exception {
 
@@ -116,7 +115,7 @@ public class HotelController {
     @ApiOperation(
             value = "호텔 삭제"
             , notes = "호텔 삭제를 실행한다.")
-    @GetMapping("/{hotel_id}/deleteHotel")
+    @GetMapping("/manage/{hotel_id}/deleteHotel")
     public ResponseEntity deletePost(@ApiParam(value = "삭제할 호텔의 고유 id") @PathVariable("hotel_id") Long hotel_id) {
 
         hotelService.deleteHotelById(hotel_id);
@@ -127,7 +126,7 @@ public class HotelController {
     @ApiOperation(
             value = "객실 삭제"
             , notes = "객실 삭제를 실행한다.")
-    @PostMapping("/{roomtype_id}/deleteRoom")
+    @PostMapping("/manage/{roomtype_id}/deleteRoom")
     public ResponseEntity deleteRoomType(@ApiParam(value = "삭제할 객실의 고유 id") @PathVariable("roomtype_id") Long roomtype_id) {
 
         hotelService.deleteRoomTypeById(roomtype_id);
@@ -138,7 +137,7 @@ public class HotelController {
     @ApiOperation(
             value = "사진 삭제"
             , notes = "기존에 등록돼있던 사진 삭제를 실행한다.")
-    @PostMapping("/{photo_id}/deletePhoto")
+    @PostMapping("/manage/{photo_id}/deletePhoto")
     public ResponseEntity deletePhoto(@ApiParam(value = "삭제할 사진의 고유 id") @PathVariable("photo_id") Long photo_id) {
 
         photoService.deletePhotoById(photo_id);
@@ -149,7 +148,7 @@ public class HotelController {
     @ApiOperation(
             value = "방 호수 삭제"
             , notes = "특정 객실에 배정돼있던 방 호수 삭제를 실행한다.")
-    @PostMapping("/{room_id}/deleteRoomNum")
+    @PostMapping("/manage/{room_id}/deleteRoomNum")
     public ResponseEntity deleteRoom(@ApiParam(value = "삭제할 객실의 고유 id") @PathVariable("room_id") Long room_id) {
 
         hotelService.deleteRoomById(room_id);

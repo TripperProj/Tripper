@@ -1,15 +1,10 @@
 package com.tripper.service;
 
 import com.tripper.domain.Photo;
-import com.tripper.domain.hotel.Hotel;
-import com.tripper.domain.hotel.Room;
-import com.tripper.domain.hotel.RoomType;
+import com.tripper.domain.hotel.*;
 import com.tripper.domain.user.User;
 import com.tripper.dto.request.hotel.*;
-import com.tripper.dto.response.hotel.GetCrawlingHotelDto;
-import com.tripper.dto.response.hotel.GetHotelDto;
-import com.tripper.dto.response.hotel.GetHotelListDto;
-import com.tripper.dto.response.hotel.GetRoomDto;
+import com.tripper.dto.response.hotel.*;
 import com.tripper.handler.FileHandler;
 import com.tripper.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +34,7 @@ public class HotelService {
     private final PhotoRepository photoRepository;
     private final RoomRepository roomRepository;
     private final RoomTypeRepository roomTypeRepository;
+    private final ReservationRepository reservationRepository;
     private final FileHandler fileHandler;
     
     private WebDriver driver;
@@ -117,6 +113,30 @@ public class HotelService {
 
     }
 
+    /**
+     * 객실 예약
+     */
+    @Transactional
+    public Long createReservation(String name, Long room_id, CreateReservationDto createReservationDto) {
+
+        /* 엔티티 조회 */
+        User user = userRepository.findByMemId(name);
+        Room room = roomRepository.findById(room_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 객실 입니다."));
+
+        Reservation reservation = new Reservation();
+        reservation.setCheckin(createReservationDto.getCheckin());
+        reservation.setCheckout(createReservationDto.getCheckout());
+        reservation.setAdultNum(createReservationDto.getAdultNum());
+        reservation.setChildNum(createReservationDto.getChildNum());
+        reservation.setStatus(ReservationStatus.RESERVED);
+        reservation.setUser(user);
+        reservation.setRoom(room);
+
+        return reservationRepository.save(reservation).getId();
+
+    }
+
     /*---------------------------------    조회    -------------------------------*/
     /**
      * 호텔 목록 조회
@@ -135,7 +155,7 @@ public class HotelService {
     }
 
     /**
-     * hotel_id로 호텔 1개 조회하는 함수
+     * hotel_id로 호텔 1개 조회
      */
     public GetHotelDto findByHotelId(Long hotel_id) {
 
@@ -149,7 +169,7 @@ public class HotelService {
     }
 
     /**
-     * roomtype_id로 특정 객실 조회하는 함수
+     * roomtype_id로 특정 객실 조회
      */
     public GetRoomDto findByRoomTypeId(Long roomtype_id) {
 
@@ -161,6 +181,75 @@ public class HotelService {
 
         return getRoomDto;
     }
+
+    /**
+     * 전체 예약 조회
+     */
+    public GetReservationListDto findAllReservations() {
+
+        List<Reservation> reservations = reservationRepository.findAll();
+        List<GetReservationDto> getReservationDtos = new ArrayList<>();
+
+        for (Reservation reservation : reservations) {
+
+            GetReservationDto getReservationDto = new GetReservationDto(reservation);
+            getReservationDtos.add(getReservationDto);
+        }
+
+        return new GetReservationListDto(getReservationDtos);
+    }
+
+    /**
+     * 현재 로그인한 사용자의 예약 조회
+     */
+    public GetReservationListDto findReservationsByMemId(String memId) {
+
+        List<Reservation> reservations = reservationRepository.findReservationsByMemId(memId);
+        List<GetReservationDto> getReservationDtos = new ArrayList<>();
+
+        for (Reservation reservation : reservations) {
+
+            GetReservationDto getReservationDto = new GetReservationDto(reservation);
+            getReservationDtos.add(getReservationDto);
+        }
+
+        return new GetReservationListDto(getReservationDtos);
+    }
+
+    /**
+     * 특정 호텔에 대한 예약 조회
+     */
+    public GetReservationListDto findReservationsByHotelId(Long hotel_id) {
+
+        List<Reservation> reservations = reservationRepository.findReservationsByHotelId(hotel_id);
+        List<GetReservationDto> getReservationDtos = new ArrayList<>();
+
+        for (Reservation reservation : reservations) {
+
+            GetReservationDto getReservationDto = new GetReservationDto(reservation);
+            getReservationDtos.add(getReservationDto);
+        }
+
+        return new GetReservationListDto(getReservationDtos);
+    }
+
+    /**
+     * 특정 객실에 대한 예약 조회
+     */
+    public GetReservationListDto findReservationsByRoomId(Long room_id) {
+
+        List<Reservation> reservations = reservationRepository.findReservationsByRoomId(room_id);
+        List<GetReservationDto> getReservationDtos = new ArrayList<>();
+
+        for (Reservation reservation : reservations) {
+
+            GetReservationDto getReservationDto = new GetReservationDto(reservation);
+            getReservationDtos.add(getReservationDto);
+        }
+
+        return new GetReservationListDto(getReservationDtos);
+    }
+
 
     /*---------------------------------    수정    -------------------------------*/
     /**
@@ -211,7 +300,6 @@ public class HotelService {
         roomTypeRepository.flush();
 
         /* 객실 엔티티 조회 */
-//        List<Room> rooms = roomRepository.findAllByRoomTypeId(roomtype_id);
         List<Integer> roomNumList = updateRoomDto.getRoomNum();
 
         for(Integer i : roomNumList) {
@@ -267,6 +355,18 @@ public class HotelService {
 
         /* 객실 삭제 */
         roomRepository.delete(room);
+
+    }
+
+    /**
+     * 예약 취소
+     */
+    @Transactional
+    public void cancelReservation(Long reservation_id) {
+
+        Reservation reservation = reservationRepository.findById(reservation_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문 입니다."));
+        reservation.cancel();
 
     }
 
