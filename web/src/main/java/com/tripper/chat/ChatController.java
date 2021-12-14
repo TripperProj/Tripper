@@ -17,35 +17,19 @@ import java.util.List;
 public class ChatController {
 
     private final SimpMessagingTemplate template;
-
     private final ChatRoomRepository chatRoomRepository;
-
-    @MessageMapping("/chat/enter")
-    public ResponseEntity enter(ChatMessage message){
-        message.setMessage(message.getSender() + "님이 채팅방에 입장했습니다.");
-        template.convertAndSend("/sub/chat/room" + message.getRoomId(), message);
-
-        ChatRoom chatRoom = chatRoomRepository.findRoomById(message.getRoomId());
-        chatRoom.addChatMessage(message);
-        List<ChatMessage> messages = new ArrayList<>(chatRoom.getMessages());
-        GetChatRoomDto getChatRoomDto = new GetChatRoomDto(chatRoom.getRoomId(), chatRoom.getBoardId(), messages);
-
-        return ResponseEntity.ok().body(getChatRoomDto);
-    }
 
     @MessageMapping("/chat/message")
     public void message(ChatMessage message){
-        template.convertAndSend("/sub/chat/room" + message.getRoomId(), message);
-        ChatRoom chatRoom = chatRoomRepository.findRoomById(message.getRoomId());
+        if(message.getType() == ChatMessage.MessageType.ENTER) {
+            message.setMessage(message.getSender() + "님이 채팅방에 입장했습니다.");
+        }
+        template.convertAndSend("/sub/chat/room/" + Long.toString(message.getRoomId()), message);
+
+        ChatRoom chatRoom = chatRoomRepository.findById(message.getRoomId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채팅방입니다."));
+
         chatRoom.addChatMessage(message);
     }
 
-    @ApiOperation(
-            value = "채팅방 생성"
-            , notes = "친구찾기 게시판 아이디를 이용해 채팅방을 생성한다.")
-    @PostMapping("/chat/{boardId}")
-    public void createChatRoom(@PathVariable("boardId") Long boardId) {
-        ChatRoom chatRoom = new ChatRoom(boardId);
-        chatRoomRepository.save(chatRoom);
-    }
 }
