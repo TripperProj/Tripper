@@ -1,5 +1,7 @@
 package com.tripper.service.boardservice;
 
+import com.tripper.chat.ChatRoom;
+import com.tripper.chat.ChatRoomRepository;
 import com.tripper.domain.board.FindMateBoard;
 import com.tripper.domain.user.User;
 import com.tripper.dto.request.board.CreateFindMateBoardDto;
@@ -22,6 +24,7 @@ public class FindMateBoardService {
 
     private final FindMateBoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     /**
      * 글 등록
@@ -38,6 +41,10 @@ public class FindMateBoardService {
 
         /* 글 저장 */
         boardRepository.save(board);
+
+        /* 채팅방 생성 */
+        ChatRoom chatRoom = new ChatRoom(board.getId());
+        chatRoomRepository.save(chatRoom);
 
         return board.getId();
     }
@@ -120,6 +127,7 @@ public class FindMateBoardService {
      */
     public void deletePostById(Long boardId) {
         boardRepository.deleteById(boardId);
+        chatRoomRepository.deleteById(boardId);
     }
 
     /**

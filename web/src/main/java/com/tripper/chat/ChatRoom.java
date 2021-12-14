@@ -3,19 +3,28 @@ package com.tripper.chat;
 
 import lombok.Getter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 @Getter
 public class ChatRoom {
-    private String roomId;
-    private Long boardId;
+
+    @Id @Column(name = "chat_room_id")
+    private Long id;
+
+    @ElementCollection
+    @CollectionTable(name = "chat_message")
     private List<ChatMessage> messages = new ArrayList<>();
 
-    public ChatRoom(Long boardId) {
-        this.roomId = UUID.randomUUID().toString();
-        this.boardId = boardId;
+    protected ChatRoom() {
+
+    }
+
+    public ChatRoom (Long id) {
+        this.id = id;
     }
 
     public void addChatMessage(ChatMessage message) {
