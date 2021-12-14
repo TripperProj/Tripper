@@ -18,7 +18,7 @@ h1{
     font-weight: 100;
 }
 footer {
-    min-height: 100vh;
+    min-height: 65vh;
     position: relative;
     width: 100%;
 }
@@ -127,7 +127,6 @@ a:hover {
 .btn {
     cursor: pointer;
     display: inline-block;
-    position: relative;
     background: lightskyblue;
     padding: 0.5rem 1.5rem;
     font-weight: 700;

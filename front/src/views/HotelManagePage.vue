@@ -1,14 +1,15 @@
 <template>
-  <div>
-    <HotelManage></HotelManage>
+  <div class="content">
+    <HotelManageList></HotelManageList>
   </div>
 </template>
 
 <script>
-import HotelManage from "@/components/hotelManage/hotelManage.vue";
+import HotelManageList from "@/components/hotelManage/HotelManageList.vue";
+
 export default {
   components: {
-    HotelManage,
+    HotelManageList,
   },
 };
 </script>

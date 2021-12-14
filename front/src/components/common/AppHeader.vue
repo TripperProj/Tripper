@@ -28,6 +28,8 @@ export default {};
 
 <style scoped>
 header {
+  position: sticky;
+  top: 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;

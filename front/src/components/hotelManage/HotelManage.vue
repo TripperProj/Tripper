@@ -15,21 +15,7 @@
 </template>
 
 <script>
-import {} from "@/api/hotel";
-
-export default {
-  data() {
-    return {
-      managerID: this.$store.getters.getManageId,
-    };
-  },
-  methods: {
-    loadHotelList() {},
-  },
-  created() {
-    this.loadHotelList();
-  },
-};
+export default {};
 </script>
 
-<style scoped></style>
+<style></style>
