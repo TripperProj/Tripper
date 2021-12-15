@@ -1,0 +1,125 @@
+.hotelList{
+    overflow: hidden;
+    .hotel-item {
+        float: left;
+        width: calc(25% - 20px);
+        height: fixed(500px);
+        background: white;
+                border-radius: 10px;
+                padding: 15x 10px;
+                margin: 15px 5px;
+                list-style: none;
+    .hotel-img-slot {
+        .hotel-img {
+            height: 200px;
+            width: calc(25% - 20px);
+        }
+    }
+    .hotel-item-header{
+        margin: 5px 10px;
+        padding : 5px 0px
+    }
+    .hotel-item-body{
+        margin: 10px;
+        padding: 0px 10px;
+    }
+
+    .hotel-item-footer{
+        margin: 10px;
+        padding: 5px 10px;
+        .hotel-location {
+            
+            opacity: 0.5;
+        }
+    }
+            }
+        }
+
+.hotel-manage {
+    .hotel-manage-header {
+        margin-left: 5%;
+        width: 95%;
+        height: 150px;
+    }
+    .hotel-manage-body{       
+         .hotel-manage-list-head {
+            position: sticky;
+            top: 56px;
+            background-color: #efefef;
+            padding: 0px 0px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid grey;
+            height: 60px;
+            text-align: center;
+            .index{
+                width: 80px;
+                height: 60px;
+                display: flex;
+                font-weight: 700;
+                align-items: center;
+                justify-content: center;
+                color: cadetblue;
+                border-right: 1px dotted ;
+            }
+            .hotel-name{
+                margin: 0px 10px; 
+                width: calc(25% - 20px);
+            }
+            .reservation{
+                margin: 0px 10px; 
+                width: calc(25% - 20px);
+            }
+            .vacant-room{
+                margin: 0px 10px; 
+                width: calc(25% - 20px);
+
+            }
+        }
+        .hotel-manage-list{
+            background-color:  white;
+            margin: 0px 0px;
+            text-align: center;
+            .hotel-manage-item{
+                list-style:  none;
+                display: flex;
+                align-items: center;
+                text-align: center;
+                border-bottom: 1px solid black;
+                .index{
+                    width: 80px;
+                    height: 60px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: cadetblue;
+                    border-right: 1px dotted ;
+                }
+                .hotel-name{
+                        margin: 0px 10px; 
+                        width: calc(25% - 20px);
+                    }
+                .reservation{
+                        margin: 0px 10px; 
+                        width: calc(25% - 20px);
+                    }
+                    .vacant-room{
+                        margin: 0px 10px; 
+                        width: calc(25% - 20px);
+                    }
+                }
+                button {
+                width: 65px;
+                height: 25px;
+                cursor: pointer;
+                display: inline-block;
+                background: lightblue;
+                border-radius: .25rem;
+                border : 0 solid #dae1e7;
+                font-weight: 700;
+                transition: 0.5s;
+                }
+
+            }
+        }
+    }

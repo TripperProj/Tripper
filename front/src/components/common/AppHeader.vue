@@ -14,8 +14,9 @@
         <router-link to="/signup"> 회원가입</router-link>
       </div>
       <div class="menu-client" v-else>
+        <router-link to="/scheduler"> 일정 </router-link> |
         <router-link to="/community"> 커뮤니티</router-link> |
-        <router-link to="/findroom"> 호텔</router-link>
+        <router-link to="/hotel"> 호텔</router-link>
       </div>
     </div>
   </header>
@@ -27,6 +28,8 @@ export default {};
 
 <style scoped>
 header {
+  position: sticky;
+  top: 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;

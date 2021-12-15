@@ -22,4 +22,5 @@ export default {
 <style>
 @import "./css/common.css";
 @import "./css/community.css";
+@import "./css/hotel.css";
 </style>

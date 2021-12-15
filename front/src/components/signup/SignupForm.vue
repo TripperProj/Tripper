@@ -8,7 +8,6 @@
           <div class="btn" v-on:click="idCheck" id="duplicateCheck">
             중복확인
           </div>
-          <span class="log"> 확인되었습니다. </span>
           <span class="warning"> {{ idCheckMessage }}</span>
         </div>
         <div class="signup-pass">
@@ -71,14 +70,21 @@
           />
           <span class="warning">{{ certEmailMessage }}</span>
         </div>
-        <button class="btn" type="submit">회원가입</button>
+        <button class="btn" type="submit" v-bind:disabled="btnAble">
+          회원가입
+        </button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import { signupUser, certUserEmail, userIdCheck } from "@/api/auth.js";
+import {
+  signupUser,
+  certUserEmail,
+  userIdCheck,
+  certNumCheck,
+} from "@/api/auth.js";
 import {
   validateEmail,
   validatePassword,
@@ -98,6 +104,8 @@ export default {
       certNum: "",
       certEmailMessage: "",
       idCheckMessage: "",
+      idChecked: false,
+      emailChecked: false,
     };
   },
   computed: {
@@ -109,6 +117,15 @@ export default {
     },
     userPasswordCheck() {
       return checkPassword(this.password, this.passwordCheck);
+    },
+    btnAble() {
+      return (
+        this.userEmailValid &&
+        this.userPasswordValid &&
+        this.userPasswordCheck &&
+        this.emailChecked &&
+        this.idChecked
+      );
     },
   },
   methods: {
@@ -124,33 +141,41 @@ export default {
         auth: "ROLE_USER",
       };
       try {
-        const data = await signupUser(userData);
-        data === 200 ? ((this.memId = ""), this.claerAll()) : console.log(data);
+        const { status } = await signupUser(userData);
+        status === 200 ? this.$router.push("/auth") : console.log(status);
       } catch (error) {
         console.log(error);
       } finally {
         this.clearAll();
-        this.$router.push("/auth");
       }
     },
     async certEmail() {
       // 사용자 이메일 인증
       const email = this.email;
       try {
-        const { data } = await certUserEmail(email);
-        data.code === 500
-          ? (this.certEmailMessage = " 인증되었습니다. ")
-          : (this.certEmailMessage = "인증번호를 확인해주세요.");
+        const response = await certUserEmail(email);
+        console.log(response);
       } catch (error) {
         console.log(error);
       }
+    },
+    async certEmailNum() {
+      const certNum = this.certNum;
+      const { status } = await certNumCheck(certNum);
+      status === 200
+        ? (this.emailChecked = true)
+        : (this.certEmailMessage = "인증번호를 확인해주세요.");
     },
     async idCheck() {
       // 사용자 아이디 중복확인
       const memid = this.memid;
       try {
-        const data = await userIdCheck(memid);
+        const { data } = await userIdCheck(memid);
         console.log(data);
+        data === "ok"
+          ? ((this.idCheckMessage = "사용가능한 아이디입니다."),
+            (this.idChecked = true))
+          : (this.idCheckMessage = "다른 아이디를 사용해주세요.");
       } catch (error) {
         console.log(error);
       }

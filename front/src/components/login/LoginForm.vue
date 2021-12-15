@@ -61,6 +61,7 @@ export default {
   opacity: 0.5;
 }
 .find-idpassword {
+  position: unset;
   color: grey;
   opacity: 0.6;
 }

@@ -19,8 +19,18 @@ function socialSignupUser(userData) {
 function certUserEmail(Email) {
   return instance.post("/user/certEmail", Email);
 }
+function certNumCheck(certNum) {
+  return instance.post(`/user/certEmail/${certNum}`);
+}
 function userIdCheck(userId) {
   return instance.get("/user/checkExists", userId);
 }
 
-export { loginUser, signupUser, certUserEmail, userIdCheck, socialSignupUser };
+export {
+  loginUser,
+  signupUser,
+  certUserEmail,
+  userIdCheck,
+  socialSignupUser,
+  certNumCheck,
+};
