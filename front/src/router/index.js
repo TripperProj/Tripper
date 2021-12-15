@@ -37,6 +37,10 @@ const routes = [
     component: () => import("@/components/scheduler/ScheduleList.vue"),
   },
   {
+    path: "/budget",
+    component: () => import("@/components/budget/BudgetPage.vue"),
+  },
+  {
     path: "*",
     component: () => import("@/views/NotFoundPage.vue"),
   },

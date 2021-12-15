@@ -4,7 +4,7 @@
       <h2>{{ trip.destination }}</h2>
       <div class="range">{{ trip.start_date }} - {{ trip.end_date }}</div>
     </div>
-    <div class="createBtn" @click="updateBudget">
+    <div class="createBtn" @click="pageLink">
       <div class="border">예산 관리</div>
     </div>
     <div class="list" v-for="list in schedule" :key="list.scheduleal_id">
@@ -64,11 +64,10 @@ export default {
     createTrip() {
       this.createStat = true;
     },
-    changeBudgetStat(val) {
-      this.budgetStat = val;
-    },
-    updateBudget() {
-      this.budgetStat = true;
+    pageLink() {
+      this.$router.push({ path: "budget" });
+      //해당 여행의 id 값과 관련해서 함께 푸시
+      //router.push({path:'budget, query:{id:'13234}'});
     },
   },
 };
