@@ -1,5 +1,6 @@
 package com.tripper.controller;
 
+import com.tripper.dto.request.board.CreateCommentDto;
 import com.tripper.dto.request.board.CreateTripReviewBoardDto;
 import com.tripper.dto.request.board.UpdateTripReviewBoardDto;
 import com.tripper.dto.response.board.GetFindMateBoardDto;
@@ -96,5 +97,20 @@ public class TripReviewBoardController {
         boardService.deletePostById(boardId);
         return ResponseEntity.ok().build();
 
+    }
+
+    @ApiOperation(
+            value = "댓글 추가"
+            , notes = "게시글에 댓글을 추가한다")
+    @PostMapping("/{boardId}/comment")
+    public ResponseEntity addComment(@RequestBody CreateCommentDto dto,
+                                     @PathVariable("boardId") Long boardId, Authentication authentication) {
+        /* 현재 로그인한 사용자 정보 가져오기 */
+        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+
+        /* 글 등록하기 */
+        boardService.addComment(dto, boardId, userDetails.getUsername());
+
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,7 +1,9 @@
 package com.tripper.service.boardservice;
 
+import com.tripper.domain.board.Comment;
 import com.tripper.domain.board.TripReviewBoard;
 import com.tripper.domain.user.User;
+import com.tripper.dto.request.board.CreateCommentDto;
 import com.tripper.dto.request.board.CreateTripReviewBoardDto;
 import com.tripper.dto.request.board.UpdateTripReviewBoardDto;
 import com.tripper.dto.response.board.GetTripReviewBoardDto;
@@ -118,5 +120,19 @@ public class TripReviewBoardService {
      */
     public void deletePostById(Long boardId) {
         boardRepository.deleteById(boardId);
+    }
+
+    /**
+     * 댓글 추가 함수
+     */
+    public void addComment(CreateCommentDto dto, Long boardId, String memId) {
+        /* 엔티티 조회 */
+        User user = userRepository.findByMemId(memId);
+
+        TripReviewBoard board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
+
+        Comment comment = new Comment(dto.getContent(), board, user);
+        board.addComment(comment);
     }
 }
