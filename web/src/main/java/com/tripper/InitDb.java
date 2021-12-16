@@ -1,9 +1,9 @@
 package com.tripper;
 
-import com.tripper.dto.request.board.CreateBoardDto;
 import com.tripper.domain.board.Board;
 import com.tripper.domain.user.Role;
 import com.tripper.domain.user.User;
+import com.tripper.dto.request.board.CreateFindMateBoardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

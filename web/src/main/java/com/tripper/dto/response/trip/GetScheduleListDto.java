@@ -1,4 +1,4 @@
-package com.tripper.chat;
+package com.tripper.dto.response.trip;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import java.util.List;
 
 @Getter @Setter
 @AllArgsConstructor
-public class GetChatRoomDto {
-    private Long id;
-    private List<ChatMessage> messages = new ArrayList<>();
+public class GetScheduleListDto {
+    List<GetScheduleDto> schedules = new ArrayList<>();
 }
