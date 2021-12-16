@@ -1,8 +1,8 @@
 package com.tripper.controller;
 
-import com.tripper.dto.request.*;
-import com.tripper.dto.response.GetBudgetDto;
-import com.tripper.dto.response.GetBudgetItemsDto;
+import com.tripper.dto.request.budget.*;
+import com.tripper.dto.response.budget.GetBudgetDto;
+import com.tripper.dto.response.budget.GetBudgetItemsDto;
 import com.tripper.service.BudgetService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

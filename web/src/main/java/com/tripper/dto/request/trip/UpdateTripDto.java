@@ -1,4 +1,4 @@
-package com.tripper.dto.request;
+package com.tripper.dto.request.trip;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,11 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
- * 여행 생성 정보를 담은 dto
+ * 여행 수정 정보를 담은 dto
  */
 @Getter @Setter
 @AllArgsConstructor
-public class CreateTripDto {
+public class UpdateTripDto {
 
     @NotNull(message = "목적지를 입력해주세요.")
     private String destination;
