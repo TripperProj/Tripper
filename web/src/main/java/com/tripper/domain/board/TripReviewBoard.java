@@ -1,6 +1,7 @@
 package com.tripper.domain.board;
 
 import com.tripper.domain.user.User;
+import lombok.Getter;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class TripReviewBoard extends Board {
 
     @OneToMany(mappedBy = "board")

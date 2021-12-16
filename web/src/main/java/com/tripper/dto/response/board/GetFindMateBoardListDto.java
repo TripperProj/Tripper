@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApiModel(value = "여행메이트 게시판 글 리스트 Respose DTO")
+@ApiModel(value = "여행메이트 게시판 글 리스트 Response DTO")
 @Getter @Setter
 @AllArgsConstructor
 public class GetFindMateBoardListDto {
