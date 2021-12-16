@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @click="pageLink">
     <div class="tripList" v-for="(trip, index) in trips" :key="index">
       <div class="border">
         <div class="context">
@@ -20,6 +20,13 @@ export default {
       { title: "울산", memo: "회 파나,,?" },
     ],
   }),
+  methods: {
+    pageLink() {
+      this.$router.push({ path: "schedule-list" });
+      //해당 여행의 id 값과 관련해서 함께 푸시
+      //router.push({path:'schedule-list', query:{id:'13234}'});
+    },
+  },
 };
 </script>
 
