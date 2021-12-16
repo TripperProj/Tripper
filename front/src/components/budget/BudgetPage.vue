@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    <h3>총 예산</h3>
+    <h2>{{ total }} 원 남았습니다!</h2>
     <div class="createBtn" @click="pageLink">
       <div class="border">예산 설정</div>
     </div>
@@ -7,10 +9,39 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data: () => ({
+    total: 2443530,
+  }),
+  created() {
+    this.comma(this.total);
+  },
+  methods: {
+    //화폐 콤마 찍기
+    comma(num) {
+      var len, point, str;
+
+      num = num + "";
+      point = num.length % 3;
+      len = num.length;
+
+      str = num.substring(0, point);
+      while (point < len) {
+        if (str != "") str += ",";
+        str += num.substring(point, point + 3);
+        point += 3;
+      }
+      this.total = str;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
+.container {
+  width: 80%;
+  margin: 50px auto;
+}
 .createBtn {
   width: 120px;
   height: 60px;
