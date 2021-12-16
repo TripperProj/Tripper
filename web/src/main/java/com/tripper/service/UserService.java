@@ -40,35 +40,47 @@ public class UserService implements UserDetailsService {
      * 회원가입
      */
     @Transactional
-    public Long createUser(CreateUserDto createUserDto) {
+    public void createUser(CreateUserDto createUserDto) {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         createUserDto.setPassword(encoder.encode(createUserDto.getPassword()));
-        User user = new User(createUserDto, Role.ROLE_NOTCERTIFIED);
 
-        return userRepository.save(user).getId();
+        Role auth = Role.ROLE_NOTCERTIFIED;
+
+        if(createUserDto.getMemId().equals("admin")) {
+            auth = Role.ROLE_ADMIN;
+        }
+
+        User user = User.builder()
+                .memId(createUserDto.getMemId())
+                .password(createUserDto.getPassword())
+                .name(createUserDto.getName())
+                .phone(createUserDto.getPhone())
+                .email(createUserDto.getEmail())
+                .nickname(createUserDto.getNickname())
+                .auth(auth)
+                .build();
+
+        userRepository.save(user);
 
     }
 
     /**
      * 아이디 중복체크
      */
-    public User checkMemIdExists(String memId) {
+    public Boolean checkMemIdExists(String memId) {
 
         User user = userRepository.findByMemId(memId);
-        return user;
-//        if(user != null) {
-//            throw new IllegalStateException("이미 존재하는 아이디입니다.");
-//        }
-//        String rslt = "";
-//
-//        if(user != null) {
-//            rslt = "fail";
-//        }
-//        else if(user == null) {
-//            rslt = "ok";
-//        }
-//        return rslt;
+        Boolean isExists;
+
+        if(user != null) {
+            isExists = true;
+        }
+        else {
+            isExists = false;
+        }
+
+        return isExists;
     }
 
     /**
@@ -83,8 +95,9 @@ public class UserService implements UserDetailsService {
             GetUserDto getUserDto = new GetUserDto(user);
             getUserDtoList.add(getUserDto);
         }
+        int total = getUserDtoList.size();
 
-        return new GetUserListDto(getUserDtoList);
+        return new GetUserListDto(getUserDtoList, total);
 
     }
 
@@ -99,25 +112,37 @@ public class UserService implements UserDetailsService {
      * 회원 정보 수정
      */
     @Transactional
-    public void updateUser(Long user_id, UpdateUserDto updateUserDto) {
+    public void updateUserInfo(Long userId, UpdateUserDto updateUserDto) {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         updateUserDto.setPassword(encoder.encode(updateUserDto.getPassword()));
 
-        /* 엔티티 조회 */
-        User user = userRepository.findById(user_id)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."));
 
-        /* 수정 내역으로 업데이트 */
-        user.updateUser(updateUserDto);
+        String updatePassword = updateUserDto.getPassword();
+        String updatePhone = updateUserDto.getPhone();
+
+        user.updateUserInfo(updatePassword, updatePhone);
     }
 
     /**
      * 회원 탈퇴
      */
     @Transactional
-    public void deleteUserById(Long user_id) {
-        userRepository.deleteById(user_id);
+    public void deleteUserById(Long userId) {
+        userRepository.deleteById(userId);
     }
 
+    /**
+     * 회원 권한 변경
+     */
+    @Transactional
+    public void updateAuth(Long userId, Role auth) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."));
+
+        user.updateAuth(auth);
+    }
 }
