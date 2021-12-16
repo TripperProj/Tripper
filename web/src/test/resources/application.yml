@@ -1,24 +1,12 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/tripper
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-    thymeleaf:
-      prefix: classpath:/templates/
-      suffix: .html
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-
+    url: jdbc:mysql://tripper-db.clj2l5jnnuzc.ap-northeast-2.rds.amazonaws.com:3306/tripperdb
+      username: tripper
+      password: tripperpassword
+      driver-class-name: com.mysql.cj.jdbc.Driver
 logging:
   level:
     org.hibernate.SQL: debug
-    org.hibernate.type: trace
+#    org.hibernate.type: trace
 
 

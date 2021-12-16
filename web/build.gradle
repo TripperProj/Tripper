@@ -22,10 +22,6 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    //JUnit4
-    testImplementation("org.junit.vintage:junit-vintage-engine") {
-        exclude group: "org.hamcrest", module: "hamcrest-core"
-    }
     implementation 'org.springframework.boot:spring-boot-devtools'
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -34,8 +30,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-//    implementation project(":core")
-//    implementation project(":api")
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.hamcrest:hamcrest-library:2.2'
+    testImplementation 'org.mockito:mockito-core:3.11.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.11.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
 }
 
 test {

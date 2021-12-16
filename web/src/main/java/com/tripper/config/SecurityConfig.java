@@ -67,9 +67,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 /* 인증 필요 없는 요청 */
-                .antMatchers("/", "/login", "/user/signup", "/user/checkExists").permitAll()
+                .antMatchers("/", "/signup", "/id-check", "/login").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
-                /* 다른 요청들은 인증 필요 */
+                .and()
+                .authorizeRequests()
+                /* 관리자 접근 가능 요청 */
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/admin/hotel/**").hasAnyAuthority("ADMIN", "MANAGER")
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
