@@ -1,4 +1,4 @@
-package com.tripper.dto.request;
+package com.tripper.dto.request.budget;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

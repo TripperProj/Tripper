@@ -1,11 +1,11 @@
 package com.tripper.controller;
 
-import com.tripper.dto.request.CreateScheduleDto;
-import com.tripper.dto.request.CreateTripDto;
-import com.tripper.dto.request.UpdateScheduleDto;
-import com.tripper.dto.request.UpdateTripDto;
-import com.tripper.dto.response.GetScheduleListDto;
-import com.tripper.dto.response.GetTripListDto;
+import com.tripper.dto.request.trip.CreateScheduleDto;
+import com.tripper.dto.request.trip.CreateTripDto;
+import com.tripper.dto.request.trip.UpdateScheduleDto;
+import com.tripper.dto.request.trip.UpdateTripDto;
+import com.tripper.dto.response.trip.GetScheduleListDto;
+import com.tripper.dto.response.trip.GetTripListDto;
 import com.tripper.service.TripService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
