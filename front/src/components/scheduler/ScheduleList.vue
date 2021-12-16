@@ -4,6 +4,9 @@
       <h2>{{ trip.destination }}</h2>
       <div class="range">{{ trip.start_date }} - {{ trip.end_date }}</div>
     </div>
+    <div class="createBtn" @click="pageLink">
+      <div class="border">예산 관리</div>
+    </div>
     <div class="list" v-for="list in schedule" :key="list.scheduleal_id">
       <div class="head">
         <div class="name">{{ list.name }}</div>
@@ -28,6 +31,7 @@ import CreateSchedule from "@/components/scheduler/CreateSchedule.vue";
 export default {
   data: () => ({
     createStat: false,
+    budgetStat: false,
     trip: {
       destination: "3년만에 떠나는 우정여행 제주도",
       start_date: "2021-11-13",
@@ -59,6 +63,11 @@ export default {
     },
     createTrip() {
       this.createStat = true;
+    },
+    pageLink() {
+      this.$router.push({ path: "budget" });
+      //해당 여행의 id 값과 관련해서 함께 푸시
+      //router.push({path:'budget, query:{id:'13234}'});
     },
   },
 };
@@ -156,6 +165,36 @@ export default {
         position: relative;
         bottom: 3px;
       }
+    }
+  }
+  .createBtn {
+    width: 120px;
+    height: 60px;
+    display: flex;
+    position: absolute;
+    right: 60px;
+    top: 130px;
+    justify-content: center;
+    align-items: center;
+    background: #7dbeff;
+    border-radius: 10px;
+    color: #fff;
+    float: right;
+    z-index: 1;
+    &:hover {
+      cursor: pointer;
+      background: #f99ec0;
+      box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.3);
+      position: absolute;
+      bottom: 1px;
+    }
+    .border {
+      border-radius: 7px;
+      width: 80px;
+      border: 3px solid #fff;
+      padding: 10px 10px;
+      font-weight: 700;
+      text-align: center;
     }
   }
 }
