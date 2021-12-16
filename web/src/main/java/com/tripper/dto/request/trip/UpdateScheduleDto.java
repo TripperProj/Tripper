@@ -1,4 +1,4 @@
-package com.tripper.dto.request;
+package com.tripper.dto.request.trip;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,11 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * 일정 생성 정보를 담은 dto
+ * 일정 수정 정보를 담은 dto
  */
 @Getter @Setter
 @AllArgsConstructor
-public class CreateScheduleDto {
+public class UpdateScheduleDto {
 
     @NotNull(message = "일정 제목을 입력해주세요.")
     private String name;

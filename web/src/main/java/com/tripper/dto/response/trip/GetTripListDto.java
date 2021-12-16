@@ -1,4 +1,4 @@
-package com.tripper.dto.response;
+package com.tripper.dto.response.trip;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
