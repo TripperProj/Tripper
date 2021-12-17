@@ -12,7 +12,6 @@ import java.io.Serializable;
 @ApiModel(value = "로그인 Request DTO")
 @Getter @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class CreateJwtDto implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
