@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity @Getter
 public class Comment {
@@ -14,6 +15,7 @@ public class Comment {
     private Long id;
 
     private String content;
+    private LocalDateTime createdTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -30,6 +32,7 @@ public class Comment {
         this.content = content;
         this.board = board;
         this.user = user;
+        this.createdTime = LocalDateTime.now();
     }
 }
 

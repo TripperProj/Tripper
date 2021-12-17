@@ -4,13 +4,6 @@ spring:
     username: tripper
     password: tripperpassword
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:h2:tcp://localhost/~/tripper
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
-    thymeleaf:
-      prefix: classpath:/templates/
-      suffix: .html
 
   jpa:
     hibernate:
@@ -42,6 +35,3 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
-
-# server:
-#   port: 8089

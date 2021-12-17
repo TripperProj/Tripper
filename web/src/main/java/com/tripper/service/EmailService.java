@@ -21,9 +21,6 @@ public class EmailService {
 
     /**
      * 전송할 메일 생성 + 이메일 인증코드 저장 하는 함수
-     * @param email
-     * @param memId
-     * @return
      */
     public CreateEmailDto createMailAndChangeAuth(String email, String memId) {
 
@@ -39,8 +36,6 @@ public class EmailService {
 
     /**
      * 회원 db의 이메일 인증코드 저장하는 함수
-     * @param authCode
-     * @param memId
      */
     @Transactional
     public void updateEmailAuthCode(String authCode, String memId){
@@ -56,7 +51,6 @@ public class EmailService {
 
     /**
      * 인증 코드 생성해주는 함수
-     * @return
      */
     public String getTempCode(){
 
@@ -77,7 +71,6 @@ public class EmailService {
 
     /**
      * 이메일 보내는 함수
-     * @param createEmailDto
      */
     public void mailSend(CreateEmailDto createEmailDto) {
 
@@ -94,9 +87,6 @@ public class EmailService {
 
     /**
      * 회원이 입력한 인증 코드와 db의 인증코드가 일치하는지 확인하는 함수
-     * @param authCode
-     * @param memId
-     * @return
      */
     public Boolean checkEmailAuthCode(String authCode, String memId) {
 

@@ -5,8 +5,8 @@ import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.board.Board;
 import com.tripper.domain.hotel.Hotel;
 import com.tripper.domain.hotel.Reservation;
-import com.tripper.dto.request.user.UpdateUserDto;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,43 +15,34 @@ import javax.persistence.*;
 import java.util.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 /**
  * @author HanJiyoung
  * 회원 정보 엔티티 클래스
  */
-@NoArgsConstructor
 @Entity
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = PROTECTED)
+@Slf4j
 public class User extends BaseTimeEntity implements UserDetails {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "user_id")
-    private Long id; // PK
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String memId;
 
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String phone;
-
-    @Column(nullable = false)
     private String email;
-
-    @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role auth;
 
-    @Column
     private String emailAuthCode;
 
     @JsonIgnore
@@ -64,7 +55,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Reservation> resrvations = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
 
     @Builder
     public User(String memId, String password, String name, String phone, String email, String nickname, Role auth) {
@@ -119,11 +110,19 @@ public class User extends BaseTimeEntity implements UserDetails {
     }
 
     /* 회원정보 수정 */
-    public void updateUser(UpdateUserDto updateUserDto) {
-        this.password = updateUserDto.getPassword();
-        this.phone = updateUserDto.getPhone();
-        this.email = updateUserDto.getEmail();
-        this.nickname = updateUserDto.getNickname();
-        this.auth = updateUserDto.getAuth();
+    public void updateUserInfo(String password, String phone) {
+        this.password = password;
+        this.phone = phone;
     }
+
+    /* 권한 수정*/
+    public void updateAuth(Role auth) {
+        this.auth = auth;
+    }
+
+    /* 이메일 인증 코드 저장 */
+    public void setEmailAuthCode(String emailAuthCode) {
+        this.emailAuthCode = emailAuthCode;
+    }
+
 }
