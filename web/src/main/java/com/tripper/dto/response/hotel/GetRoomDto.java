@@ -1,33 +1,37 @@
 package com.tripper.dto.response.hotel;
 
-import com.tripper.domain.Photo;
-import com.tripper.domain.hotel.Room;
-import com.tripper.domain.hotel.RoomType;
+import com.tripper.dto.response.GetPhotoListDto;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
 @ApiModel(value = "객실 Respose DTO")
-@Getter @Setter
+@Getter
 @AllArgsConstructor
 public class GetRoomDto {
 
+    @ApiModelProperty(value = "객실 분류 고유 번호")
+    private Long id;
+
+    @ApiModelProperty(value = "객실 분류명")
     private String name;
-    private List<Photo> photos;
-    private int standardCapcacity;
-    private int maxCapcacity;
-    private List<Room> rooms;
+
+    @ApiModelProperty(value = "기준 인원")
+    private int standardCapacity;
+
+    @ApiModelProperty(value = "최대 인원")
+    private int maxCapacity;
+
+    @ApiModelProperty(value = "하위 객실들")
+    private List<Integer> rooms;
+
+    @ApiModelProperty(value = "1박 가격")
     private int price;
 
-    public GetRoomDto(RoomType roomType) {
-        this.name = roomType.getName();
-        this.photos = roomType.getPhotos();
-        this.standardCapcacity = roomType.getStandardCapacity();
-        this.maxCapcacity = roomType.getMaxCapacity();
-        this.rooms = roomType.getRooms();
-        this.price = roomType.getRooms().get(0).getPrice();
-    }
+    @ApiModelProperty(value = "객실 사진")
+    private GetPhotoListDto photos;
+
 }
