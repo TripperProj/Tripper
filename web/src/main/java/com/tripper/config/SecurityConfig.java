@@ -72,8 +72,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 /* 관리자 접근 가능 요청 */
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/admin/hotel/**").hasAnyAuthority("ADMIN", "MANAGER")
+                .antMatchers("/admin/hotel", "/admin/hotel/**"
+                        , "/admin/roomtype", "/admin/roomtype/**"
+                        , "/admin/room", "/admin/room/**", "/admin/photo/**"
+                        , "/admin/reservations", "/admin/reservations/**").hasAnyAuthority("ADMIN", "MANAGER")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/admin/users", "/admin/auth/**").hasAuthority("ADMIN")
+                .and()
+                .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

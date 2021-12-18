@@ -1,29 +1,29 @@
 package com.tripper.dto.response.hotel;
 
-import com.tripper.domain.Photo;
-import com.tripper.domain.hotel.Hotel;
+import com.tripper.dto.response.GetPhotoListDto;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
 
 @ApiModel(value = "호텔 Respose DTO")
-@Getter @Setter
+@Getter
 @AllArgsConstructor
 public class GetHotelDto {
 
+    @ApiModelProperty(value = "호텔 고유 아이디")
     private Long id;
-    private String name;
-    private String address;
-    private List<Photo> photos;
 
-    public GetHotelDto(Hotel hotel) {
-        this.id = hotel.getId();
-        this.name = hotel.getName();
-        this.address = hotel.getAddress();
-        this.photos = hotel.getPhotos();
-    }
+    @ApiModelProperty(value = "호텔 이름")
+    private String name;
+
+    @ApiModelProperty(value = "주소")
+    private String address;
+
+    @ApiModelProperty(value = "호텔 사진 목록")
+    private GetPhotoListDto photos;
+
+    @ApiModelProperty(value = "객실 목록")
+    private GetRoomListDto rooms;
 
 }
