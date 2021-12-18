@@ -4,7 +4,6 @@ import router from "@/router/index";
 import store from "@/store/index";
 
 import DragItDude from "vue-drag-it-dude";
-import axios from "axios";
 
 import { formatDate } from "@/utils/filters";
 

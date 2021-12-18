@@ -1,20 +1,32 @@
 <template>
   <div class="container">
-    <h3>총 예산</h3>
-    <h2>{{ total }} 원 남았습니다!</h2>
-    <div class="createBtn" @click="pageLink">
-      <div class="border">예산 설정</div>
+    <div class="preview">
+      <h3>총 예산 {{ budget }} 원에서</h3>
+      <h2>{{ total }} 원 남았습니다!</h2>
+      <span id="today">오늘의 지출 금액 {{ today }} 원</span>
+      <div class="createBtn" @click="pageLink">
+        <div class="border">예산 설정</div>
+      </div>
     </div>
+    <UpdateBudget id="updateBudget" />
   </div>
 </template>
 
 <script>
+import UpdateBudget from "./UpdateBudget.vue";
 export default {
+  components: {
+    UpdateBudget,
+  },
   data: () => ({
-    total: 2443530,
+    budget: 1000000,
+    total: 443530,
+    today: 243300,
   }),
   created() {
-    this.comma(this.total);
+    this.total = this.comma(this.total);
+    this.budget = this.comma(this.budget);
+    this.today = this.comma(this.today);
   },
   methods: {
     //화폐 콤마 찍기
@@ -31,7 +43,7 @@ export default {
         str += num.substring(point, point + 3);
         point += 3;
       }
-      this.total = str;
+      return str;
     },
   },
 };
@@ -41,6 +53,10 @@ export default {
 .container {
   width: 80%;
   margin: 50px auto;
+  #today {
+    color: #a0acbd;
+    font-size: 16px;
+  }
 }
 .createBtn {
   width: 120px;
