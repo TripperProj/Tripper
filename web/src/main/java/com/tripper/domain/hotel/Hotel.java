@@ -4,21 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.Photo;
 import com.tripper.domain.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @NoArgsConstructor
 @Entity
-@Getter @Setter
+@Getter
 public class Hotel extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
@@ -28,19 +27,19 @@ public class Hotel extends BaseTimeEntity {
     private String name;
     private String address;
 
-//    @ManyToOne(fetch = LAZY)
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "hotel", cascade = REMOVE)
+    @OneToMany(mappedBy = "hotel", orphanRemoval = true)
     private List<RoomType> roomTypes = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "hotel", cascade = REMOVE)
+    @OneToMany(mappedBy = "hotel", orphanRemoval = true)
     private List<Photo> photos = new ArrayList<>();
 
+    @Builder
     public Hotel(String name, String address, User user) {
         this.name = name;
         this.address = address;
@@ -56,4 +55,9 @@ public class Hotel extends BaseTimeEntity {
         }
     }
 
+    /* 호텔 정보 수정 */
+    public void updateHotelInfo(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
 }

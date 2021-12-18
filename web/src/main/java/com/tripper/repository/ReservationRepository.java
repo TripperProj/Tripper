@@ -9,12 +9,8 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    @Query("SELECT r FROM Reservation r WHERE r.user.memId = :memId")
-    List<Reservation> findReservationsByMemId(@Param("memId") String memId);
+    List<Reservation> findByUser_MemId(String memId);
+    List<Reservation> findByRoom_RoomType_Hotel_Id(Long hotelId);
+    List<Reservation> findByRoom_Id(Long roomId);
 
-    @Query("SELECT r FROM Reservation r WHERE r.room.roomType.hotel.id = :hotelId")
-    List<Reservation> findReservationsByHotelId(@Param("hotelId") Long hotelId);
-
-    @Query("SELECT r FROM Reservation r WHERE r.room.id= :roomId")
-    List<Reservation> findReservationsByRoomId(@Param("roomId") Long roomId);
 }
