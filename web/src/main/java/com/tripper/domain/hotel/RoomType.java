@@ -3,14 +3,13 @@ package com.tripper.domain.hotel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.Photo;
-import com.tripper.dto.request.hotel.UpdateRoomDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +19,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @NoArgsConstructor
 @Entity
-@Getter @Setter
+@Getter
 public class RoomType extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "roomtype_id")
-    private Long id; // PK
+    private Long id;
 
     private String name;
     private int standardCapacity;
@@ -37,13 +36,14 @@ public class RoomType extends BaseTimeEntity {
     private Hotel hotel;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "hotel", cascade = REMOVE)
+    @OneToMany(mappedBy = "hotel", orphanRemoval = true)
     private List<Photo> photos = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "roomType", cascade = REMOVE)
+    @OneToMany(mappedBy = "roomType", orphanRemoval = true)
     private List<Room> rooms = new ArrayList<>();
 
+    @Builder
     public RoomType(String name, int standardCapacity, int maxCapacity, Hotel hotel) {
         this.name = name;
         this.standardCapacity = standardCapacity;
@@ -56,13 +56,15 @@ public class RoomType extends BaseTimeEntity {
         this.photos.add(photo);
 
         if(photo.getRoomType() != this) {
+            photo.setHotel(this.getHotel());
             photo.setRoomType(this);
         }
     }
 
-    public void updateRoomType(UpdateRoomDto updateRoomDto) {
-        this.name = updateRoomDto.getName();
-        this.standardCapacity = updateRoomDto.getStandardCapacity();
-        this.maxCapacity = updateRoomDto.getMaxCapacity();
+    /* 객실 정보 수정 */
+    public void updateRoomTypeInfo(String name, int standardCapacity, int maxCapacity) {
+        this.name = name;
+        this.standardCapacity = standardCapacity;
+        this.maxCapacity = maxCapacity;
     }
 }
