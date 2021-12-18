@@ -1,7 +1,6 @@
 package com.tripper.domain;
 
 import com.tripper.domain.hotel.Hotel;
-import com.tripper.domain.hotel.Room;
 import com.tripper.domain.hotel.RoomType;
 import lombok.AccessLevel;
 import lombok.Builder;
