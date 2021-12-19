@@ -5,7 +5,7 @@
         <div id="deposit" @click="stat_1">입금</div>
         <div id="withdraw" @click="stat_0">지출</div>
       </div>
-      <div class="deposit_container" v-if="stat">
+      <div>
         <input
           v-model="deposit_money"
           type="text"
@@ -13,6 +13,7 @@
           @input="(e) => (deposit_money = changeNum(e.target.value))"
         /><span class="one">\</span>
       </div>
+      <div class="deposit_container" v-if="stat">ss</div>
     </div>
   </div>
 </template>
