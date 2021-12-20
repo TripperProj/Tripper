@@ -9,7 +9,7 @@ async function loginUser(formData) {
 }
 function signupUser(userData) {
   console.log(userData);
-  const response = instance.post("/user/signup", userData);
+  const response = instance.post("/signup", userData);
   return response.code;
 }
 function socialSignupUser(userData) {
@@ -17,13 +17,16 @@ function socialSignupUser(userData) {
   return instance.post("/user/socicalSignup", userData);
 }
 function certUserEmail(Email) {
-  return instance.post("/user/certEmail", Email);
+  return instance.post("/email-auth", Email);
 }
 function certNumCheck(certNum) {
-  return instance.post(`/user/certEmail/${certNum}`);
+  return instance.put(`/email-auth`, certNum);
 }
 function userIdCheck(userId) {
   return instance.get("/user/checkExists", userId);
+}
+function userLogout() {
+  return instance.post("/user/logout");
 }
 
 export {
@@ -33,4 +36,5 @@ export {
   userIdCheck,
   socialSignupUser,
   certNumCheck,
+  userLogout,
 };

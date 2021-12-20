@@ -43,7 +43,7 @@ import {} from "@/api/hotel";
 export default {
   data() {
     return {
-      managerID: this.$store.getters.userId,
+      managerID: this.$store.getters.getMemId,
       hotelList: [
         { name: "호텔1", reservation: "5", vacantRoom: 5 },
         { name: "호텔2", reservation: "14", vacantRoom: 5 },
@@ -53,8 +53,17 @@ export default {
   },
   methods: {
     loadHotelList() {},
+    adminCheck() {
+      if (!this.isAdmin) {
+        alert("관리자가 아닙니다. 메인페이지로 이동합니다");
+        this.$router.push("/main");
+      }
+    },
   },
   computed: {
+    isAdmin: function () {
+      return this.$store.getters.getRole === "ROLE_MANAGER";
+    },
     totalReservation: function () {
       let sum = 0;
       this.hotelList.forEach((item) => {
@@ -64,6 +73,7 @@ export default {
     },
   },
   created() {
+    this.adminCheck();
     this.loadHotelList();
   },
 };

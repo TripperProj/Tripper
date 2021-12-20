@@ -14,4 +14,14 @@ function checkPassword(password, passwordCheck) {
   return password === passwordCheck;
 }
 
-export { validateEmail, validatePassword, checkPassword };
+function validateImgFile(files) {
+  for (let i = 0; i < files.length(); i++) {
+    if (files[i] > 1024 * 1024) {
+      alert("IMG FILE IS TOO BIG");
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+export { validateEmail, validatePassword, checkPassword, validateImgFile };

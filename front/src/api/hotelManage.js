@@ -3,8 +3,8 @@ import { instance } from "./index";
 function loadHotel(managerID) {
   return instance.get("", managerID);
 }
-function createHotel(hotelInfo) {
-  return instance.post(`/hotelManage/`, hotelInfo);
+function createHotel(address, hotelName) {
+  return instance.post(`/admin/hotel`, address, hotelName);
 }
 function createRoom(hotelId, roomInfo) {
   return instance.post(`/hotel/create/${hotelId}`, hotelId, roomInfo);

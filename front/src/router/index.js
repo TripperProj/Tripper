@@ -25,28 +25,33 @@ const routes = [
     component: () => import("@/views/SignupPage.vue"),
   },
   {
+    path: "/mypage",
+    name: "mypage",
+    component: () => import("@/views/MyPage.vue"),
+  },
+  {
     path: "/hotel",
     name: "hotel",
     component: () => import("@/views/HotelPage.vue"),
-    // meta: {
-    //   auth: true,
-    // },
+    meta: {
+      auth: true,
+    },
   },
   {
     path: "/hotel/manage",
     name: "hotelManage",
     component: () => import("@/views/HotelManagePage.vue"),
-    // meta: {
-    //   auth: true,
-    // },
+    meta: {
+      auth: true,
+    },
   },
   {
     path: "/hotel/manage/create",
     name: "hotelcreate",
     component: () => import("@/components/hotelManage/HotelCreate.vue"),
-    // meta: {
-    //   auth: true,
-    // },
+    meta: {
+      auth: true,
+    },
   },
   {
     path: "/community",
@@ -59,9 +64,9 @@ const routes = [
   {
     path: "/writeboard",
     component: () => import("@/views/WriteBoardPage.vue"),
-    // meta: {
-    //   auth: true,
-    // },
+    meta: {
+      auth: true,
+    },
   },
   {
     path: "/scheduler",
@@ -95,7 +100,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.auth) {
-    store.getters.isLogin ? next() : next("auth");
+    store.getters.isLogin ? next() : next("/auth");
   } else {
     next();
   }
