@@ -9,5 +9,7 @@ function hotelList() {
 function dibsHotel(userId, hotelName) {
   return instance.post("/hotelDibs", userId, hotelName);
 }
-
-export { hotelList, dibsHotel };
+function hotelInfo(hotelId) {
+  return instance.get(`/hotel/${hotelId}`);
+}
+export { hotelList, dibsHotel, hotelInfo };

@@ -45,6 +45,7 @@
 import { createHotel } from "@/api/hotelManage";
 import { VueDaumPostcode } from "vue-daum-postcode";
 import { validateImgFile } from "@/utils/validation.js";
+
 export default {
   data() {
     return {

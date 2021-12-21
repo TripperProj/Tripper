@@ -14,9 +14,6 @@
           {{ this.$store.getters.getMemId }} 님 환영합니다.
         </span>
       </div>
-      <div v-if="this.isAdmin">
-        <router-link to="/hotel/manage"> 호텔 관리 </router-link>
-      </div>
     </div>
     <div class="menu-bar">
       <div class="menu-guest" v-if="!this.$store.getters.isLogin">
@@ -29,9 +26,12 @@
         <router-link to="/hotel"> 호텔</router-link> |
       </div>
     </div>
-    <div v-if="this.$store.getters.isLogin">
+    <div class="client-service-menu" v-if="this.$store.getters.isLogin">
       <span class="mypage" @click="mypage"> 마이페이지 </span> |
       <span class="logout" @click="logout"> 로그아웃 </span>
+      <div class="admin-menu" v-if="this.isAdmin">
+        <router-link to="/hotel/manage"> 호텔 관리 </router-link>
+      </div>
     </div>
   </header>
 </template>
@@ -80,7 +80,7 @@ header {
 }
 .menu-bar {
   color: white;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 400;
 }
 .logout:hover {
@@ -88,8 +88,17 @@ header {
 }
 .menu-bar a {
   color: white;
+  font-size: 20px;
+  font-weight: 400;
+  text-decoration: none;
+}
+.client-service-menu {
+  color: white;
   font-size: 15px;
   font-weight: 400;
   text-decoration: none;
+}
+.admin-menu a {
+  color: black;
 }
 </style>

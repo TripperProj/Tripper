@@ -19,6 +19,7 @@
           class="hotel-manage-item"
           v-bind:key="idx"
           v-for="(hotel, idx) in hotelList"
+          :hotelId="hotel.id"
         >
           <div class="index">
             {{ idx + 1 }}
@@ -26,8 +27,15 @@
           <div class="hotel-name">{{ hotel.name }}</div>
           <div class="reservation">{{ hotel.reservation }}</div>
           <div class="vacant-room">{{ hotel.vacantRoom }}</div>
-          <button class="room-manage">객실 관리</button>
-          <button class="reservation-manage">예약 관리</button>
+          <button class="room-manage" @click="this.hotelManagement">
+            호텔 관리
+          </button>
+          <button
+            class="reservation-manage"
+            @click="this.reservationManagement"
+          >
+            예약 관리
+          </button>
         </li>
       </ul>
     </div>
@@ -35,7 +43,7 @@
 </template>
 
 <script>
-import {} from "@/api/hotel";
+import {} from "@/api/hotelManage";
 
 export default {
   data() {
@@ -58,6 +66,12 @@ export default {
     },
     hotelCreate() {
       this.$router.push("/hotel/manage/create");
+    },
+    hotelManagement() {
+      this.$router.push(`/hotel/manage/${id}`);
+    },
+    reservationManagement() {
+      this.$router.push(`/hotel/reservation/${id}`);
     },
   },
   computed: {
