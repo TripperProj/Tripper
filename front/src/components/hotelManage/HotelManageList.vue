@@ -4,10 +4,7 @@
       <div>
         <h2>{{ this.managerID }} 님 환영합니다.</h2>
         <span>총 예약건수 : {{ this.totalReservation }}</span>
-        <div>
-          <button>호텔 추가</button> | <button>호텔 삭제</button> |
-          <button>호텔 관리</button>
-        </div>
+        <div><button @click="hotelCreate">호텔 추가</button> |</div>
       </div>
     </div>
     <div class="hotel-manage-body">
@@ -58,6 +55,9 @@ export default {
         alert("관리자가 아닙니다. 메인페이지로 이동합니다");
         this.$router.push("/main");
       }
+    },
+    hotelCreate() {
+      this.$router.push("/hotel/manage/create");
     },
   },
   computed: {

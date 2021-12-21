@@ -27,11 +27,13 @@
           type="file"
           class="hotel-img-input"
           accept="image/*"
+          @change="this.onFilesChange"
+          @click="this.clearImgPreview"
           required
           multiple
         />
         <div class="img-list">
-          <div class="img"></div>
+          <div class="img-preview"></div>
         </div>
       </div>
       <button @click="submitForm">호텔 입력</button>
@@ -64,11 +66,39 @@ export default {
     async submitForm() {
       const title = this.titie;
       const address = this.address;
-      return await createHotel(address, title);
+      const imgs = this.imgFiles;
+      return await createHotel(address, title, imgs);
     },
     addressSearch(data) {
       this.address = data.roadAddress;
       this.showModal = false;
+    },
+    onFilesChange(e) {
+      this.imgFiles = e.target.files;
+      const container = document.getElementsByClassName("img-preview");
+      const filesList = Array.from(e.target.files);
+      filesList.forEach((file) => {
+        const reader = new FileReader();
+        const $imgDiv = document.createElement("div");
+        const $img = document.createElement("img");
+        const $label = document.createElement("label");
+
+        $label.textContent = file.name;
+        $imgDiv.appendChild($img);
+        $imgDiv.appendChild($label);
+
+        reader.onload = (e) => {
+          $img.src = e.target.result;
+          $img.style.width = 200 + "px";
+          $img.style.height = 200 + "px";
+        };
+        reader.readAsDataURL(file);
+        container[0].appendChild($imgDiv);
+      });
+    },
+    clearImgPreview() {
+      const container = document.getElementsByClassName("img-preview");
+      container[0].innerHTML = "";
     },
   },
 };
@@ -78,5 +108,8 @@ export default {
 .postcode {
   width: 400px;
   height: 400px;
+}
+.img-list {
+  display: flex;
 }
 </style>

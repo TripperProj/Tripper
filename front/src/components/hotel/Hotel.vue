@@ -50,6 +50,9 @@ export default {
       ],
     };
   },
+  methods: {
+    backgroundImg() {},
+  },
 };
 </script>
 

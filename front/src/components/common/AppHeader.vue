@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="logo-space">
-      <div v-if="!this.$store.state.loginSuccess">
+      <div v-if="!this.$store.getters.isLogin">
         <router-link to="/" class="logo">
           <span>TRIPPER</span>
         </router-link>
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="menu-bar">
-      <div class="menu-guest" v-if="!this.$store.state.loginSuccess">
+      <div class="menu-guest" v-if="!this.$store.getters.isLogin">
         <router-link to="/auth"> 로그인</router-link> |
         <router-link to="/signup"> 회원가입</router-link>
       </div>
@@ -27,8 +27,11 @@
         <router-link to="/scheduler"> 일정 </router-link> |
         <router-link to="/community"> 커뮤니티</router-link> |
         <router-link to="/hotel"> 호텔</router-link> |
-        <span class="logout" @click="logout"> 로그아웃 </span>
       </div>
+    </div>
+    <div v-if="this.$store.getters.isLogin">
+      <span class="mypage" @click="mypage"> 마이페이지 </span> |
+      <span class="logout" @click="logout"> 로그아웃 </span>
     </div>
   </header>
 </template>
@@ -41,6 +44,9 @@ export default {
       userLogout();
       this.$store.dispatch("setLogout");
       this.$router.push("/auth");
+    },
+    mypage() {
+      this.$router.push("/mypage");
     },
   },
   computed: {
