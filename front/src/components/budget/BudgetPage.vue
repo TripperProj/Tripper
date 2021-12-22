@@ -88,4 +88,8 @@ export default {
     text-align: center;
   }
 }
+
+#updateBudget {
+  width: 500px;
+}
 </style>
