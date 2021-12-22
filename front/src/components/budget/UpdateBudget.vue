@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div class="border">
-      <div id="cancel"><i class="fas fa-times"></i></div>
+      <div id="cancel" @click="close"><i class="fas fa-times"></i></div>
       <div class="menu">
-        <div id="deposit" @click="stat_1">입금</div>
-        <div id="withdraw" @click="stat_0">지출</div>
+        <div class="deposit" @click="depositActive">입금</div>
+        <div class="withdraw" @click="withdrawActive">지출</div>
       </div>
       <div>
         <input id="title" placeholder="제목을 입력하세요" type="text" />
@@ -17,28 +17,28 @@
       </div>
       <label>카테고리</label>
       <div class="deposit_container">
-        <div class="category bed">
+        <div class="category bed" @click="categoryActive">
           <div class="icon fas fa-bed"></div>
           <div class="label">숙소</div>
         </div>
-        <div class="category meal">
+        <div class="category meal" @click="categoryActive">
           <div class="icon fas fa-utensils"></div>
           <div class="label">식사</div>
         </div>
-        <div class="category traffic">
+        <div class="category traffic" @click="categoryActive">
           <div class="icon fas fa-bus"></div>
           <div class="label">교통</div>
         </div>
-        <div class="category play">
+        <div class="category play" @click="categoryActive">
           <div class="icon fab fa-gratipay"></div>
           <div class="label">체험</div>
         </div>
-        <div class="category etc">
+        <div class="category etc" @click="categoryActive">
           <div class="icon fas fa-plus"></div>
           <div class="label">기타</div>
         </div>
       </div>
-      <div id="okay">확인</div>
+      <div id="okay" @click="saveBudget">확인</div>
     </div>
   </div>
 </template>
@@ -64,11 +64,31 @@ export default {
       str = String(str);
       return str.replace(/[^\d]+/g, "");
     },
-    stat_1() {
-      this.stat = 1;
+    depositActive() {
+      const deposit = document.querySelector(".deposit");
+      const withdraw = document.querySelector(".withdraw");
+      deposit.classList.add("active");
+      withdraw.classList.remove("active");
     },
-    stat_0() {
-      this.stat = 0;
+    withdrawActive() {
+      const deposit = document.querySelector(".deposit");
+      const withdraw = document.querySelector(".withdraw");
+      deposit.classList.remove("active");
+      withdraw.classList.add("active");
+    },
+    categoryActive(e) {
+      const category = document.querySelectorAll(".category");
+      category.forEach((el) => {
+        el.classList.remove("active");
+      });
+      e.currentTarget.className += " active";
+    },
+    close() {
+      this.$emit("update", 0);
+    },
+    saveBudget() {
+      //api  연동
+      this.$emit("update", 0);
     },
   },
   filters: {
@@ -109,21 +129,29 @@ export default {
         width: 6rem;
         height: 3rem;
         margin-right: 10px;
-        background: #ec8060;
+        background: #e26b80;
         border-radius: 20px;
         align-items: center;
         justify-content: center;
         font-size: 1.1rem;
         font-weight: 700;
         color: #fff;
-        &:hover {
-          cursor: pointer;
-          position: relative;
-          bottom: 1px;
-        }
+        opacity: 0.5;
       }
-      #deposit {
-        background: #00b49d;
+      .deposit {
+        background: #56a236;
+      }
+      .deposit.active {
+        position: relative;
+        top: 1px;
+        opacity: 1;
+        box-shadow: 2px 2px 0 2px rgba(114, 113, 113, 0.3);
+      }
+      .withdraw.active {
+        position: relative;
+        top: 1px;
+        opacity: 1;
+        box-shadow: 2px 2px 0 2px rgba(114, 113, 113, 0.3);
       }
     }
     .one {
@@ -147,6 +175,16 @@ export default {
       margin: 0 auto;
       background-color: #eee;
       opacity: 0.5;
+      .category {
+        display: flex;
+        position: relative;
+        top: 4px;
+        flex-direction: column;
+        align-items: center;
+        align-items: center;
+        width: 80px;
+        height: 80px;
+      }
       .category:hover {
         cursor: pointer;
         position: relative;
@@ -215,5 +253,11 @@ i {
   padding: 10px;
   position: relative;
   bottom: 1px;
+}
+.category.active {
+  opacity: 1;
+  background: #003569;
+  color: #fff;
+  border-radius: 50%;
 }
 </style>

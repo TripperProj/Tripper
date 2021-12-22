@@ -8,7 +8,7 @@
         <div class="border">예산 설정</div>
       </div>
     </div>
-    <UpdateBudget id="updateBudget" />
+    <UpdateBudget id="updateBudget" v-if="updateStat" @update="closeUpdate" />
   </div>
 </template>
 
@@ -22,6 +22,7 @@ export default {
     budget: 1000000,
     total: 443530,
     today: 243300,
+    updateStat: 0,
   }),
   created() {
     this.total = this.comma(this.total);
@@ -44,6 +45,12 @@ export default {
         point += 3;
       }
       return str;
+    },
+    pageLink() {
+      this.updateStat = 1;
+    },
+    closeUpdate(val) {
+      this.updateStat = val;
     },
   },
 };
