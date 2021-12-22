@@ -179,6 +179,7 @@ export default {
         display: flex;
         position: relative;
         top: 4px;
+        opacity: 1;
         flex-direction: column;
         align-items: center;
         align-items: center;
