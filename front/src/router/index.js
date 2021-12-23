@@ -56,6 +56,10 @@ const routes = [
     component: () => import("@/components/scheduler/ScheduleList.vue"),
   },
   {
+    path: "/budget",
+    component: () => import("@/components/budget/BudgetPage.vue"),
+  },
+  {
     path: "/board/:id",
     component: () => import("@/components/community/BoardInfo.vue"),
     meta: {
