@@ -61,13 +61,6 @@
               이메일주소를 정확히 입력해주세요.
             </span>
           </div>
-          <button class="btn" id="certNumSend">인증번호 전송</button>
-          <input
-            type="text"
-            id="certNum"
-            placeholder="인증번호 "
-            v-model="certNum"
-          />
           <span class="warning">{{ certEmailMessage }}</span>
         </div>
         <button class="btn" type="submit" v-bind:disabled="btnAble">
@@ -83,7 +76,7 @@ import {
   signupUser,
   certUserEmail,
   userIdCheck,
-  certNumCheck,
+  // certNumCheck,
 } from "@/api/auth.js";
 import {
   validateEmail,
@@ -159,13 +152,13 @@ export default {
         console.log(error);
       }
     },
-    async certEmailNum() {
-      const certNum = this.certNum;
-      const { status } = await certNumCheck(certNum);
-      status === 200
-        ? (this.emailChecked = true)
-        : (this.certEmailMessage = "인증번호를 확인해주세요.");
-    },
+    // async certEmailNum() {
+    //   const certNum = this.certNum;
+    //   const { status } = await certNumCheck(certNum);
+    //   status === 200
+    //     ? (this.emailChecked = true)
+    //     : (this.certEmailMessage = "인증번호를 확인해주세요.");
+    // },
     async idCheck() {
       // 사용자 아이디 중복확인
       const memid = this.memid;

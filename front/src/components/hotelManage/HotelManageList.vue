@@ -27,13 +27,10 @@
           <div class="hotel-name">{{ hotel.name }}</div>
           <div class="reservation">{{ hotel.reservation }}</div>
           <div class="vacant-room">{{ hotel.vacantRoom }}</div>
-          <button class="room-manage" @click="this.hotelManagement">
+          <button class="room-manage" @click="hotelManagement">
             호텔 관리
           </button>
-          <button
-            class="reservation-manage"
-            @click="this.reservationManagement"
-          >
+          <button class="reservation-manage" @click="reservationManagement">
             예약 관리
           </button>
         </li>
@@ -50,7 +47,7 @@ export default {
     return {
       managerID: this.$store.getters.getMemId,
       hotelList: [
-        { name: "호텔1", reservation: "5", vacantRoom: 5 },
+        { name: "호텔1", reservation: "5", vacantRoom: 5, id: "1" },
         { name: "호텔2", reservation: "14", vacantRoom: 5 },
         { name: "호텔3", reservation: "12", vacantRoom: 5 },
       ],
@@ -58,26 +55,26 @@ export default {
   },
   methods: {
     loadHotelList() {},
-    adminCheck() {
-      if (!this.isAdmin) {
-        alert("관리자가 아닙니다. 메인페이지로 이동합니다");
-        this.$router.push("/main");
-      }
-    },
+    // adminCheck() {
+    //   if (!this.isAdmin) {
+    //     alert("관리자가 아닙니다. 메인페이지로 이동합니다");
+    //     this.$router.push("/main");
+    //   }
+    // },
     hotelCreate() {
       this.$router.push("/hotel/manage/create");
     },
     hotelManagement() {
-      this.$router.push(`/hotel/manage/${id}`);
+      this.$router.push(`/hotel/manage/1`);
     },
     reservationManagement() {
-      this.$router.push(`/hotel/reservation/${id}`);
+      this.$router.push(`/hotel/reservation/`);
     },
   },
   computed: {
-    isAdmin: function () {
-      return this.$store.getters.getRole === "ROLE_MANAGER";
-    },
+    // isAdmin: function () {
+    //   return this.$store.getters.getRole === "ROLE_MANAGER";
+    // },
     totalReservation: function () {
       let sum = 0;
       this.hotelList.forEach((item) => {
@@ -87,7 +84,7 @@ export default {
     },
   },
   created() {
-    this.adminCheck();
+    // this.adminCheck();
     this.loadHotelList();
   },
 };

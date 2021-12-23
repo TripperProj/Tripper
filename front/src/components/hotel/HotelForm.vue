@@ -21,7 +21,9 @@
           </div>
           <div class="num-of-people">
             <div>인원</div>
-            <div class="num-people">인원추가</div>
+            <div class="num-people">
+              <input type="number" />
+            </div>
           </div>
           <div><button class="search-room" type="submit">검색</button></div>
         </form>

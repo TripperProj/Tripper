@@ -21,7 +21,12 @@ function deleteRoom(roomId) {
 function updateRoom(roomTypeId, roomInfo) {
   return instance.put(`/admin/roomtype/${roomTypeId}`, roomInfo);
 }
-
+function hotelReservation(hotelId) {
+  return instance.get(`/admin/reservations/hotel/${hotelId}`);
+}
+function roomReservation(roomId) {
+  return instance.get(`/admin/reservations/room/${roomId}`);
+}
 export {
   loadHotel,
   createHotel,
@@ -30,4 +35,6 @@ export {
   createRoom,
   deleteRoom,
   updateRoom,
+  hotelReservation,
+  roomReservation,
 };

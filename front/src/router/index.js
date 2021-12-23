@@ -33,14 +33,22 @@ const routes = [
     path: "/hotel",
     name: "hotel",
     component: () => import("@/views/HotelPage.vue"),
-    meta: {
-      auth: true,
-    },
+    // meta: {
+    //   auth: true,
+    // },
   },
   {
     path: "/hotel/manage",
     name: "hotelManage",
     component: () => import("@/views/HotelManagePage.vue"),
+    // meta: {
+    //   auth: true,
+    // },
+  },
+  {
+    path: "/hotel/manage/1",
+    name: "hotelManage",
+    component: () => import("@/components/hotelManage/HotelManage.vue"),
     // meta: {
     //   auth: true,
     // },
