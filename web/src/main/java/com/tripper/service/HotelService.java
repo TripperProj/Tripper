@@ -1,13 +1,19 @@
 package com.tripper.service;
 
-import com.tripper.domain.hotel.HotelForm;
-import com.tripper.domain.hotel.HotelInfo;
+import com.tripper.domain.Photo;
+import com.tripper.domain.hotel.*;
+import com.tripper.domain.user.User;
+import com.tripper.dto.request.hotel.*;
+import com.tripper.dto.response.hotel.*;
+import com.tripper.handler.FileHandler;
+import com.tripper.repository.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,23 +21,360 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author HanJiyoung
- * '호텔 찾기' 기능 컨트롤러 클래스
+ * 호텔 관련 서비스 클래스
  */
 @Service
+@Transactional(readOnly = true)
+@Slf4j
+@RequiredArgsConstructor
 public class HotelService {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private final UserRepository userRepository;
+    private final HotelRepository hotelRepository;
+    private final PhotoRepository photoRepository;
+    private final RoomRepository roomRepository;
+    private final RoomTypeRepository roomTypeRepository;
+    private final ReservationRepository reservationRepository;
+    private final FileHandler fileHandler;
+    
     private WebDriver driver;
     public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
     public static final String WEB_DRIVER_PATH = "C:\\Temp\\driver\\chromedriver.exe";
     private String baseUrl = "https://hotel.naver.com/hotels/main";
 
+    /*---------------------------------    생성    -------------------------------*/
     /**
-     * '네이버 호텔'에서 지역, 체크인, 체크아웃, 성인 인원수, 어린이 인원수를 가지고 검색한 결과를 크롤링하는 함수
-     * @param hotelForm 검색 폼에 입력된 데이터들을 담고있는 객체
-     * @return 크롤링한 데이터를 담은 객체들을 담고있는 리스트
+     * 호텔 등록
      */
-    public List<HotelInfo> crawlingHotels(HotelForm hotelForm) {
-        List<HotelInfo> hotelList = new ArrayList<>();
+    @Transactional
+    public Long createHotel(CreateHotelDto createHotelDto, String memId) throws Exception {
+
+        User user = userRepository.findByMemId(memId);
+        Hotel hotel = new Hotel();
+        hotel.setName(createHotelDto.getName());
+        hotel.setAddress(createHotelDto.getAddress());
+        hotel.setUser(user);
+
+        List<Photo> photoList = fileHandler.parseFileInfo(createHotelDto.getPhotos());
+
+        // 파일이 존재할 때에만 처리
+        if(!photoList.isEmpty()){
+            for(Photo photo : photoList) {
+                // 파일을 DB에 저장
+                hotel.addPhoto(photoRepository.save(photo));
+            }
+        }
+
+        return hotelRepository.save(hotel).getId();
+    }
+
+    /**
+     * 객실 등록
+     */
+    @Transactional
+    public void createRoom(Long hotel_id, CreateRoomDto createRoomDto)  throws Exception {
+
+        /* 엔티티 조회 */
+        Hotel hotel = hotelRepository.findById(hotel_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 호텔 입니다."));
+
+        GetHotelDto getHotelDto = new GetHotelDto(hotel);
+
+        /* 객실 분류 저장*/
+        RoomType roomType = new RoomType();
+        roomType.setName(createRoomDto.getName());
+        roomType.setStandardCapacity(createRoomDto.getStandardCapacity());
+        roomType.setMaxCapacity(createRoomDto.getMaxCapacity());
+        roomType.setHotel(hotel);
+
+        List<Photo> photoList = fileHandler.parseFileInfo(createRoomDto.getPhotos());
+
+        // 파일이 존재할 때에만 처리
+        if(!photoList.isEmpty()){
+            for(Photo photo : photoList) {
+                // 파일을 DB에 저장
+                roomType.addPhoto(photoRepository.save(photo));
+            }
+        }
+
+        roomTypeRepository.save(roomType);
+
+        /* 객실 저장 */
+        List<Integer> roomNumList = createRoomDto.getRoomNum();
+        if(!roomNumList.isEmpty()) {
+            for(Integer i : roomNumList) {
+                Room room = new Room();
+                room.setRoomType(roomType);
+                room.setRoomNum(i);
+                room.setPrice(createRoomDto.getPrice());
+                roomRepository.save(room);
+            }
+        }
+
+    }
+
+    /**
+     * 객실 예약
+     */
+    @Transactional
+    public Long createReservation(String name, Long room_id, CreateReservationDto createReservationDto) {
+
+        /* 엔티티 조회 */
+        User user = userRepository.findByMemId(name);
+        Room room = roomRepository.findById(room_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 객실 입니다."));
+
+        Reservation reservation = new Reservation();
+        reservation.setCheckin(createReservationDto.getCheckin());
+        reservation.setCheckout(createReservationDto.getCheckout());
+        reservation.setAdultNum(createReservationDto.getAdultNum());
+        reservation.setChildNum(createReservationDto.getChildNum());
+        reservation.setStatus(ReservationStatus.RESERVED);
+        reservation.setUser(user);
+        reservation.setRoom(room);
+
+        return reservationRepository.save(reservation).getId();
+
+    }
+
+    /*---------------------------------    조회    -------------------------------*/
+    /**
+     * 호텔 목록 조회
+     */
+    public GetHotelListDto findAllHotels() {
+
+        List<Hotel> hotels = hotelRepository.findAll();
+        List<GetHotelDto> getHotelDtos = new ArrayList<>();
+
+        for (Hotel hotel : hotels) {
+            GetHotelDto getHotelDto = new GetHotelDto(hotel);
+            getHotelDtos.add(getHotelDto);
+        }
+
+        return new GetHotelListDto(getHotelDtos);
+    }
+
+    /**
+     * hotel_id로 호텔 1개 조회
+     */
+    public GetHotelDto findByHotelId(Long hotel_id) {
+
+        /* 엔티티 조회 */
+        Hotel hotel = hotelRepository.findById(hotel_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 호텔 입니다."));
+
+        GetHotelDto getHotelDto = new GetHotelDto(hotel);
+
+        return getHotelDto;
+    }
+
+    /**
+     * roomtype_id로 특정 객실 조회
+     */
+    public GetRoomDto findByRoomTypeId(Long roomtype_id) {
+
+        /* 엔티티 조회 */
+        RoomType roomType = roomTypeRepository.findById(roomtype_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 객실 분류 입니다."));
+
+        GetRoomDto getRoomDto = new GetRoomDto(roomType);
+
+        return getRoomDto;
+    }
+
+    /**
+     * 전체 예약 조회
+     */
+    public GetReservationListDto findAllReservations() {
+
+        List<Reservation> reservations = reservationRepository.findAll();
+        List<GetReservationDto> getReservationDtos = new ArrayList<>();
+
+        for (Reservation reservation : reservations) {
+
+            GetReservationDto getReservationDto = new GetReservationDto(reservation);
+            getReservationDtos.add(getReservationDto);
+        }
+
+        return new GetReservationListDto(getReservationDtos);
+    }
+
+    /**
+     * 현재 로그인한 사용자의 예약 조회
+     */
+    public GetReservationListDto findReservationsByMemId(String memId) {
+
+        List<Reservation> reservations = reservationRepository.findReservationsByMemId(memId);
+        List<GetReservationDto> getReservationDtos = new ArrayList<>();
+
+        for (Reservation reservation : reservations) {
+
+            GetReservationDto getReservationDto = new GetReservationDto(reservation);
+            getReservationDtos.add(getReservationDto);
+        }
+
+        return new GetReservationListDto(getReservationDtos);
+    }
+
+    /**
+     * 특정 호텔에 대한 예약 조회
+     */
+    public GetReservationListDto findReservationsByHotelId(Long hotel_id) {
+
+        List<Reservation> reservations = reservationRepository.findReservationsByHotelId(hotel_id);
+        List<GetReservationDto> getReservationDtos = new ArrayList<>();
+
+        for (Reservation reservation : reservations) {
+
+            GetReservationDto getReservationDto = new GetReservationDto(reservation);
+            getReservationDtos.add(getReservationDto);
+        }
+
+        return new GetReservationListDto(getReservationDtos);
+    }
+
+    /**
+     * 특정 객실에 대한 예약 조회
+     */
+    public GetReservationListDto findReservationsByRoomId(Long room_id) {
+
+        List<Reservation> reservations = reservationRepository.findReservationsByRoomId(room_id);
+        List<GetReservationDto> getReservationDtos = new ArrayList<>();
+
+        for (Reservation reservation : reservations) {
+
+            GetReservationDto getReservationDto = new GetReservationDto(reservation);
+            getReservationDtos.add(getReservationDto);
+        }
+
+        return new GetReservationListDto(getReservationDtos);
+    }
+
+
+    /*---------------------------------    수정    -------------------------------*/
+    /**
+     * 호텔 정보 수정
+     */
+    @Transactional
+    public void updateHotel(Long hotel_id, UpdateHotelDto updateHotelDto) throws Exception {
+
+        /* 엔티티 조회 */
+        Hotel hotel = hotelRepository.findById(hotel_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 호텔 입니다."));
+
+        hotel.setName(updateHotelDto.getName());
+        hotel.setAddress(updateHotelDto.getAddress());
+
+        List<Photo> photoList = fileHandler.parseFileInfo(updateHotelDto.getPhotos());
+
+        if(!photoList.isEmpty()){
+            for(Photo photo : photoList) {
+                hotel.addPhoto(photoRepository.save(photo));
+            }
+        }
+
+    }
+
+    /**
+     * 객실 수정
+     */
+    @Transactional
+    public void updateRoom(Long roomtype_id, UpdateRoomDto updateRoomDto) throws Exception {
+
+        /* 객실 분류 엔티티 조회 */
+        RoomType roomType = roomTypeRepository.findById(roomtype_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 객실 분류 입니다."));
+
+        roomType.setName(updateRoomDto.getName());
+        roomType.setStandardCapacity(updateRoomDto.getStandardCapacity());
+        roomType.setMaxCapacity(updateRoomDto.getMaxCapacity());
+
+        List<Photo> photoList = fileHandler.parseFileInfo(updateRoomDto.getPhotos());
+
+        if(!photoList.isEmpty()){
+            for(Photo photo : photoList) {
+                roomType.addPhoto(photoRepository.save(photo));
+            }
+        }
+
+        roomTypeRepository.flush();
+
+        /* 객실 엔티티 조회 */
+        List<Integer> roomNumList = updateRoomDto.getRoomNum();
+
+        for(Integer i : roomNumList) {
+            Room room = new Room();
+            room.setRoomType(roomType);
+            room.setRoomNum(i);
+            room.setPrice(updateRoomDto.getPrice());
+            roomRepository.save(room);
+        }
+
+    }
+
+    /*---------------------------------    삭제    -------------------------------*/
+    /**
+     * 호텔 삭제
+     */
+    @Transactional
+    public void deleteHotelById(Long hotel_id) {
+
+        /* 엔티티 조회 */
+        Hotel hotel = hotelRepository.findById(hotel_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 호텔 입니다."));
+
+        /* 호텔 삭제 */
+        hotelRepository.delete(hotel);
+
+    }
+
+    /**
+     * 객실 분류 삭제
+     */
+    @Transactional
+    public void deleteRoomTypeById(Long roomtype_id) {
+
+        /* 엔티티 조회 */
+        RoomType roomType = roomTypeRepository.findById(roomtype_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 객실 분류 입니다."));
+
+        /* 객실 분류 삭제 */
+        roomTypeRepository.delete(roomType);
+
+    }
+
+    /**
+     * 방 호수 삭제
+     */
+    @Transactional
+    public void deleteRoomById(Long room_id) {
+
+        /* 엔티티 조회 */
+        Room room = roomRepository.findById(room_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 객실 입니다."));
+
+        /* 객실 삭제 */
+        roomRepository.delete(room);
+
+    }
+
+    /**
+     * 예약 취소
+     */
+    @Transactional
+    public void cancelReservation(Long reservation_id) {
+
+        Reservation reservation = reservationRepository.findById(reservation_id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문 입니다."));
+        reservation.cancel();
+
+    }
+
+    /**
+     * 네이버 호텔 크롤링
+     */
+    public List<GetCrawlingHotelDto> crawlingHotels(CrawlingHotelDto crawlingHotelDto) {
+        List<GetCrawlingHotelDto> hotelList = new ArrayList<>();
 
         /* 크롬 드라이버 로딩 후 baseUrl페이지를 불러온다 */
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
@@ -42,7 +385,7 @@ public class HotelService {
         try {
             /* 네이버 호텔 메인 페이지의 지역 input 태그에 파라미터로 넘어온 location 값을 넣고 엔터 */
             WebElement locationForm = driver.findElement(By.id("hotel_search"));
-            locationForm.sendKeys(hotelForm.getLocation());
+            locationForm.sendKeys(crawlingHotelDto.getLocation());
             locationForm.sendKeys(Keys.ENTER);
 
             /* '호텔 검색' 버튼 클릭*/
@@ -59,9 +402,9 @@ public class HotelService {
              */
             String curUrl = driver.getCurrentUrl();
             String splitUrl = curUrl.split("&")[0];
-            String rsltUrl = splitUrl + hotelForm.makeRsltUrl();
+            String rsltUrl = splitUrl + crawlingHotelDto.makeRsltUrl();
             driver.get(rsltUrl);
-            logger.info("rsltUrl=" + rsltUrl);
+            log.info("rsltUrl=" + rsltUrl);
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
             /* 페이지 번호 개수 세어서 아래 for문 반복 횟수(repeatNum)를 구함 */
@@ -86,10 +429,9 @@ public class HotelService {
                     WebElement img = imgs.get(1);
                     String imgSrc = img.getAttribute("src");
                     WebElement lowestPrice = e.findElement(By.tagName("em"));
-//                    logger.info("name:" + name.getText() + " imgSrc:" + imgSrc + " lowestPrice:" + lowestPrice.getText());
 
                     /* 크롤링 한 호텔 정보들을 넣을 객체 */
-                    HotelInfo hotel = new HotelInfo();
+                    GetCrawlingHotelDto hotel = new GetCrawlingHotelDto();
                     hotel.setName(name.getText());
                     hotel.setImgsrc(imgSrc);
                     hotel.setLowestprice(lowestPrice.getText());
@@ -111,4 +453,5 @@ public class HotelService {
 
         return hotelList;
     }
+
 }

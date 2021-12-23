@@ -81,7 +81,7 @@ export default {
   .config {
     text-align: center;
     width: 800px;
-    margin: 0 auto;
+    margin: 0px auto 20px auto;
     h2 {
       color: #1670aa;
       text-shadow: 2px 2px 2px #a0acbd;
@@ -99,7 +99,7 @@ export default {
     width: 800px;
     display: flex;
     background: #7dbeff;
-    margin: 0px auto 20px auto;
+    margin: 20px auto 20px auto;
     padding: 10px 10px;
     border-radius: 25px;
 

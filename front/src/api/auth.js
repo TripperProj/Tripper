@@ -1,12 +1,15 @@
 import { instance } from "./index.js";
 
-function loginUser(form) {
-  console.log(form);
-  return instance.post(`/login`, form);
+async function loginUser(formData) {
+  const response = await instance.post("/login", formData);
+  instance.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${response.data.token}`;
+  return response;
 }
 function signupUser(userData) {
   console.log(userData);
-  const response = instance.post("/user", userData);
+  const response = instance.post("/user/signup", userData);
   return response.code;
 }
 function socialSignupUser(userData) {
