@@ -1,5 +1,6 @@
 package com.tripper.service;
 
+import com.tripper.domain.user.Role;
 import com.tripper.domain.user.User;
 import com.tripper.dto.request.user.CreateUserDto;
 import com.tripper.dto.request.user.UpdateUserDto;
@@ -21,8 +22,9 @@ import java.util.List;
  * @author HanJiyoung
  * 회원 관련 서비스 클래스
  */
-@RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 @Slf4j
 public class UserService implements UserDetailsService {
 
@@ -35,42 +37,54 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * 회원 db에 insert하는 함수
+     * 회원가입
      */
-    public Long save(CreateUserDto createUserDto) {
+    @Transactional
+    public void createUser(CreateUserDto createUserDto) {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         createUserDto.setPassword(encoder.encode(createUserDto.getPassword()));
 
-        return userRepository.save(User.builder()
+        Role auth = Role.ROLE_NOTCERTIFIED;
+
+        if(createUserDto.getMemId().equals("admin")) {
+            auth = Role.ROLE_ADMIN;
+        }
+
+        User user = User.builder()
                 .memId(createUserDto.getMemId())
+                .password(createUserDto.getPassword())
                 .name(createUserDto.getName())
                 .phone(createUserDto.getPhone())
                 .email(createUserDto.getEmail())
                 .nickname(createUserDto.getNickname())
-                .password(createUserDto.getPassword())
-                .auth(createUserDto.getAuth()).build()).getId();
+                .auth(auth)
+                .build();
+
+        userRepository.save(user);
+
     }
 
     /**
-     * 아이디 중복체크 하는 함수
+     * 아이디 중복체크
      */
-    public String checkMemIdExists(String memId) {
+    public Boolean checkMemIdExists(String memId) {
 
         User user = userRepository.findByMemId(memId);
-        String rslt = "";
+        Boolean isExists;
 
         if(user != null) {
-            rslt = "fail";
+            isExists = true;
         }
-        else if(user == null) {
-            rslt = "ok";
+        else {
+            isExists = false;
         }
-        return rslt;
+
+        return isExists;
     }
 
     /**
-     * 회원 전체 조회하는 함수
+     * 회원 전체 조회
      */
     public GetUserListDto findAllUsers() {
 
@@ -81,41 +95,54 @@ public class UserService implements UserDetailsService {
             GetUserDto getUserDto = new GetUserDto(user);
             getUserDtoList.add(getUserDto);
         }
+        int total = getUserDtoList.size();
 
-        return new GetUserListDto(getUserDtoList);
+        return new GetUserListDto(getUserDtoList, total);
 
     }
 
     /**
-     * 회원 1명 조회하는 함수
+     * 회원 1명 조회
      */
     public User findUserByMemId(String memId) {
         return userRepository.findByMemId(memId);
     }
 
     /**
-     * 회원 정보 수정 함수
+     * 회원 정보 수정
      */
     @Transactional
-    public void updateUser(Long user_id, UpdateUserDto updateUserDto) {
+    public void updateUserInfo(Long userId, UpdateUserDto updateUserDto) {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         updateUserDto.setPassword(encoder.encode(updateUserDto.getPassword()));
 
-        /* 엔티티 조회 */
-        User user = userRepository.findById(user_id)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."));
 
-        /* 수정 내역으로 업데이트 */
-        user.updateUser(updateUserDto);
+        String updatePassword = updateUserDto.getPassword();
+        String updatePhone = updateUserDto.getPhone();
+
+        user.updateUserInfo(updatePassword, updatePhone);
     }
 
     /**
-     * 회원 탈퇴 함수
+     * 회원 탈퇴
      */
     @Transactional
-    public void deleteUserById(Long user_id) {
-        userRepository.deleteById(user_id);
+    public void deleteUserById(Long userId) {
+        userRepository.deleteById(userId);
     }
 
+    /**
+     * 회원 권한 변경
+     */
+    @Transactional
+    public void updateAuth(Long userId, Role auth) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."));
+
+        user.updateAuth(auth);
+    }
 }

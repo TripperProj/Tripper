@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@ApiModel(value = "여행메이트 게시판 글 Respose DTO")
+@ApiModel(value = "여행메이트 게시판 글 Response DTO")
 @Getter @Setter
 @AllArgsConstructor
 public class GetFindMateBoardDto {

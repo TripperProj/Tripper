@@ -17,26 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PhotoService {
 
     private final PhotoRepository photoRepository;
-//
-//    /**
-//     * 호텔 사진 삭제
-//     */
-//    public void deletePhotoByHotelId(Long hotel_id) {
-//
-//        /* 호텔에 해당하는 사진들 삭제 */
-//        photoRepository.deleteByHotelId(hotel_id);
-//
-//    }
-//
+
     public void deletePhotoById(Long photo_id) {
         photoRepository.deleteById(photo_id);
     }
-//
-//    /**
-//     * 객실 사진 삭제
-//     */
-//    public void deletePhotoByRoomTypeId(Long roomtype_id) {
-//
-//        photoRepository.deleteByRoomTypeId(roomtype_id);
-//    }
 }

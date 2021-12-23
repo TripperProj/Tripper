@@ -1,8 +1,8 @@
 package com.tripper.controller;
 
-import com.tripper.dto.request.*;
-import com.tripper.dto.response.GetBudgetDto;
-import com.tripper.dto.response.GetBudgetItemsDto;
+import com.tripper.dto.request.budget.*;
+import com.tripper.dto.response.budget.GetBudgetDto;
+import com.tripper.dto.response.budget.GetBudgetItemsDto;
 import com.tripper.service.BudgetService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 @Api(tags = "예산관리 API")
 @RestController
-@RequestMapping("trips/{tripId}/budget")
+@RequestMapping("/budget")
 @RequiredArgsConstructor
 public class BudgetController {
 
@@ -22,7 +22,7 @@ public class BudgetController {
 
     @ApiOperation(value = "예산 조회", notes = "예산을 조회합니다.", tags = "예산 API")
     @GetMapping
-    public ResponseEntity<GetBudgetDto> getBudgetInfo (@PathVariable("tripId") Long tripId){
+    public ResponseEntity<GetBudgetDto> getBudgetInfo (@RequestParam long tripId){
 
         GetBudgetDto budgetInfo = budgetService.getBudgetInfo(tripId);
 
@@ -42,7 +42,7 @@ public class BudgetController {
     @ApiOperation(value = "예산 생성", notes = "예산을 생성합니다.", tags = "예산 API")
     @PostMapping
     public ResponseEntity createBudget (@Valid @RequestBody CreateOrUpdateBudgetDto dto,
-                                        @PathVariable("tripId") Long tripId) {
+                                        @RequestParam Long tripId) {
 
         budgetService.createBudget(dto, tripId);
 
