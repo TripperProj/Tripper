@@ -45,6 +45,7 @@ export default {
         const { data } = await loginUser(formData);
         this.$store.dispatch("setToken", data.token);
         this.$store.dispatch("loginSuccess", data.memId);
+        this.$store.dispatch("setUserRole", data.auth);
         this.$router.push("/community");
       } catch (error) {
         console.log(error);
@@ -61,6 +62,7 @@ export default {
   opacity: 0.5;
 }
 .find-idpassword {
+  position: unset;
   color: grey;
   opacity: 0.6;
 }

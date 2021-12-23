@@ -1,7 +1,15 @@
 import { instance } from "./index";
 
-function hotelList(location) {
-  return instance.post("/hotel", location);
+function hotelList() {
+  return instance.get("hotels");
 }
-
-export { hotelList };
+// function hotelList(searchCondition) {
+//   return instance.post("", searchCondition);
+// }
+function dibsHotel(userId, hotelName) {
+  return instance.post("/hotelDibs", userId, hotelName);
+}
+function hotelInfo(hotelId) {
+  return instance.get(`/hotel/${hotelId}`);
+}
+export { hotelList, dibsHotel, hotelInfo };

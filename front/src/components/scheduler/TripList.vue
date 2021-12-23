@@ -57,7 +57,7 @@ export default {
     background: #dae8e6;
     padding: 10px 10px;
     text-align: center;
-    background-image: url("C:/Tripper/front/src/assets/jeju.jpg");
+    //background-image: url("");
     background-size: cover;
   }
   &:hover {

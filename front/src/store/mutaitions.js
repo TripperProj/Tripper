@@ -6,4 +6,13 @@ export default {
     state.loginSuccess = true;
     state.memId = memId;
   },
+  SET_USER_ROLE(state, userRole) {
+    state.userRole = userRole;
+  },
+  SET_LOGOUT(state) {
+    state.token = "";
+    state.loginSuccess = false;
+    state.memId = "";
+    state.userRole = "";
+  },
 };

@@ -13,16 +13,24 @@
     <button @click="subLikeButton">좋아요 취소</button>
     <button @click="updateBoard">글 수정</button>
     <button @click="deleteBoard">글 삭제</button>
+    <div>
+      <Chat></Chat>
+    </div>
   </div>
 </template>
 
 <script>
 import { addLikes, subLikes, deletePost } from "@/api/board.js";
+import Chat from "./Chat.vue";
+
 export default {
   data() {
     return {
       boardItem: this.$route.query.boardItem,
     };
+  },
+  components: {
+    Chat,
   },
   methods: {
     addLikeButton() {

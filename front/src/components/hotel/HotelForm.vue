@@ -9,15 +9,21 @@
           </div>
           <div class="check-in">
             <div>체크인</div>
-            <input type="text" placeholder="체크인 날짜" />
-          </div>
-          <div class="check-out">
-            <div>체크아웃</div>
-            <input type="text" placeholder="체크아웃 날짜" />
+            <DatePicker v-model="range" is-range>
+              <template v-slot="{ inputValue, inputEvents }">
+                <div>
+                  <input :value="inputValue.start" v-on="inputEvents.start" />
+                  <span> ~ </span>
+                  <input :value="inputValue.end" v-on="inputEvents.end" />
+                </div>
+              </template>
+            </DatePicker>
           </div>
           <div class="num-of-people">
             <div>인원</div>
-            <input type="text" />
+            <div class="num-people">
+              <input type="number" />
+            </div>
           </div>
           <div><button class="search-room" type="submit">검색</button></div>
         </form>
@@ -27,11 +33,19 @@
 </template>
 
 <script>
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
+
 export default {
   data() {
     return {
-      modal: true,
+      range: {
+        start: new Date(),
+        end: new Date(),
+      },
     };
+  },
+  components: {
+    DatePicker,
   },
 };
 </script>

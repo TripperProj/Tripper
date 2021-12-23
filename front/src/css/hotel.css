@@ -1,0 +1,265 @@
+.hotelList {
+  overflow: hidden;
+}
+
+.hotelList .hotel-item {
+  float: left;
+  width: calc(25% - 20px);
+  height: fixed(500px);
+  background: white;
+  border-radius: 10px;
+  padding: 15x 10px;
+  margin: 15px 5px;
+  list-style: none;
+  -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+}
+
+.hotelList .hotel-item .hotel-img-slot .hotel-img {
+  width: 100%;
+  height: 200PX;
+  overflow: hidden;
+  -o-object-fit: fill;
+     object-fit: fill;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.hotelList .hotel-item .hotel-item-header {
+  margin: 5px 10px;
+  padding: 5px 0px;
+  border-top-right-radius: 15px;
+}
+
+.hotelList .hotel-item .hotel-item-body {
+  margin: 10px;
+  padding: 0px 10px;
+}
+
+.hotelList .hotel-item .hotel-item-footer {
+  margin: 10px;
+  padding: 5px 10px;
+}
+
+.hotelList .hotel-item .hotel-item-footer .hotel-location {
+  opacity: 0.5;
+}
+
+.hotel-manage .hotel-manage-header {
+  margin-left: 5%;
+  width: 95%;
+  height: 150px;
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list-head {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 56px;
+  background-color: #efefef;
+  padding: 0px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 2px solid grey;
+  height: 60px;
+  text-align: center;
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list-head .index {
+  width: 80px;
+  height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 700;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: cadetblue;
+  border-right: 1px dotted;
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list-head .hotel-name {
+  margin: 0px 10px;
+  width: calc(25% - 20px);
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list-head .reservation {
+  margin: 0px 10px;
+  width: calc(25% - 20px);
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list-head .vacant-room {
+  margin: 0px 10px;
+  width: calc(25% - 20px);
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list {
+  background-color: white;
+  margin: 0px 0px;
+  text-align: center;
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list .hotel-manage-item {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list .hotel-manage-item .index {
+  width: 80px;
+  height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: cadetblue;
+  border-right: 1px dotted;
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list .hotel-manage-item .hotel-name {
+  margin: 0px 10px;
+  width: calc(25% - 20px);
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list .hotel-manage-item .reservation {
+  margin: 0px 10px;
+  width: calc(25% - 20px);
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list .hotel-manage-item .vacant-room {
+  margin: 0px 10px;
+  width: calc(25% - 20px);
+}
+
+.hotel-manage .hotel-manage-body .hotel-manage-list button {
+  width: 65px;
+  height: 25px;
+  cursor: pointer;
+  display: inline-block;
+  background: lightblue;
+  border-radius: .25rem;
+  border: 0 solid #dae1e7;
+  font-weight: 700;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.hotel-create {
+  max-width: 700px;
+  background: white;
+  -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 5px 15px;
+  width: 80%;
+  margin: 40px auto;
+}
+
+.hotel-create .hotel-create-form {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.hotel-create .hotel-create-form .hotel-title input {
+  font-family: inherit;
+  font-size: 100%;
+  width: 75%;
+  border: 1px solid #dae1e7;
+  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.address-modal {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  -webkit-transition: opacity .3s ease;
+  transition: opacity .3s ease;
+}
+
+.address-modal .modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.address-modal .modal-wrapper .modal-container {
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.address-modal .modal-wrapper .modal-container .modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.address-modal .modal-wrapper .modal-container .modal-body {
+  margin: 20px 0;
+}
+
+.modal-button {
+  width: 65px;
+  height: 25px;
+  cursor: pointer;
+  display: inline-block;
+  background: lightblue;
+  border-radius: .25rem;
+  border: 0 solid #dae1e7;
+  font-weight: 700;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.img-files input {
+  font-family: inherit;
+  font-size: 100%;
+  width: 75%;
+  border: 1px solid #dae1e7;
+  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.address input {
+  font-family: inherit;
+  font-size: 100%;
+  width: 75%;
+  border: 1px solid #dae1e7;
+  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+}
+/*# sourceMappingURL=hotel.css.map */
