@@ -2,6 +2,8 @@ package com.tripper.domain.trip;
 
 import com.tripper.domain.budget.Budget;
 import com.tripper.domain.user.User;
+import com.tripper.domain.schedule.Schedule;
+import com.tripper.domain.user.UserInfo;
 import lombok.Getter;
 
 import javax.persistence.*;
