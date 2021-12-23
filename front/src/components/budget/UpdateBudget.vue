@@ -23,7 +23,7 @@
         </div>
         <div class="category meal" @click="categoryActive">
           <div class="icon fas fa-utensils"></div>
-          <div class="label">식사</div>
+          <div class="label">식비</div>
         </div>
         <div class="category traffic" @click="categoryActive">
           <div class="icon fas fa-bus"></div>
@@ -129,29 +129,28 @@ export default {
         width: 6rem;
         height: 3rem;
         margin-right: 10px;
-        background: #e26b80;
+        background: rgba(226, 107, 128, 0.5);
         border-radius: 20px;
         align-items: center;
         justify-content: center;
         font-size: 1.1rem;
         font-weight: 700;
         color: #fff;
-        opacity: 0.5;
       }
       .deposit {
-        background: #56a236;
+        background: rgba(86, 162, 54, 0.5);
       }
       .deposit.active {
         position: relative;
         top: 1px;
-        opacity: 1;
-        box-shadow: 2px 2px 0 2px rgba(114, 113, 113, 0.3);
+        background: rgba(86, 162, 54, 1);
+        box-shadow: 0 2px 0 2px rgba(114, 113, 113, 0.3);
       }
       .withdraw.active {
         position: relative;
         top: 1px;
-        opacity: 1;
-        box-shadow: 2px 2px 0 2px rgba(114, 113, 113, 0.3);
+        background: rgba(226, 107, 128, 1);
+        box-shadow: 0 2px 0 2px rgba(114, 113, 113, 0.3);
       }
     }
     .one {
@@ -171,15 +170,14 @@ export default {
       height: 100px;
       bottom: 15px;
       border-radius: 25px;
+      border: 1px solid #fff;
       position: relative;
       margin: 0 auto;
-      background-color: #eee;
-      opacity: 0.5;
+      background-color: rgba(238, 238, 238, 0.5);
       .category {
         display: flex;
         position: relative;
         top: 4px;
-        opacity: 1;
         flex-direction: column;
         align-items: center;
         align-items: center;
@@ -192,7 +190,6 @@ export default {
         bottom: 1px;
       }
       .icon {
-        opacity: 1;
         font-size: 25px;
         text-align: center;
         border: 1x solid grey;
@@ -226,8 +223,7 @@ input {
   display: block;
   width: 80%;
   margin: 20px auto;
-  background-color: #eee;
-  opacity: 0.5;
+  background-color: rgba(238, 238, 238, 0.5);
   color: #3c4856;
   border: 1px solid #fff;
   border-radius: 30px;
@@ -257,7 +253,7 @@ i {
 }
 .category.active {
   opacity: 1;
-  background: #003569;
+  background: #4089c6;
   color: #fff;
   border-radius: 50%;
 }
