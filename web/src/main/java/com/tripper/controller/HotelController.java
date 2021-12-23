@@ -1,51 +1,54 @@
 package com.tripper.controller;
 
-import com.tripper.domain.HotelForm;
-import com.tripper.domain.HotelInfo;
+import com.tripper.dto.response.hotel.GetHotelDto;
+import com.tripper.dto.response.hotel.GetHotelListDto;
+import com.tripper.dto.response.hotel.GetRoomDto;
 import com.tripper.service.HotelService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-/**
- * @author HanJiyoung
- * '호텔 찾기' 기능 컨트롤러 클래스
- */
-@Controller
+@Api(tags = "호텔 API")
+@RestController
+@RequiredArgsConstructor
+@Slf4j
 public class HotelController {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final HotelService hotelService;
 
-    @Autowired
-    public HotelController(HotelService hotelService) {
-        this.hotelService = hotelService;
+    @ApiOperation(
+            value = "호텔 목록 조회"
+            , notes = "db에 저장된 호텔 목록을 전체 조회한다.")
+    @GetMapping("/hotels")
+    public ResponseEntity<GetHotelListDto> getHotelList() {
+
+        GetHotelListDto hotels = hotelService.findAllHotels();
+        return ResponseEntity.ok().body(hotels);
+
     }
 
-    /**
-     * 호텔 검색 폼 페이지로 이동하는 함수
-     * @return 호텔 검색 폼 페이지
-     */
-    @RequestMapping("/hotel")
-    public String goHotelForm() {
-        return "hotel_form";
+    @ApiOperation(
+            value = "특정 호텔 1개 조회"
+            , notes = "hotel_id 일치하는 호텔을 조회한다.")
+    @GetMapping("/hotel/{hotelId}")
+    public ResponseEntity<GetHotelDto> getHotel(@ApiParam(value = "조회할 호텔의 고유 id") @PathVariable("hotelId") Long hotelId) {
+
+        GetHotelDto getHotelDto = hotelService.findByHotelId(hotelId);
+        return ResponseEntity.ok().body(getHotelDto);
+
     }
 
-    /**
-     * 호텔 크롤링 후 가져온 데이터를 model에 담아서 뷰페이지로 넘겨주는 함수
-     * @param hotelForm 검색 폼에 입력된 데이터들을 담고있는 객체
-     * @param model 뷰로 넘겨줄 모델 객체
-     * @return 호텔 검색 결과 페이지
-     */
-    @PostMapping("/hotel/crawling")
-    public String crawlHotel(@ModelAttribute HotelForm hotelForm, Model model){
-        List<HotelInfo> hotels = hotelService.crawlingHotels(hotelForm);
-//        logger.info(hotels.toString());
-        model.addAttribute("hotelList", hotels);
-        return "hotel_search_list";
+    @ApiOperation(
+            value = "특정 객실 조회"
+            , notes = "roomtype_id가 일치하는 객실을 조회한다.")
+    @GetMapping("/roomtype/{roomtypeId}")
+    public ResponseEntity<GetRoomDto> getRoom(@ApiParam(value = "조회할 객실 분류의 고유 id") @PathVariable("roomtypeId") Long roomtypeId) {
+
+        GetRoomDto getRoomDto = hotelService.findByRoomTypeId(roomtypeId);
+        return ResponseEntity.ok().body(getRoomDto);
+
     }
+
 }
