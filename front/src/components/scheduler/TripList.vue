@@ -33,7 +33,6 @@ export default {
 <style lang="scss" scoped>
 .container {
   width: 100%;
-  height: fit-content;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
