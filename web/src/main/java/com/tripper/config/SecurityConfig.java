@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 /* 인증 필요 없는 요청 */
-                .antMatchers("/", "/signup", "/id-check", "/login").permitAll()
+                .antMatchers("/", "/signup", "/id-check", "/login", "/place/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .and()
                 .authorizeRequests()
