@@ -7,7 +7,7 @@
       <thead class="table-header">
         <tr>
           <th>순번</th>
-          <th></th>
+          <th>예약자 아이디</th>
         </tr>
       </thead>
       <tbody class="table-body">
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { roomReservation, hotelReservation } from "@/api/hotel";
+import { roomReservation, hotelReservation } from "@/api/hotelManage";
 export default {
   data() {
     return {

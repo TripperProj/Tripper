@@ -13,7 +13,7 @@ function editPost(postData) {
   return instance.put(`/board/find-mate/${postData.id}`, postData);
 }
 async function fetchBoardList() {
-  const response = await instance.get("/board/find-list");
+  const response = await instance.get("/board/find-mate");
   console.log(response);
   return response;
 }

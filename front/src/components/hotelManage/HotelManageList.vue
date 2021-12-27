@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import {} from "@/api/hotelManage";
+import { loadHotel } from "@/api/hotelManage";
 
 export default {
   data() {
@@ -54,7 +54,10 @@ export default {
     };
   },
   methods: {
-    loadHotelList() {},
+    async loadHotelList() {
+      const { data } = await loadHotel(this.managerID);
+      this.hotelList = data.hotels;
+    },
     // adminCheck() {
     //   if (!this.isAdmin) {
     //     alert("관리자가 아닙니다. 메인페이지로 이동합니다");
