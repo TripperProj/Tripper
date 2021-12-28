@@ -1,15 +1,15 @@
-import { instance } from "./index";
+import { ApiService } from "./service";
 
-function tripList(userId) {
-  return instance.get("/trips", userId);
+function tripList(name) {
+  return ApiService.get("/trips", name);
 }
 
-function createTrip(tripData) {
-  return instance.post("/trips", tripData);
+function createTrip(tripData, name) {
+  return ApiService.postMemId("/trips", tripData, name);
 }
 
 function deleteTrip(tripId) {
-  return instance.delete("/trips", tripId);
+  return ApiService.delete("/trips", tripId);
 }
 
 export { tripList, createTrip, deleteTrip };

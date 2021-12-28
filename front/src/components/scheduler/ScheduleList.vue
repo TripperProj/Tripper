@@ -2,7 +2,7 @@
   <div class="container">
     <div class="config">
       <h2>{{ trip.destination }}</h2>
-      <div class="range">{{ trip.start_date }} - {{ trip.end_date }}</div>
+      <div class="range">{{ trip.start_date }} ~ {{ trip.end_date }}</div>
     </div>
     <div class="createBtn" @click="pageLink">
       <div class="border">예산 관리</div>
@@ -75,28 +75,27 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  width: 100%;
+  width: 80%;
   margin: 0 auto;
   height: 100vh;
   .config {
     text-align: center;
-    width: 800px;
-    margin: 0px auto 20px auto;
+    width: 100%;
+    margin: 0px auto 40px auto;
     h2 {
       color: #1670aa;
       text-shadow: 2px 2px 2px #a0acbd;
     }
     .range {
-      width: fit-content;
+      width: 100%;
       font-size: 18px;
       font-weight: 700;
-      position: relative;
-      left: 550px;
-      margin-bottom: 20px;
+      float: right;
+      margin-bottom: 40px;
     }
   }
   .list {
-    width: 800px;
+    width: 100%;
     display: flex;
     background: #7dbeff;
     margin: 20px auto 20px auto;
