@@ -1,23 +1,24 @@
 package com.tripper.domain.hotel;
 
+import com.tripper.domain.BaseTimeEntity;
 import com.tripper.domain.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
-@NoArgsConstructor
 @Entity
-@Getter @Setter
-public class Reservation {
+@Getter
+@NoArgsConstructor
+public class Reservation extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "reservation_id")
-    private Long id; // PK
+    private Long id;
 
     private String checkin;
     private String checkout;
@@ -35,18 +36,21 @@ public class Reservation {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Reservation(String checkin, String checkout, ReservationStatus status, Room room, User user) {
+    @Builder
+    public Reservation(String checkin, String checkout, int adultNum, int childNum, ReservationStatus status, Room room, User user) {
         this.checkin = checkin;
         this.checkout = checkout;
+        this.adultNum = adultNum;
+        this.childNum = childNum;
         this.status = status;
         this.room = room;
         room.getReservations().add(this);
         this.user = user;
-        user.getResrvations().add(this);
+        user.getReservations().add(this);
     }
 
     public void cancel() {
-        this.setStatus(ReservationStatus.CANCELLED);
+        this.status = ReservationStatus.CANCELLED;
     }
 
 }
