@@ -3,25 +3,18 @@ package com.tripper.dto.response.map;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@ApiModel(value = "장소 response DTO")
-@Getter
-@NoArgsConstructor
+@ApiModel(value = "최단 경로 구할 때 사용할 객체")
+@Getter @Setter
 @AllArgsConstructor
-@Builder
-public class GetPlaceDto {
-
-    @ApiModelProperty(value = "id")
-    private String id;
+@NoArgsConstructor
+public class PlaceShortInfo implements Cloneable {
 
     @ApiModelProperty(value = "장소명")
     private String name;
-    
-    @ApiModelProperty(value = "전화번호")
-    private String tel;
 
     @ApiModelProperty(value = "경도")
     private String x;
@@ -29,7 +22,11 @@ public class GetPlaceDto {
     @ApiModelProperty(value = "위도")
     private String y;
 
-    @ApiModelProperty(value = "도로명 주소")
-    private String roadAddress;
+    @ApiModelProperty(value = "선택 여부")
+    private Boolean alreadyUsed;
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

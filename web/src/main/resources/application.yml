@@ -4,6 +4,9 @@ spring:
 #    username: tripper
 #    password: tripperpassword
 #    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    converters:
+      preferred-json-mapper: gson
 
   thymeleaf:
     prefix: classpath:/templates/
@@ -11,8 +14,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-#      ddl-auto: create-drop
+#      ddl-auto: update
+      ddl-auto: create-drop
       use-new-id-generator-mappings: false
     properties:
       hibernate:
