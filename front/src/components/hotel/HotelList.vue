@@ -1,20 +1,20 @@
 <template>
   <div class="content">
     <ul class="hotelList">
-      <Hotel></Hotel>
+      <HotelMain></HotelMain>
     </ul>
   </div>
 </template>
 
 <script>
-import Hotel from "@/components/hotel/Hotel.vue";
+import HotelMain from "@/components/hotel/HotelMain.vue";
 export default {
   data() {
     return {};
   },
   methods: {},
   components: {
-    Hotel,
+    HotelMain,
   },
 };
 </script>

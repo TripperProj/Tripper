@@ -11,6 +11,11 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+  datasource:
+    url: jdbc:mysql://tripper-db.clj2l5jnnuzc.ap-northeast-2.rds.amazonaws.com:3306/tripperdb
+    username: tripper
+    password: ox5jmw75!.p#2
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:

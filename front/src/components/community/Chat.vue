@@ -4,7 +4,13 @@
       <div class="chat-bos-header">채팅</div>
       <div class="chat-box-body">
         <div>
-          <span v-bind:key="idx" v-for="(msg, idx) in msgList">{{ msg }}</span>
+          <span>asdf</span>
+          <span
+            v-bind:model="msgList"
+            :key="idx"
+            v-for="(msg, idx) in msgList"
+            >{{ msg }}</span
+          >
         </div>
       </div>
       <div class="caht-input">
@@ -30,12 +36,15 @@ export default {
       msgList: [],
     };
   },
+  props: {
+    roomId: { type: String, required: true },
+  },
   created() {
     this.connect();
   },
   methods: {
     connect() {
-      const serverURL = "http://localhost:8089/stomp/chat";
+      const serverURL = "http://localhost:8080/stomp/chat";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결 시도 ${serverURL}`);
@@ -45,7 +54,7 @@ export default {
         (frame) => {
           this.connected = true;
           console.log("연결", frame);
-          this.stompClient.subscribe(`/sub/chat/room/1`, (res) => {
+          this.stompClient.subscribe(`/sub/chat/room/${this.roomId}`, (res) => {
             console.log("구독", res.body);
             this.msgList.push(JSON.parse(res.body));
           });
@@ -59,8 +68,14 @@ export default {
     send() {
       console.log("메세지 전송");
       if (this.stompClient && this.stompClient.connected) {
-        const msg = this.message;
-        this.stompClient.send("/", JSON.stringify(msg), {});
+        const msg = {
+          messageType: "",
+          roomId: this.roomId,
+          sender: this.memid,
+          message: this.massage,
+        };
+        this.stompClient.send("/chat/message/", JSON.stringify(msg), {});
+        this.msgList.push(msg.message);
       }
     },
   },

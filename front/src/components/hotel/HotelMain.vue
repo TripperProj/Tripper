@@ -13,6 +13,11 @@
       <div class="hotel-item-footer">
         <span class="hote-location">위치</span>
       </div>
+      <div class="hotel-reservation">
+        <div class="reservation-button" @click="hotelReservation(hotel.id)">
+          예약하기
+        </div>
+      </div>
     </div>
   </li>
 </template>
@@ -26,6 +31,7 @@ export default {
           title: "호텔1",
           content: "호텔임",
           url: require("@/assets/hotel1.jpg"),
+          id: "1",
         },
         {
           title: "호텔2",
@@ -52,6 +58,9 @@ export default {
   },
   methods: {
     backgroundImg() {},
+    hotelReservation(id) {
+      this.$router.push(`/hotel/${id}`);
+    },
   },
 };
 </script>

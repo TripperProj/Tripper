@@ -14,7 +14,7 @@
     <button @click="updateBoard">글 수정</button>
     <button @click="deleteBoard">글 삭제</button>
     <div>
-      <Chat></Chat>
+      <Chat :roomId="this.boardItem.id"></Chat>
     </div>
   </div>
 </template>
@@ -45,7 +45,7 @@ export default {
       this.$router.push(`/board/update/${this.boardItem.id}`);
     },
     deleteBoard() {
-      deletePost(this.id);
+      deletePost(this.boardItem.id);
     },
     addHits() {},
   },

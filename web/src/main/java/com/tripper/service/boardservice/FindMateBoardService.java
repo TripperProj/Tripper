@@ -29,7 +29,7 @@ public class FindMateBoardService {
     /**
      * 글 등록
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public Long registerPost(CreateFindMateBoardDto dto, String memId) {
 
         /* 엔티티 조회 */
