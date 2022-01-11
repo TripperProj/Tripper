@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "h2-console/**");
 
         /* swagger */
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
+        web.ignoring().antMatchers("/v3/**", "/configuration/ui", "/swagger-resources/**",
                 "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/swagger-ui/**",
                 "/v2/**", "/swagger**");
     }
@@ -67,8 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 /* 인증 필요 없는 요청 */
-                .antMatchers("/", "/signup", "/id-check", "/login", "/place/**").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/", "/signup", "/id-check", "/login").permitAll()
                 .and()
                 .authorizeRequests()
                 /* 관리자 접근 가능 요청 */
