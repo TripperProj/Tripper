@@ -26,6 +26,7 @@ export default {
     async fetchBoard() {
       try {
         const { data } = await fetchBoardList();
+        console.log(data);
         this.boards = data.boards;
       } catch (error) {
         console.log(error);

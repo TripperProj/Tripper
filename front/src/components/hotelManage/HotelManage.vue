@@ -37,7 +37,11 @@
       <div>{{ hotelId }}</div>
       <button>객실 추가</button>
     </div>
-    <ReservationList :typ="this.typ" :id="this.checkRoomId"></ReservationList>
+    <ReservationList
+      v-if="modalToggle"
+      :typ="this.typ"
+      :id="this.checkRoomId"
+    ></ReservationList>
   </div>
 </template>
 
